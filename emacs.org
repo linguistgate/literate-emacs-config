@@ -8,16 +8,16 @@ Currently I am trying the following structure for my Org-based workflow:
 
 #+BEGIN_EXAMPLE
 ├── captures
-│   ├── captures.org
-│   └── unfiled
+│   ├── captures.org
+│   └── m.screenshots
 ├── cpb
-│   ├── digital.nb.org
-│   ├── journal.org
-│   ├── math.nb.org
-│   └── reference.org
+│   ├── digital.nb.org
+│   ├── journal.org
+│   ├── math.nb.org
+│   └── reference.org
 ├── daybook
-│   ├── 20190203
-│   └── 20190204
+│   ├── 20190203
+│   └── 20190204
 └── hub
     ├── calendar.org
     ├── contacts.bbdb
@@ -479,7 +479,7 @@ Org-mode capture templates allow for central implementations of the PARA/BASB co
                                   ("a"               
                                    "article"         
                                    entry             
-                                   (file+headline "~/org/resources/bibliographies/mainref.org" "Article") 
+                                   (file+headline "~/org/cpb/bibliographies/mainref.org" "Article") 
                                    "* %^{Title} %(org-set-tags)  :article: \n:PROPERTIES:\n:Created: %U\n:Linked: %A\n:END:\n%i\nBrief description:\n%?" 
                                    :prepend t       
                                    :empty-lines 1   
@@ -488,7 +488,7 @@ Org-mode capture templates allow for central implementations of the PARA/BASB co
                                   ("c" 
                                    "contact"
                                    entry
-                                   (file "~/org/resources/contacts/contacts.org"),
+                                   (file "~/org/hub/contacts.org"),
                                    owl/org-contacts-template
                                    :empty-lines 1)
                                   ("n"
@@ -557,6 +557,7 @@ Org-mode capture templates allow for central implementations of the PARA/BASB co
          (org-babel-execute-src-block)))))
 #+END_SRC
 
+
 *** Setting some Refile behaviors
 
 I like =org-refile= to be promiscuous. To that end, it should use outline paths, complete in steps, and allow for the creation of parent nodes on-the-fly. See See https://blog.aaronbieber.com/2017/03/19/organizing-notes-with-refile.html for details on some of the hacks here.
@@ -570,6 +571,7 @@ I don't like the huge list of refile targets.
   ;; Allow on-the-fly creation of parent headings
   (setq org-refile-allow-creating-parent-nodes 'confirm)
 #+END_SRC
+
 
 *** Refile targets: Integration with P.A.R.A.
 
@@ -599,6 +601,7 @@ Currently, I bind it to =C-c g= and focus only on the =captures.org= file and se
                                               "~/org/cpb/notebook.org"))
     )
 #+END_SRC
+
 
 ** Clock
 ** Contacts Management

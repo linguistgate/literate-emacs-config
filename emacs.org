@@ -26,6 +26,20 @@
       - [[#use-package-settings][Use-Package Settings]]
       - [[#manually-set-load-path][Manually Set Load Path]]
       - [[#initialize-package-management][Initialize Package Management]]
+  - [[#global-defaults][Global Defaults]]
+  - [[#accessibility][Accessibility]]
+  - [[#navigation][Navigation]]
+  - [[#org-mode-initialization][Org-Mode Initialization]]
+  - [[#org-agenda][Org Agenda]]
+  - [[#org-journal-as-task-daybook][Org Journal as Task Daybook]]
+  - [[#org-capture-and-refile][Org Capture and Refile]]
+  - [[#contacts-management][Contacts Management]]
+  - [[#encryption][Encryption]]
+  - [[#programming-languages-management][Programming Languages Management]]
+  - [[#reference-and-resource-management][Reference and Resource Management]]
+  - [[#publishing][Publishing]]
+  - [[#writing-environment][Writing Environment]]
+  - [[#dashboard][Dashboard]]
   - [[#toc-org][Toc-org]]
   - [[#post-initialization][Post Initialization]]
 
@@ -210,6 +224,38 @@ Since the code is automatically compiled during runtime, if the configuration ha
 
 ***** COMMENT For some reason, =require '(bind-key)= needs to be overtly stated (and seemingly outside of =eval-when-compile= for =:bind= personal keybindings to work with byte compilation (MEA - [2018-11-03 Sat])
 
+** Global Defaults
+** Accessibility
+** Navigation
+** Org-Mode Initialization
+** Org Agenda
+
+
+
+** Org Journal as Task Daybook
+** Org Capture and Refile
+** Contacts Management
+** Encryption
+** Programming Languages Management
+
+I use =org-babel= to embed and process some code in my Org files. Here I initialize the set of languages I commonly and less-than-commonly rely on:
+
+#+BEGIN_SRC emacs-lisp
+  (use-package gnuplot)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (org-babel-do-load-languages
+   'org-babel-load-languages '((C . t)
+                               (shell . t)
+                               (python . t)
+                               (gnuplot . t)))
+#+END_SRC
+
+** Reference and Resource Management
+** Publishing
+** Writing Environment
+** Dashboard
 ** Toc-org
  
 Install and load the =toc-org= package after org mode is loaded. This is the package that automatically generates an up to date table of contents for us.

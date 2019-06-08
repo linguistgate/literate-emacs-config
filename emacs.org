@@ -326,9 +326,25 @@ The default =org-directory= is =~/org=. It can be symlinked but needs to be pres
 
 ** Org Agenda
 
+#+begin_src emacs-lisp
+  (bind-keys ("C-c a" . org-agenda))
+#+end_src
 
+#+begin_src emacs-lisp
+  (org-agenda-files (apply 'append
+                           (mapcar
+                            (lambda (directory)
+                              (directory-files-recursively
+                               directory org-agenda-file-regexp))
+                            '("~/org/captures/"
+                              "~/org/hub/"
+                              "~/org/cpb/"
+                              "~/org/daybook/"
+                              "~/.emacs.d/"))))
+#+end_src
 
 ** Org Journal as Task Daybook
+
 
 ** Org Capture and Refile
 ** Contacts Management

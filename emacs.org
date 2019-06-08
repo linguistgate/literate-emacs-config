@@ -53,6 +53,7 @@ This structure represents about a year of thinking through task, workflow, and k
       - [[#manually-set-load-path][Manually Set Load Path]]
       - [[#initialize-package-management][Initialize Package Management]]
   - [[#global-defaults][Global Defaults]]
+    - [[#aggressive-indent][Aggressive Indent]]
   - [[#accessibility][Accessibility]]
   - [[#navigation][Navigation]]
   - [[#project-management][Project Management]]
@@ -65,7 +66,7 @@ This structure represents about a year of thinking through task, workflow, and k
     - [[#capture-code-org-capture][Capture Code (=org-capture=)]]
     - [[#setting-some-refile-behaviors][Setting some Refile behaviors]]
     - [[#refile-targets-integration-with-para][Refile targets: Integration with P.A.R.A.]]
-    - [[#clock][Clock]]
+  - [[#clock][Clock]]
   - [[#contacts-management][Contacts Management]]
   - [[#encryption][Encryption]]
   - [[#programming-languages-management][Programming Languages Management]]
@@ -270,6 +271,17 @@ Some core editing desirables:
                 indicate-empty-lines t
                 require-final-newline t)
 #+end_src
+
+*** Aggressive Indent
+
+The package reindents code after every change, making it purportedly more reliable than =electric-indent-mode=.
+
+Because I mainly use Lisp and Python, I want aggressive indenting to be specific to =emacs-lisp-mode= so I activate it via hook.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package aggressive-indent
+    :config (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode))
+#+END_SRC
 
 ** Accessibility
 ** Navigation
@@ -579,7 +591,7 @@ Currently, I bind it to =C-c g= and focus only on the =captures.org= file and se
     )
 #+END_SRC
 
-*** Clock
+** Clock
 ** Contacts Management
 ** Encryption
 ** Programming Languages Management

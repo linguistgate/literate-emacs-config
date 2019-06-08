@@ -1,0 +1,230 @@
+#+TITLE: Emacs Literate Configuration
+#+AUTHOR: Matthew Edward Adams 
+#+PROPERTY: header-args :tangle yes
+#+STARTUP: indent
+* Configuration
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+** Table of Contents :TOC_5_gh:
+- [[#configuration][Configuration]]
+  - [[#about-this-file][About This File]]
+  - [[#config-file-tweaks][Config File Tweaks]]
+    - [[#automatically-tangle][Automatically Tangle]]
+    - [[#reload-configuation][Reload Configuation]]
+    - [[#visibility-settings][Visibility Settings]]
+    - [[#table-of-contents][Table of Contents]]
+  - [[#personal-information][Personal Information]]
+  - [[#emacs-initialization][Emacs Initialization]]
+    - [[#garbage-collection][Garbage Collection]]
+    - [[#byte-compilation][Byte Compilation]]
+    - [[#startup-behavior][Startup Behavior]]
+    - [[#directory-structure][Directory Structure]]
+    - [[#package-management][Package Management]]
+      - [[#package-settings][Package Settings]]
+      - [[#use-package-settings][Use-Package Settings]]
+      - [[#manually-set-load-path][Manually Set Load Path]]
+      - [[#initialize-package-management][Initialize Package Management]]
+  - [[#toc-org][Toc-org]]
+  - [[#post-initialization][Post Initialization]]
+
+** About This File
+
+This is a rebuild and refactoring of my Emacs configuration using literate programming techniques.
+
+All of my configuration is stored here (no requiring and providing of subfiles) at present.
+
+It contains some optimization for byte-compiling to ensure a faster load time.
+
+** Config File Tweaks
+
+There are a few tweaks included in this org file that make it a little easier to
+work with.
+
+*** Automatically Tangle
+
+First there is a property defined on the file:
+
+#+BEGIN_SRC :tangle no
+header-args :tangle yes
+#+END_SRC
+
+This tells emacs to automatically tangle (include) all code blocks in this file when
+generating the code for the config, unless the code block explicitly includes
+=:tangle no= as the above code block does.
+
+*** Reload Configuation
+
+Reload my configuration from inside of =org-mode= and assign custom function to =C-c r=.
+
+#+BEGIN_SRC emacs-lisp
+  (defun owl/config-reload ()
+    "Reloads ~/.emacs.d/emacs.org at runtime."
+    (interactive)
+    (org-babel-load-file (expand-file-name "~/.emacs.d/emacs.org")))
+
+  (global-set-key (kbd "C-c r") 'owl/config-reload)
+#+END_SRC
+
+*** Visibility Settings
+
+Next we have a property defined on the [[Configuration][Configuration]] heading that defines the visibility
+that tells org to show its direct children on startup. This way a clean outline of all
+sub headings under Configuration is shown each time this file is opened in org-mode.
+
+*** Table of Contents
+
+Finally, there is a [[Table of Contents][Table of Contents]] heading that includes the tag: =:TOC_5_gh:=. This
+tells an org-mode package =toc-org= to generate a table of contents under this heading
+that has a max depth of 5 and is created using Github-style hrefs. This table of contents
+is updated everytime the file is saved and makes for a functional table of contents that
+works property directly on github.
+
+** Personal Information
+
+Some basic values:
+
+#+BEGIN_SRC emacs-lisp
+  (setq user-full-name "Matthew Edward Adams"
+        user-mail-address "m2eadams@gmail.com")
+#+END_SRC
+
+** Emacs Initialization
+
+*** Garbage Collection
+
+I increase the =gc-cons-threshold= to a very high number to decrease the load and compile time.
+I'll lower this value significantly after initialization has completed. I don't want to keep this value
+too high or it will result in long GC pauses during normal usage.
+
+#+BEGIN_SRC emacs-lisp
+  (eval-and-compile
+    (setq gc-cons-threshold 402653184
+	  gc-cons-percentage 0.6))
+#+END_SRC
+
+*** Byte Compilation
+
+Disable certain byte compiler warnings to cut down on the noise. This can be removed
+if I would like to see any and all byte compiler warnings.
+
+#+BEGIN_SRC emacs-lisp
+  (setq byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
+#+END_SRC
+
+*** Startup Behavior
+
+When I startup, I want a minimal Emacs layout: no startup screen, no toolbar, no scrollbar, and no menubar.
+
+#+BEGIN_SRC emacs-lisp
+  (setq inhibit-startup-screen t)
+  (tool-bar-mode 0)
+  (menu-bar-mode 0)
+  (scroll-bar-mode -1)
+#+END_SRC
+
+*** Directory Structure
+
+Set the directory where the Emacs configuration is installed.
+
+#+BEGIN_SRC emacs-lisp
+  (setq user-emacs-directory (file-truename "~/.emacs.d/"))
+#+END_SRC
+
+Customizations are unwanted in =init.el= (and in general), so accidental customizations are stored in =custom.el= under =./user=.
+
+#+BEGIN_SRC emacs-lisp
+  (setq custom-file "~/.emacs.d/user/custom.el")
+#+END_SRC
+
+The default ELPA package directory is =.emacs.d/elpa=. User-defined or non-listed packages should be situated in =./user= directory.
+
+Custom themes should be stored in =./user/themes/=.
+
+*** Package Management
+
+**** Package Settings
+
+Set the =load-path= ourselves and avoid calling =(package-initilize)= (for
+performance reasons) so set =package--init-file-ensured= to true to tell =package.el=
+to not automatically call it on my behalf. Additionally I'm setting
+=package-enable-at-startup= to nil so that packages will not automatically be loaded for me since
+=use-package= will be handling that.
+
+#+BEGIN_SRC emacs-lisp
+  (eval-and-compile
+    (setq load-prefer-newer t
+	  package-user-dir "~/.emacs.d/elpa/"
+	  package--init-file-ensured t
+	  package-enable-at-startup t)
+
+    (unless (file-directory-p package-user-dir)
+      (make-directory package-user-dir t)))
+#+END_SRC
+
+**** Use-Package Settings
+
+Tell =use-package= to always defer loading packages unless explicitly told otherwise. This speeds up
+initialization significantly as many packages are only loaded later when they are explicitly used.
+
+#+BEGIN_SRC emacs-lisp
+  (setq use-package-always-defer nil
+	use-package-verbose t)
+#+END_SRC
+
+**** Manually Set Load Path
+
+We're going to set the load path ourselves so that we don't have to call =package-initialize= at runtime and incur a large performance hit. This load-path will actually be faster than the one created by =package-initialize= because it appends the elpa packages to the end of the load path. Otherwise any time a builtin package was required it would have to search all of third party paths first.
+
+#+BEGIN_SRC emacs-lisp
+  (eval-and-compile
+    (setq load-path (append load-path (directory-files package-user-dir t "^[^.]" t))))
+#+END_SRC
+
+**** Initialize Package Management
+
+Next we are going to require =package.el= and add our additional package archives, 'melpa' and 'org'. Afterwards we need to initialize our packages and then ensure that =use-package= is installed, which we promptly install if it's missing. Finally we load =use-package= and tell it to always install any missing packages.
+
+Note that this entire block is wrapped in =eval-when-compile=. The effect of this is to perform all of the package initialization during compilation so that when byte compiled, all of this time consuming code is skipped. This can be done because the result of byte compiling =use-package= statements results in the macro being fully expanded at which point =use-package= isn't actually required any longer.
+
+Since the code is automatically compiled during runtime, if the configuration hasn't already been previously compiled manually then all of the package initialization will still take place at startup.
+
+#+BEGIN_SRC emacs-lisp
+  (eval-when-compile
+    (require 'package)
+
+    (unless (assoc-default "melpa" package-archives)
+      (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
+    (unless (assoc-default "org" package-archives)
+      (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t))
+
+    (package-initialize)
+    (unless (package-installed-p 'use-package)
+      (package-refresh-contents)
+      (package-install 'use-package))
+    (require 'use-package)
+    (setq use-package-always-ensure t))
+  (require 'bind-key) ; Needs to be here for :bind to work with byte-compiled emacs.el ... not sure why
+#+END_SRC
+
+***** COMMENT For some reason, =require '(bind-key)= needs to be overtly stated (and seemingly outside of =eval-when-compile= for =:bind= personal keybindings to work with byte compilation (MEA - [2018-11-03 Sat])
+
+** Toc-org
+ 
+Install and load the =toc-org= package after org mode is loaded. This is the package that automatically generates an up to date table of contents for us.
+
+ #+BEGIN_SRC emacs-lisp
+   (use-package toc-org
+     :after org
+     :init (add-hook 'org-mode-hook #'toc-org-enable))
+ #+END_SRC
+
+** Post Initialization
+
+ Lower our GC thresholds back down to a sane level.
+
+ #+BEGIN_SRC emacs-lisp
+   (setq gc-cons-threshold 16777216
+	 gc-cons-percentage 0.1)
+ #+END_SRC

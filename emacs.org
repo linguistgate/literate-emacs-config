@@ -29,6 +29,9 @@
   - [[#global-defaults][Global Defaults]]
   - [[#accessibility][Accessibility]]
   - [[#navigation][Navigation]]
+  - [[#project-management][Project Management]]
+    - [[#version-control][Version Control]]
+      - [[#magit][Magit]]
   - [[#org-mode-initialization][Org-Mode Initialization]]
   - [[#org-agenda][Org Agenda]]
   - [[#org-journal-as-task-daybook][Org Journal as Task Daybook]]
@@ -240,6 +243,25 @@ Some core editing desirables:
 
 ** Accessibility
 ** Navigation
+** Project Management
+
+*** Version Control
+
+**** Magit
+
+Magit allows use of Git inside of Org-Mode. No more bumping out to a terminal.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package magit
+    :preface (message "Magit is available at byte-compile time. I am proof thereof.")
+    :commands magit-get-top-dir
+    :init (setq magit-completing-read-function 'ivy-completing-read)
+    :bind (("<f5>" . magit-status)
+           ("C-c v t" . magit-status)
+           ("C-c f" . magit-grep)))
+
+#+END_SRC
+
 ** Org-Mode Initialization
 ** Org Agenda
 

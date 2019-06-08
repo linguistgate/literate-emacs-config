@@ -306,13 +306,21 @@ I want to ensure that ELPA Org is prioritized above built-in Org:
   (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
 #+END_SRC
 
+Bleeding-edge Org (sometime in 2018) got rid of easy-tempalate expansion (e.g., =<s TAB= expands to a source block). Instead =org-tempo= must now be required.
+
+#+BEGIN_SRC emacs-lisp
+(require  'org-tempo)
+#+END_SRC
+
 Source blocks in =org-mode= should be sensitive to indentation norms:
 
+#+begin_src emacs-lisp
+  (setq org-src-tab-acts-natively t)
+#+end_src
+
 ** Org Agenda
-
-
-
 ** Org Journal as Task Daybook
+
 ** Org Capture and Refile
 ** Contacts Management
 ** Encryption

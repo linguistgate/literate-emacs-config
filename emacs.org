@@ -89,9 +89,9 @@ work with.
 
 First there is a property defined on the file:
 
-#+BEGIN_SRC :tangle no
+#+begin_src :tangle no
 header-args :tangle yes
-#+END_SRC
+#+end_src
 
 This tells emacs to automatically tangle (include) all code blocks in this file when
 generating the code for the config, unless the code block explicitly includes
@@ -101,14 +101,14 @@ generating the code for the config, unless the code block explicitly includes
 
 Reload my configuration from inside of =org-mode= and assign custom function to =C-c r=.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (defun owl/config-reload ()
     "Reloads ~/.emacs.d/emacs.org at runtime."
     (interactive)
     (org-babel-load-file (expand-file-name "~/.emacs.d/emacs.org")))
 
   (global-set-key (kbd "C-c r") 'owl/config-reload)
-#+END_SRC
+#+end_src
 
 *** Visibility Settings
 
@@ -128,10 +128,10 @@ works property directly on github.
 
 Some basic values:
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (setq user-full-name "Matthew Edward Adams"
         user-mail-address "m2eadams@gmail.com")
-#+END_SRC
+#+end_src
 
 ** Emacs Initialization
 
@@ -141,45 +141,45 @@ I increase the =gc-cons-threshold= to a very high number to decrease the load an
 I'll lower this value significantly after initialization has completed. I don't want to keep this value
 too high or it will result in long GC pauses during normal usage.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (eval-and-compile
     (setq gc-cons-threshold 402653184
 	  gc-cons-percentage 0.6))
-#+END_SRC
+#+end_src
 
 *** Byte Compilation
 
 Disable certain byte compiler warnings to cut down on the noise. This can be removed
 if I would like to see any and all byte compiler warnings.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (setq byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
-#+END_SRC
+#+end_src
 
 *** Startup Behavior
 
 When I startup, I want a minimal Emacs layout: no startup screen, no toolbar, no scrollbar, and no menubar.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (setq inhibit-startup-screen t)
   (tool-bar-mode 0)
   (menu-bar-mode 0)
   (scroll-bar-mode -1)
-#+END_SRC
+#+end_src
 
 *** Directory Structure
 
 Set the directory where the Emacs configuration is installed.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (setq user-emacs-directory (file-truename "~/.emacs.d/"))
-#+END_SRC
+#+end_src
 
 Customizations are unwanted in =init.el= (and in general), so accidental customizations are stored in =custom.el= under =./user=.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (setq custom-file "~/.emacs.d/user/custom.el")
-#+END_SRC
+#+end_src
 
 The default ELPA package directory is =.emacs.d/elpa=. User-defined or non-listed packages should be situated in =./user= directory.
 
@@ -195,7 +195,7 @@ to not automatically call it on my behalf. Additionally I'm setting
 =package-enable-at-startup= to nil so that packages will not automatically be loaded for me since
 =use-package= will be handling that.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (eval-and-compile
     (setq load-prefer-newer t
 	  package-user-dir "~/.emacs.d/elpa/"
@@ -204,26 +204,26 @@ to not automatically call it on my behalf. Additionally I'm setting
 
     (unless (file-directory-p package-user-dir)
       (make-directory package-user-dir t)))
-#+END_SRC
+#+end_src
 
 **** Use-Package Settings
 
 Tell =use-package= to always defer loading packages unless explicitly told otherwise. This speeds up
 initialization significantly as many packages are only loaded later when they are explicitly used.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (setq use-package-always-defer nil
 	use-package-verbose t)
-#+END_SRC
+#+end_src
 
 **** Manually Set Load Path
 
 We're going to set the load path ourselves so that we don't have to call =package-initialize= at runtime and incur a large performance hit. This load-path will actually be faster than the one created by =package-initialize= because it appends the elpa packages to the end of the load path. Otherwise any time a builtin package was required it would have to search all of third party paths first.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (eval-and-compile
     (setq load-path (append load-path (directory-files package-user-dir t "^[^.]" t))))
-#+END_SRC
+#+end_src
 
 **** Initialize Package Management
 
@@ -233,7 +233,7 @@ Note that this entire block is wrapped in =eval-when-compile=. The effect of thi
 
 Since the code is automatically compiled during runtime, if the configuration hasn't already been previously compiled manually then all of the package initialization will still take place at startup.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (eval-when-compile
     (require 'package)
 
@@ -249,7 +249,7 @@ Since the code is automatically compiled during runtime, if the configuration ha
     (require 'use-package)
     (setq use-package-always-ensure t))
   (require 'bind-key) ; Needs to be here for :bind to work with byte-compiled emacs.el ... not sure why
-#+END_SRC
+#+end_src
 
 ***** COMMENT For some reason, =require '(bind-key)= needs to be overtly stated (and seemingly outside of =eval-when-compile= for =:bind= personal keybindings to work with byte compilation (MEA - [2018-11-03 Sat])
 
@@ -261,11 +261,11 @@ Some core editing desirables:
 - To indicate the presence of empty lines at the end of a file, a marker is placed in the left fringe.
 - I require final newlines globally.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (setq-default truncate-lines t
                 indicate-empty-lines t
                 require-final-newline t)
-#+END_SRC
+#+end_src
 
 ** Accessibility
 ** Navigation
@@ -277,7 +277,7 @@ Some core editing desirables:
 
 Magit allows use of Git inside of Org-Mode. No more bumping out to a terminal.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package magit
     :preface (message "Magit is available at byte-compile time. I am proof thereof.")
     :commands magit-get-top-dir
@@ -286,31 +286,31 @@ Magit allows use of Git inside of Org-Mode. No more bumping out to a terminal.
            ("C-c v t" . magit-status)
            ("C-c f" . magit-grep)))
 
-#+END_SRC
+#+end_src
 
 ** Org-Mode Initialization
 
 I favor the newer version of Org-Mode over the built-in one(s).
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package org
     :ensure org-plus-contrib
     :pin org
     :defer t)
-#+END_SRC
+#+end_src
 
 I want to ensure that ELPA Org is prioritized above built-in Org:
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (require 'cl)
   (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
-#+END_SRC
+#+end_src
 
 Bleeding-edge Org (sometime in 2018) got rid of easy-tempalate expansion (e.g., =<s TAB= expands to a source block). Instead =org-tempo= must now be required.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (require  'org-tempo)
-#+END_SRC
+#+end_src
 
 Source blocks in =org-mode= should be sensitive to indentation norms:
 
@@ -328,17 +328,17 @@ Source blocks in =org-mode= should be sensitive to indentation norms:
 
 I use =org-babel= to embed and process some code in my Org files. Here I initialize the set of languages I commonly and less-than-commonly rely on:
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package gnuplot)
-#+END_SRC
+#+end_src
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (org-babel-do-load-languages
    'org-babel-load-languages '((C . t)
                                (shell . t)
                                (python . t)
                                (gnuplot . t)))
-#+END_SRC
+#+end_src
 
 ** Reference and Resource Management
 ** Publishing
@@ -348,17 +348,17 @@ I use =org-babel= to embed and process some code in my Org files. Here I initial
  
 Install and load the =toc-org= package after org mode is loaded. This is the package that automatically generates an up to date table of contents for us.
 
- #+BEGIN_SRC emacs-lisp
+ #+begin_src emacs-lisp
    (use-package toc-org
      :after org
      :init (add-hook 'org-mode-hook #'toc-org-enable))
- #+END_SRC
+ #+end_src
 
 ** Post Initialization
 
  Lower our GC thresholds back down to a sane level.
 
- #+BEGIN_SRC emacs-lisp
+ #+begin_src emacs-lisp
    (setq gc-cons-threshold 16777216
 	 gc-cons-percentage 0.1)
- #+END_SRC
+ #+end_src

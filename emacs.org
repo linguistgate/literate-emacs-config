@@ -263,6 +263,24 @@ Magit allows use of Git inside of Org-Mode. No more bumping out to a terminal.
 #+END_SRC
 
 ** Org-Mode Initialization
+
+I favor the newer version of Org-Mode over the built-in one(s).
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org
+    :ensure org-plus-contrib
+    :pin org
+    :defer t)
+#+END_SRC
+
+I want to ensure that ELPA Org is prioritized above built-in Org:
+
+#+BEGIN_SRC emacs-lisp
+  (require 'cl)
+  (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
+#+END_SRC
+
+
 ** Org Agenda
 
 

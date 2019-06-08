@@ -62,6 +62,10 @@ This structure represents about a year of thinking through task, workflow, and k
   - [[#org-agenda][Org Agenda]]
   - [[#org-journal-as-task-daybook][Org Journal as Task Daybook]]
   - [[#org-capture-and-refile][Org Capture and Refile]]
+    - [[#capture-code-org-capture][Capture Code (=org-capture=)]]
+    - [[#setting-some-refile-behaviors][Setting some Refile behaviors]]
+    - [[#refile-targets-integration-with-para][Refile targets: Integration with P.A.R.A.]]
+    - [[#clock][Clock]]
   - [[#contacts-management][Contacts Management]]
   - [[#encryption][Encryption]]
   - [[#programming-languages-management][Programming Languages Management]]
@@ -345,8 +349,237 @@ The default =org-directory= is =~/org=. It can be symlinked but needs to be pres
 
 ** Org Journal as Task Daybook
 
+The directory =~/org/daybook= holds a set of short diary files that together comprise a bullet-journal-esque daybook.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org-journal
+    :defer t
+    :custom
+    (org-journal-dir "~/org/daybook/")                                                             ; location
+    (org-journal-date-format "%A, %x")                                                             ; date name format
+    (org-journal-carryover-items "TODO=\"TODO\"|TODO=\"STARTED\"|TODO=\"NEXT\"|TODO=\"WAITING\"")  ; carryover items
+    (org-journal-enable-agenda-integration t)                                                      ; ensure entries are on the agenda
+    )
+  (org-journal-update-auto-mode-alist)
+#+END_SRC
+
+I also specify an =org-capture= template that inserts a =TODO= heading, timestamped in a way =org-journal= and =org-agenda= will recognize. This consists of a function, =owl/org-journal-find-location=, and an associated capture block.
+
+#+BEGIN_EXAMPLE
+(defun owl/org-journal-find-location ()
+      ;; Open today's journal, but specify a non-nil prefix argument in order to
+      ;; inhibit inserting the heading; org-capture will insert the heading.
+      (org-journal-new-entry t)
+      ;; Position point on the journal's top-level heading so that org-capture
+      ;; will add the new entry as a child entry.
+      (goto-char (point-min)))
+#+END_EXAMPLE
+
+The capture block prompts for a task title, tag, and effort estimate; the tag is drawn in tags in the completion file and defaults to what I want, namely, the set of GTD context tags.
+
+#+BEGIN_EXAMPLE
+(defvar owl/org-basic-daybook-template
+      "* TODO [#B] %(format-time-string org-journal-time-format)%^{Task} %^g\nSCHEDULED: %^t\n:PROPERTIES:\n:Created: %U\n:Effort: %^{effort|1:00|0:05|0:15|0:30|2:00|4:00}\n:END:"
+      "Template for basic daybook task entry.")
+#+END_EXAMPLE
+
+#+BEGIN_EXAMPLE
+  ("d"
+     "daybook entry"
+     entry
+     (function owl/org-journal-find-location),
+     owl/org-basic-daybook-template     ; template
+     :empty-lines 1)
+#+END_EXAMPLE
 
 ** Org Capture and Refile
+
+Org-mode capture templates allow for central implementations of the PARA/BASB concept, as envisioned by Tiago Forte.
+
+*** Capture Code (=org-capture=)
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org-capture
+    :ensure nil
+    :after org
+    :bind (("C-c c" . org-capture)
+           ("C-c w" . org-refile))
+    :preface
+    (defvar owl/org-basic-task-template
+      "* TODO [#B] %^{Task} %^g\nSCHEDULED: %^t\n:PROPERTIES:\n:Created: %U\n:Effort: %^{effort|1:00|0:05|0:15|0:30|2:00|4:00}\n:END:"
+      "Template for basic task.")
+
+    (defvar owl/org-daybook-task-template
+      "* TODO %^{Task} %^g\n%^T\n:PROPERTIES:\n:Created: %U\n:Effort: %^{effort|1:00|0:05|0:15|0:30|2:00|4:00}\n:END:"
+      "Template for basic daybook task entry. No time indicator for time of entry; prompt for scheduled time/date.")
+
+    (defvar owl/org-daybook-entry-template
+      "* NOTE %(format-time-string org-journal-time-format)%^{Title} %^g\n:PROPERTIES:\n:Created: %U\n:END:\n%?"
+      "Template for basic daybook journal entry.")
+
+    (defvar owl/org-contacts-template "* %(org-contacts-template-name)
+                        :PROPERTIES:
+                        :ADDRESS: %^{289 Cleveland St. Brooklyn, 11206 NY, USA}
+                        :BIRTHDAY: %^{yyyy-mm-dd}
+                        :EMAIL: %(org-contacts-template-email)
+                        :NOTE: %^{NOTE}
+                        :END:" "Template for org-contacts.")
+
+    (defun owl/org-journal-find-location ()
+      ;; Open today's journal, but specify a non-nil prefix argument in order to
+      ;; inhibit inserting the heading; org-capture will insert the heading.
+      (org-journal-new-entry t)
+      ;; Position point on the journal's top-level heading so that org-capture
+      ;; will add the new entry as a child entry.
+      (goto-char (point-min)))
+
+    (setq org-capture-templates `(("u"                             ; key
+                                   "unscheduled task in place"     ; description
+                                   entry                           ; type
+                                   (function (lambda () (message "You have already arrived at your destination."))) ; target
+                                   "* TODO [#B] %^{Todo} %^g\n:PROPERTIES:\n:Created: %U\n:Effort: %^{effort|1:00|0:05|0:15|0:30|2:00|4:00}\n:END:"                          ; template
+                                   :prepend nil                    ; properties
+                                   :empty-lines 0                  ; properties
+                                   :created t                      ; properties
+                                   )
+                                  ("d" "daybook")
+                                  ("dt"				
+                                   "daybook task"
+                                   entry
+                                   (function owl/org-journal-find-location),
+                                   owl/org-daybook-task-template     ; template
+                                   :empty-lines 1)
+                                  ("de"
+                                   "daybook entry"
+                                   entry
+                                   (function owl/org-journal-find-location),
+                                   owl/org-daybook-entry-template
+                                   :empty-lines 1)
+                                  ("a"               
+                                   "article"         
+                                   entry             
+                                   (file+headline "~/org/resources/bibliographies/mainref.org" "Article") 
+                                   "* %^{Title} %(org-set-tags)  :article: \n:PROPERTIES:\n:Created: %U\n:Linked: %A\n:END:\n%i\nBrief description:\n%?" 
+                                   :prepend t       
+                                   :empty-lines 1   
+                                   :created t       
+                                   )
+                                  ("c" 
+                                   "contact"
+                                   entry
+                                   (file "~/org/resources/contacts/contacts.org"),
+                                   owl/org-contacts-template
+                                   :empty-lines 1)
+                                  ("n"
+                                   "note"
+                                   entry
+                                   (file+headline ,org-default-notes-file "Notes")
+                                   "* %? :NOTE:\n:LOGBOOK:\n:CREATED: %U\n:END:"
+                                   :prepend nil
+                                   :empty-lines 0
+                                   :created t
+                                   )
+                                  ("r"
+                                   "recipe"
+                                   entry
+                                   (file+headline "~/org/cpb/food.org" "Recipes")
+                                   "* TOCOOK %?\n:LOGBOOK:\n:CREATED: %U\n:END:\n:PROPERTIES:\n:SOURCE: \n:SERVES: \n:END:\n** Ingredients\n** Preparation"
+                                   :prepend nil
+                                   :empty-lines 0
+                                   :created t
+                                   )				
+                                  ("e"
+                                   "elfeed"
+                                   entry
+                                   (file "~/org/captures/captures.org")
+                                   "* %a  %^G \n:LOGBOOK:\n:CAPTURED: %U\n:END:\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE\n" 
+                                   :prepend nil
+                                   :empty-lines 0
+                                   :created t
+                                   )
+                                  ("f" "Fitness")
+                                  ("fw" "Weight" 
+                                   table-line
+                                   "| | %U | %^{Weight} | %^{Comment}"
+                                   :immediate-finish t)
+                                  ("s"
+                                   "selected org-protocol link"
+                                   entry
+                                   (file "~/org/captures/captures.org")
+                                   "* %^{Title}\nSource: %u, [[%:link][%:description]] \n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+                                  ("p" 
+                                   "org-protocol-link"
+                                   entry
+                                   (file "~/org/captures/captures.org")
+                                   "* %? [[%:link][%:description]] \nCaptured On: %U")				
+                                  )
+          )
+    )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (defun owl/org-call-src-block (name)
+    ;; Based on <http://kitchingroup.cheme.cmu.edu/blog/2014/08/11/Using-org-mode-outside-of-Emacs-sort-of/>
+    ;; This works better than the org-sbe (aka sbe) macro, because it
+    ;; calls the block upon expansion, making it difficult to bind to
+    ;; a command to run later
+    ;; TODO: Use `org-babel-goto-named-src-block'!  I guess it's new...or not, it's from 2010!
+    (org-with-wide-buffer
+     (-when-let (src (org-element-map (org-element-parse-buffer) 'src-block
+                       (lambda (element)
+                         (when (string= name (org-element-property :name element))
+                           element))
+                       nil ;info
+                       t ))
+       (goto-char (org-element-property :begin src))
+       (let ((org-confirm-babel-evaluate nil))
+         (org-babel-execute-src-block)))))
+#+END_SRC
+
+*** Setting some Refile behaviors
+
+I like =org-refile= to be promiscuous. To that end, it should use outline paths, complete in steps, and allow for the creation of parent nodes on-the-fly. See See https://blog.aaronbieber.com/2017/03/19/organizing-notes-with-refile.html for details on some of the hacks here.
+
+I don't like the huge list of refile targets.
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-refile-use-outline-path 'file)
+  (setq org-outline-path-complete-in-steps nil)
+
+  ;; Allow on-the-fly creation of parent headings
+  (setq org-refile-allow-creating-parent-nodes 'confirm)
+#+END_SRC
+
+*** Refile targets: Integration with P.A.R.A.
+
+All "areas" are included in the =~/org= directory itself. Soft-linking to a separate =~/areas= folder can result in disasters for /certain/ cloud-based repositories I'm currently using (perhaps not forever).
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-refile-targets '((org-agenda-files :maxlevel . 8)
+                             ("~/org/notebook/notebook.org" :maxlevel . 5)))
+
+#+END_SRC
+
+The package [[https://github.com/mwfogleman/org-randomnote][org-randomnote]], created by [[https://github.com/mwfogleman][Tasshin Fogleman]], further implements P.A.R.A. workflow by mimicking the “Random Note” functionality advocated by Tiago Forte with Evernote.
+
+It can be used to “revisit nearly-forgotten but potentially-useful notes, or to spark creative insights by bringing older subjects into mind with new subjects.”
+
+Currently, I bind it to =C-c g= and focus only on the =captures.org= file and several other well-stocked files. There is additional code that can traverse entire directories. I might want to add this later.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org-randomnote
+    :ensure t
+    :bind ("C-c g" . org-randomnote)
+    :config (setq org-randomnote-candidates '("~/org/captures/captures.org"
+                                              "~/org/hub/systems.org"
+                                              "~/org/cpb/journal.org"
+                                              "~/org/cpb/cs.org"
+                                              "~/org/cpb/reading.org"
+                                              "~/org/cpb/notebook.org"))
+    )
+#+END_SRC
+
+*** Clock
 ** Contacts Management
 ** Encryption
 ** Programming Languages Management

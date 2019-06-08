@@ -2,12 +2,38 @@
 #+AUTHOR: Matthew Edward Adams 
 #+PROPERTY: header-args :tangle yes
 #+STARTUP: indent
+* Structure
+
+Currently I am trying the following structure for my Org-based workflow:
+
+#+BEGIN_EXAMPLE
+├── captures
+│   ├── captures.org
+│   └── unfiled
+├── cpb
+│   ├── digital.nb.org
+│   ├── journal.org
+│   ├── math.nb.org
+│   └── reference.org
+├── daybook
+│   ├── 20190203
+│   └── 20190204
+└── hub
+    ├── calendar.org
+    ├── contacts.bbdb
+    ├── meta.org
+    └── systems.org
+#+END_EXAMPLE
+
+This structure represents about a year of thinking through task, workflow, and knowledge management systems. I don’t think it’s my final word, but it does reflect best where I want to lay my energies. I want things simple.
+
 * Configuration
 :PROPERTIES:
 :VISIBILITY: children
 :END:
 
 ** Table of Contents :TOC_5_gh:
+- [[#structure][Structure]]
 - [[#configuration][Configuration]]
   - [[#about-this-file][About This File]]
   - [[#config-file-tweaks][Config File Tweaks]]
@@ -231,12 +257,12 @@ Since the code is automatically compiled during runtime, if the configuration ha
 
 Some core editing desirables:
 
-- The variable =truncate-lines= turns off wrapping. Long lines will show a continuation character in the right margin. /It is currenlty set to nil./
+- The variable =truncate-lines= turns off wrapping. Long lines will show a continuation character in the right margin.
 - To indicate the presence of empty lines at the end of a file, a marker is placed in the left fringe.
 - I require final newlines globally.
 
 #+BEGIN_SRC emacs-lisp
-  (setq-default truncate-lines nil
+  (setq-default truncate-lines t
                 indicate-empty-lines t
                 require-final-newline t)
 #+END_SRC
@@ -279,7 +305,6 @@ I want to ensure that ELPA Org is prioritized above built-in Org:
   (require 'cl)
   (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
 #+END_SRC
-
 
 ** Org Agenda
 

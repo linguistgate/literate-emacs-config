@@ -306,7 +306,7 @@ I want to ensure that ELPA Org is prioritized above built-in Org:
   (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
 #+end_src
 
-Bleeding-edge Org (sometime in 2018) got rid of easy-tempalate expansion (e.g., =<s TAB= expands to a source block). Instead =org-tempo= must now be required.
+Bleeding-edge Org (9.2, sometime in 2018) got rid of easy-tempalate expansion (e.g., =<s TAB= expands to a source block). Instead =org-tempo= must now be required if the old expansion method should still be used. Note that =C-c C-,= will pull up a list of expansion templates.
 
 #+begin_src emacs-lisp
 (require  'org-tempo)
@@ -325,6 +325,9 @@ The default =org-directory= is =~/org=. It can be symlinked but needs to be pres
 #+end_src
 
 ** Org Agenda
+
+
+
 ** Org Journal as Task Daybook
 
 ** Org Capture and Refile

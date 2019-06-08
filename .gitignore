@@ -3,3 +3,4 @@ auto-save-list/
 user/
 emacs.el
 emacs.elc
+transient/

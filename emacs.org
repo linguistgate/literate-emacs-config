@@ -306,6 +306,8 @@ I want to ensure that ELPA Org is prioritized above built-in Org:
   (setq load-path (remove-if (lambda (x) (string-match-p "org$" x)) load-path))
 #+END_SRC
 
+Source blocks in =org-mode= should be sensitive to indentation norms:
+
 ** Org Agenda
 
 

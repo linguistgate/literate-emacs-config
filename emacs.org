@@ -318,6 +318,12 @@ Source blocks in =org-mode= should be sensitive to indentation norms:
   (setq org-src-tab-acts-natively t)
 #+end_src
 
+The default =org-directory= is =~/org=. It can be symlinked but needs to be present as such.
+
+#+begin_src emacs-lisp
+  (setq org-directory "~/org")
+#+end_src
+
 ** Org Agenda
 ** Org Journal as Task Daybook
 

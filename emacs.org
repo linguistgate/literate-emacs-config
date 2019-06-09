@@ -3,6 +3,7 @@
 #+PROPERTY: header-args :tangle yes
 #+STARTUP: indent
 * Design Concerns
+
 ** Why a Literate Configuration?
 
 Literate programming is human-centric in the sense that programming code is "tangled" with prose. Moreover, the "program" unfolds in a way that reflects human reasoning, not machine logic. I don't have a stake in whether I think literate programming is good (and I don't even really know where it stands among programmers and coders in 2018). In wanting my Emacs configuration to be configurable but not get out of hand, I have been trying different options over the years. The literate programming examples I've seen online have made a good case for something resembling "literate" programming as the basis for a dot Emacs configuration.
@@ -157,6 +158,8 @@ This structure represents about a year of thinking through task, workflow, and k
   - [[#contacts-management][Contacts Management]]
   - [[#encryption][Encryption]]
   - [[#programming-languages-management][Programming Languages Management]]
+    - [[#autocompletion][Autocompletion]]
+    - [[#babel][Babel]]
   - [[#reference-and-resource-management][Reference and Resource Management]]
   - [[#publishing][Publishing]]
   - [[#writing-environment][Writing Environment]]
@@ -510,6 +513,9 @@ In order to prevent overlay, =owl/cycle-theme= depends on on two additional func
 #+END_SRC
 
 ** Accessibility
+
+
+
 ** Navigation
 ** Project Management
 
@@ -877,6 +883,18 @@ Currently, I bind it to =C-c g= and focus only on the =captures.org= file and se
 ** Contacts Management
 ** Encryption
 ** Programming Languages Management
+
+*** Autocompletion
+
+Package =auto-complete= works very well for some IDE-like behaviors.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package auto-complete
+    :diminish auto-complete-mode
+    :config (ac-config-default))
+#+END_SRC
+
+*** Babel
 
 I use =org-babel= to embed and process some code in my Org files. Here I initialize the set of languages I commonly and less-than-commonly rely on:
 

@@ -56,6 +56,7 @@ This structure represents about a year of thinking through task, workflow, and k
     - [[#aggressive-indent][Aggressive Indent]]
   - [[#fonts][Fonts]]
     - [[#font-locking][Font Locking]]
+    - [[#default-fonts][Default Fonts]]
   - [[#themes][Themes]]
     - [[#themes-in-rotation][Themes in Rotation]]
       - [[#flatui-dark-theme][flatui-dark-theme]]
@@ -302,6 +303,17 @@ Font Lock mode is a minor mode, always local to a particular buffer, and each bu
   (global-font-lock-mode t)
 #+END_SRC
 
+*** Default Fonts
+
+The default fonts need to be installed at least for the relevant user under =~/.fonts=. I currently use the Input series of fonts.
+
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'default-frame-alist '(font . "Input Mono 11" ))
+  (set-face-attribute 'default t :font "Input Mono 11" )
+  (set-face-attribute 'variable-pitch nil :font "Input Serif 11")
+  (set-face-attribute 'fixed-pitch nil :font "Input Mono 11")
+  (add-hook 'text-mode-hook 'variable-pitch-mode)
+#+END_SRC
 
 
 ** Themes

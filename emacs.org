@@ -2,7 +2,76 @@
 #+AUTHOR: Matthew Edward Adams 
 #+PROPERTY: header-args :tangle yes
 #+STARTUP: indent
-* Structure
+* Design Concerns
+** Why a Literate Configuration?
+
+Literate programming is human-centric in the sense that programming code is "tangled" with prose. Moreover, the "program" unfolds in a way that reflects human reasoning, not machine logic. I don't have a stake in whether I think literate programming is good (and I don't even really know where it stands among programmers and coders in 2018). In wanting my Emacs configuration to be configurable but not get out of hand, I have been trying different options over the years. The literate programming examples I've seen online have made a good case for something resembling "literate" programming as the basis for a dot Emacs configuration.
+
+** Must-Haves
+
+- A reliable and fast-loading configuration; a byte-compiled =init.elc= for even faster load time
+- A writing-centric setup with a beautiful writing theme (=poet-theme=)
+- A clear way of handling images that are associated with Org files
+- A general philosophy of avoiding new packages; favor taking the relevant bits of code and pasting them into this configuraiton with literate explanations of what the code does
+- A working, reliable, and consistent tagging, capture, and refiling system based on principles of Building a Second Brain, PARA, and other ideas from Tiago Forte
+- A clear and consistent structure to my =~/org= directory that is recapitulated in my capture and refiling system
+- A dashboard to replace =organizer.org= or to heavily supplement it
+- Spellchecking, hydras, and other navigation tools that favor /writing/ and /editing/
+- An =.emacs.d/= directory that properly files away user configuration and is not cluttered
+- =init.el= and associated files that make sense, aren't overly complicated, and don't contain code I don't use
+- A way to distinguish packages on MELPA, packages not there, and packages that are experimental, and a way to sandbox non-working packages
+- A way to load a minimally working config that will always have my bare bones
+
+*************** TODO Create working minimal config                  :@digital:
+*************** END
+*************** TODO Decide on how to handle picture handling across Areas, Projects, and Resources :@digital:
+*************** END
+*************** TODO Make Projectile work better with Projects :@digital:
+*************** END
+
+
+** Things That Will Continue to Be Built Out
+
+- A server and publishing system that allows for Wikis, notebooks, and web pages to be created from Org content
+- Various ways of capturing online material and storing it in =resources/= for offline access (=org-download=, etc.)
+- Good langauge and font support for German, Korean, and French when I want to type in and use those languages
+- Non-linear, non-hierarchical tools like =org-brain= as ways to enhance the knowledge management system I am building
+
+** Desirables
+- Ledger ([[https://www.ledger-cli.org/][Ledger]]). Also possibly [[https://github.com/NicolasPetton/elbank][Elbank]].
+- [[https://github.com/abo-abo/org-download][Org-download]]
+- Possibly some code from [[https://github.com/rnkn/fountain-mode/][Founntain Mode]] (screenwriting)
+- Check out [[https://www.gnu.org/software/emacs-muse/manual/muse.html][Muse]] alongside Org pubishing system. What are my needs?
+- Possible integration of [[https://github.com/novoid/Memacs][Memacs]] someday. 
+
+** Explanation of Captures, CPB, Daybook, Hub
+
+The =captures= and =cpb= directories encapsulate [[https://medium.com/@tasshin/implementing-a-second-brain-in-emacs-and-org-mode-ef0e44fb7ca5][progressive summarization]], at least the first four layers:
+
+- Layer 1 :: When you encounter something interesting, capture it
+- Layer 2 :: Bold the most interesting parts
+- Layer 3 :: Highlight the most interesting bolded sections
+- Layer 4 :: Summarize the bolded portions and the note in your own words
+- Layer 5 :: Turn your notes into something new: a tweet, a blog post, even a book
+
+The Commonplace Book directory, or =cpb= direcotry, includes my journals and notebooks, all of which aim to have a Coleridgean flair. Captures pulls from the Web (using Firefox’s =org-capture= extension, primarily). Items not captured via this method can be entered manually with a capture template, or in certain cases can be put into =unfiled= for later assimilation.
+
+The =daybook= allows for bullet-journal carryover of tasks and includes short notes about what I accomplished each day. The Agenda pulls heavily from the daybook. It is intended to be a serious commitment and is separate from, but can often influence or engage with, projects and notes.
+
+The =hub= replaces several attempts at realzing “Areas” wtihin Tiago Forte’s P.A.R.A. framework. I’ve gone through highly articulated structures that list out all ongoing spheres of activity. Under the PARA rubric, areas are "[[https://medium.com/@tasshin/implementing-a-second-brain-in-emacs-and-org-mode-ef0e44fb7ca5][ongoing spheres of activity]]." They are /not/ projects, but projects often emerge from these areas. They are also /not/ resources, which are supposed to be "materials not tied to a specific project or area." My solution is create a large Areas-esque file, =systems.org=, that has subheadings devoted to Home, Digital, Transportation, etc., which are my ongoing spheres of activity. Headings within these areas can point to projects, instantiate recurring tasks, and so on. The =calendar.org= lists out yearly anniversaries I don’t want to forget, and =contacts.xxx= is a file that either will use =org-contacts= or revert to the powerful BBDB system. The final file =meta.org= has code that tracks tags throughout the =org= sytem.
+
+The thought here is that these four directories directly interact with the Agenda in certain ways or represent hard concerns of P.A.R.A.-based workflow. I’ve moved a bit away from GTD, except for contextual tagging and ticklers (setting tasks way into the future to remind me of something I want to do).
+
+Within my re-imagined home directory, the =library= sits /outside of/ the =org= directory proper, as it should. There are two reasons for this:
+
+1. I am moving to a server framework in which the “library” in its entirety sits on a private server, and local computers check out relevant portions of the library.
+2. The =org= directory is not synonymous with /all/ work I do or my /entire/ knowledge management system. The =org= directory reassumes real meaning with fewer files and more sensible subdirectories that directly reflect what I am doing with Org.
+
+In addition, projects (including writing, blogging, coding, curriculum development) are housed outside of the =org= structure. If something project-wise ossifies enough, it should enter the library or library archives, and =cpb=-based work should have been tracking its development all along.
+
+In this way, I’ve recapitulated the P.A.R.A. system (Projects - Areas (Hub) - Resources (Library) - Archives (Library Archives)) in a way that works for my workflow. I feel less burdened by having to update tons of files every day and can return to letting the Agenda tell me what needs to be done and where.
+
+* Org Structure
 
 Currently I am trying the following structure for my Org-based workflow:
 
@@ -33,7 +102,13 @@ This structure represents about a year of thinking through task, workflow, and k
 :END:
 
 ** Table of Contents :TOC_5_gh:
-- [[#structure][Structure]]
+- [[#design-concerns][Design Concerns]]
+  - [[#why-a-literate-configuration][Why a Literate Configuration?]]
+  - [[#must-haves][Must-Haves]]
+  - [[#things-that-will-continue-to-be-built-out][Things That Will Continue to Be Built Out]]
+  - [[#desirables][Desirables]]
+  - [[#explanation-of-captures-cpb-daybook-hub][Explanation of Captures, CPB, Daybook, Hub]]
+- [[#org-structure][Org Structure]]
 - [[#configuration][Configuration]]
   - [[#about-this-file][About This File]]
   - [[#config-file-tweaks][Config File Tweaks]]
@@ -317,7 +392,6 @@ The default fonts need to be installed at least for the relevant user under =~/.
 #+END_SRC
 
 *** Font Switching
-
 
 Establish function to set font to variable width in current buffer:
 

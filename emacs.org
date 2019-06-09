@@ -47,6 +47,7 @@
     - [[#counsel][Counsel]]
     - [[#swiper][Swiper]]
   - [[#project-management][Project Management]]
+    - [[#local-backups][Local Backups]]
     - [[#version-control][Version Control]]
       - [[#magit][Magit]]
   - [[#org-mode-initialization][Org-Mode Initialization]]
@@ -567,6 +568,22 @@ Swiper is a searching utility with quick preview in minibuffer. I load it when =
 #+END_SRC
 
 ** Project Management
+
+*** Local Backups
+
+The following defaults allow for a saner backup system with Emacs files.
+
+Server and long-term backups are handled via Syncthing/Nextcloud and other methods.
+
+#+BEGIN_SRC emacs-lisp
+  (setq backup-by-copying t
+        create-lockfiles nil
+        backup-directory-alist '((".*" . "~/.emacs-saves"))
+        delete-old-versions t
+        kept-new-versions 6
+        kept-old-versions 2
+        version-control t)
+#+END_SRC
 
 *** Version Control
 

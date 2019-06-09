@@ -68,6 +68,9 @@
     - [[#babel][Babel]]
   - [[#reference-and-resource-management][Reference and Resource Management]]
   - [[#publishing][Publishing]]
+    - [[#commonplace-book][Commonplace Book]]
+    - [[#hosted-private-html][Hosted Private HTML]]
+    - [[#blog-and-microblog][Blog and Microblog]]
   - [[#writing-environment][Writing Environment]]
     - [[#distraction-free-writing][Distraction-Free Writing]]
   - [[#dashboard][Dashboard]]
@@ -1003,8 +1006,10 @@ I use =org-babel= to embed and process some code in my Org files. Here I initial
 
 ** Reference and Resource Management
 ** Publishing
+*** Commonplace Book
+*** Hosted Private HTML
+*** Blog and Microblog
 ** Writing Environment
-
 *** Distraction-Free Writing
 
 I use the =writeroom-mode= package as my main distraction destroyer. It creates a fullscreen Emacs environment, removes the modeline, and centers the text. It works well in its default aspect for me, though it's quite configurable.

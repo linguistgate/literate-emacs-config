@@ -59,8 +59,8 @@
   - [[#clock][Clock]]
   - [[#org-capture-and-refile][Org Capture and Refile]]
     - [[#capture-code-org-capture][Capture Code (=org-capture=)]]
-    - [[#setting-some-refile-behaviors][Setting some Refile behaviors]]
-    - [[#refile-targets-integration-with-para][Refile targets: Integration with P.A.R.A.]]
+    - [[#refile-behaviors][Refile Behaviors]]
+    - [[#refile-targets-integration-with-para][Refile Targets (Integration with P.A.R.A.)]]
   - [[#encryption][Encryption]]
   - [[#contacts-management][Contacts Management]]
   - [[#programming-languages-management][Programming Languages Management]]
@@ -698,8 +698,10 @@ Org-modules' individual behavior is established under their own headings below (
   (bind-keys ("C-c a" . org-agenda))
 #+end_src
 
+The following code sets the main "agenda" files.
+
 #+begin_src emacs-lisp
-  (org-agenda-files (apply 'append
+  (setq org-agenda-files (apply 'append
                            (mapcar
                             (lambda (directory)
                               (directory-files-recursively
@@ -920,12 +922,9 @@ Org-mode capture templates allow for central implementations of the PARA/BASB co
          (org-babel-execute-src-block)))))
 #+END_SRC
 
+*** Refile Behaviors
 
-*** Setting some Refile behaviors
-
-I like =org-refile= to be promiscuous. To that end, it should use outline paths, complete in steps, and allow for the creation of parent nodes on-the-fly. See See https://blog.aaronbieber.com/2017/03/19/organizing-notes-with-refile.html for details on some of the hacks here.
-
-I don't like the huge list of refile targets.
+I like =org-refile= to be promiscuous: it should use outline paths, complete in steps, and allow for the creation of parent nodes on-the-fly. See See https://blog.aaronbieber.com/2017/03/19/organizing-notes-with-refile.html for details on some of the hacks here.
 
 #+BEGIN_SRC emacs-lisp
   (setq org-refile-use-outline-path 'file)
@@ -935,15 +934,12 @@ I don't like the huge list of refile targets.
   (setq org-refile-allow-creating-parent-nodes 'confirm)
 #+END_SRC
 
+*** Refile Targets (Integration with P.A.R.A.)
 
-*** Refile targets: Integration with P.A.R.A.
-
-All "areas" are included in the =~/org= directory itself. Soft-linking to a separate =~/areas= folder can result in disasters for /certain/ cloud-based repositories I'm currently using (perhaps not forever).
+The following code 
 
 #+BEGIN_SRC emacs-lisp
-  (setq org-refile-targets '((org-agenda-files :maxlevel . 8)
-                             ("~/org/notebook/notebook.org" :maxlevel . 5)))
-
+  (setq org-refile-targets '((org-agenda-files :maxlevel . 5)))
 #+END_SRC
 
 The package [[https://github.com/mwfogleman/org-randomnote][org-randomnote]], created by [[https://github.com/mwfogleman][Tasshin Fogleman]], further implements P.A.R.A. workflow by mimicking the “Random Note” functionality advocated by Tiago Forte with Evernote.

@@ -42,6 +42,10 @@
       - [[#poet-themes][poet-themes]]
     - [[#functions-to-switch-among-themes][Functions to Switch Among Themes]]
   - [[#accessibility][Accessibility]]
+    - [[#hinting][Hinting]]
+    - [[#hydra-configuration][Hydra Configuration]]
+    - [[#ace-window][Ace Window]]
+    - [[#zoom-window][Zoom Window]]
   - [[#navigation][Navigation]]
     - [[#ivy][Ivy]]
     - [[#counsel][Counsel]]
@@ -520,6 +524,117 @@ In order to prevent overlay, =owl/cycle-theme= depends on on two additional func
 #+END_SRC
 
 ** Accessibility
+
+*** Hinting
+
+To remember all custom functions I create (=owl/NAME=), the following function will help format a simple table:
+
+#+BEGIN_SRC emacs-lisp
+  (defun owl/remember-all-custom-functions ()
+    "Function to format a simple table with all custom functions that I created."
+    (let* ((custom-list (apropos-internal "^owl/"))
+	   (func-list (seq-filter 'functionp custom-list))
+	   (docs (mapcar 'documentation func-list))
+	   (docs-nnil (mapcar #'(lambda (el) (if el el "There isn't docstrings to this function! Shame!")) docs))
+	   (docs-fmt (mapcar #'(lambda (el) (string-join (split-string el "\n") " ")) docs-nnil))
+	   (res '()))
+      (dotimes (index (length func-list))
+	(push `(,(nth index func-list) ,(nth index docs-fmt)) res))
+      res))
+#+END_SRC
+
+The [[https://github.com/justbur/emacs-which-key][which-key]] package displays available keybindings in popup:
+
+#+BEGIN_SRC emacs-lisp
+(use-package which-key
+  :diminish which-key-mode
+  :init
+  (which-key-mode)
+  (which-key-setup-side-window-right-bottom)
+  (setq which-key-max-description-length 60))
+#+END_SRC
+
+The [[https://github.com/Wilfred/helpful][helpful]] package provides better contextual information:
+
+#+BEGIN_SRC emacs-lisp
+(use-package helpful
+  :bind
+  ("C-h f" . helpful-function)
+  ("C-h x" . helpful-command)
+  ("C-h z" . helpful-macro))
+#+END_SRC
+
+*** Hydra Configuration
+
+Hydra allows me to display a list of all the commands implemented in the echo area and easily interact with them.
+
+#+BEGIN_SRC emacs-lisp
+(use-package hydra
+  :init
+  (setq hydra-is-helpful t)
+  :config
+  (require 'hydra-ox))
+#+END_SRC
+
+Individual hydras are written in the relevant place in the configuration.
+
+I like a hydra to help me increase or decrease text scale in a given buffer:
+
+#+BEGIN_SRC emacs-lisp
+(defhydra hydra-zoom (global-map "<f6>")
+  ("g" text-scale-increase "in")
+  ("l" text-scale-decrease "out") 
+  ("r" (text-scale-set 0) "reset")
+  ("0" (text-scale-set 0) :bind nil :exit t)
+  ("1" (text-scale-set 0) nil :bind nil :exit t))
+#+END_SRC
+
+*** Ace Window
+
+See http://bnbeckwith.com/bnb-emacs/ for supercharged variant on C-x o traversal.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ace-window
+    :demand t
+    :bind
+    ("<f9> a" . ace-window)
+    :config
+    (setq aw-keys '(?j ?k ?l ?n ?m)
+	  aw-leading-char-style 'path
+	  aw-dispatch-always t
+	  aw-dispatch-alist
+	  '((?x aw-delete-window "Ace - Delete Window")
+	    (?c aw-swap-window   "Ace - Swap window")
+	    (?n aw-flip-window   "Ace - Flip window")
+	    (?v aw-split-window-vert "Ace - Split Vert Window")
+	    (?h aw-split-window-horz "Ace - Split Horz Window")
+	    (?m delete-other-windows "Ace - Maximize Window")
+	    (?b balance-windows)))
+
+    (set-face-attribute 'aw-leading-char-face nil :height 2.0)
+  )
+#+END_SRC
+
+Manipulate window size with a hydra.
+
+#+BEGIN_SRC emacs-lisp
+  (defhydra hydra-window-size (:color amaranth)
+    "Window size"
+    ("h" shrink-window-horizontally "shrink horizontal")
+    ("j" shrink-window "shrink vertical")
+    ("k" enlarge-window "enlarge vertical")
+    ("l" enlarge-window-horizontally "enlarge horizontal")
+    ("q" nil "quit"))
+  (add-to-list 'aw-dispatch-alist '(?w hydra-window-size/body) t)
+#+END_SRC
+
+*** Zoom Window
+
+#+BEGIN_SRC emacs-lisp
+  (use-package zoom-window
+    :bind ("C-x C-z" . zoom-window-zoom))
+#+END_SRC
+
 ** Navigation
 
 *** Ivy

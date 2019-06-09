@@ -34,6 +34,7 @@
     - [[#font-locking][Font Locking]]
     - [[#default-fonts][Default Fonts]]
     - [[#font-switching][Font Switching]]
+    - [[#font-sizing][Font Sizing]]
   - [[#themes][Themes]]
     - [[#themes-in-rotation][Themes in Rotation]]
       - [[#flatui-dark-theme][flatui-dark-theme]]
@@ -447,6 +448,21 @@ Finally, establish a function to set font to a pretty writing font if Input Seri
              ("C-c u w" . owl/buffer-face-mode-writing))
 #+END_SRC
 
+*** Font Sizing
+
+Individual hydras are written in the relevant place in the configuration.
+
+I like a hydra to help me increase or decrease text scale in a given buffer:
+
+#+BEGIN_SRC emacs-lisp
+(defhydra hydra-zoom (global-map "<f6>")
+  ("g" text-scale-increase "in")
+  ("l" text-scale-decrease "out") 
+  ("r" (text-scale-set 0) "reset")
+  ("0" (text-scale-set 0) :bind nil :exit t)
+  ("1" (text-scale-set 0) nil :bind nil :exit t))
+#+END_SRC
+
 ** Themes
 
 Ensure that variable pitches are respected in loaded themes:
@@ -574,19 +590,6 @@ Hydra allows me to display a list of all the commands implemented in the echo ar
   (setq hydra-is-helpful t)
   :config
   (require 'hydra-ox))
-#+END_SRC
-
-Individual hydras are written in the relevant place in the configuration.
-
-I like a hydra to help me increase or decrease text scale in a given buffer:
-
-#+BEGIN_SRC emacs-lisp
-(defhydra hydra-zoom (global-map "<f6>")
-  ("g" text-scale-increase "in")
-  ("l" text-scale-decrease "out") 
-  ("r" (text-scale-set 0) "reset")
-  ("0" (text-scale-set 0) :bind nil :exit t)
-  ("1" (text-scale-set 0) nil :bind nil :exit t))
 #+END_SRC
 
 *** Ace Window

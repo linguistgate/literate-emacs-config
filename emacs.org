@@ -1047,6 +1047,33 @@ I bind it to =C-<f11>= to keep it close to the toggle for =poet-theme=, which I 
 #+END_SRC
 
 ** Dashboard
+
+This is an extensible Emacs startup screen that I've started to experiment with as a slow replacement for =organizer.org=.
+
+Dashboard requires =page-break-lines= and =projectile=.
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package page-break-lines)
+
+  (use-package dashboard
+    :config
+    (dashboard-setup-startup-hook)
+    (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+    ;; Set the title
+    (setq dashboard-banner-logo-title "Dashboard")
+    ;; Set the banner
+    (setq dashboard-startup-banner "/home/owl/.emacs.d/user/images/dashboard-banner.png")
+    ;; Customize widgets
+    (setq dashboard-items '((recents . 5)
+                            (projects . 5)
+                            (agenda . 5)
+                            (registers . 1)))
+    (setq show-week-agenda-p nil)
+    )
+
+#+END_SRC
+
 ** Toc-org
  
 Install and load the =toc-org= package after org mode is loaded. This is the package that automatically generates an up to date table of contents for us.

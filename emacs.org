@@ -1095,7 +1095,6 @@ Currently, I bind it to =C-c g= and focus only on the =captures.org= file and se
 ** Encryption
 ** Contacts Management
 ** Programming Languages Management
-
 *** Autocompletion
 
 Package =auto-complete= works very well for some IDE-like behaviors.
@@ -1168,6 +1167,8 @@ I bind it to =C-<f11>= to keep it close to the toggle for =poet-theme=, which I 
 
 This is an extensible Emacs startup screen that I've started to experiment with as a slow replacement for =organizer.org=.
 
+It's not doing a great job interacting with Agenda [2019-06-09 Sun].
+
 Dashboard requires =page-break-lines= and =projectile=.
 
 #+BEGIN_SRC emacs-lisp
@@ -1187,7 +1188,7 @@ Dashboard requires =page-break-lines= and =projectile=.
                             (projects . 5)
                             (agenda . 5)
                             (registers . 1)))
-    (setq show-week-agenda-p nil)
+    (setq show-week-agenda-p t)
     )
 
 #+END_SRC

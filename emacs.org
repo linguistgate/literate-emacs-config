@@ -53,6 +53,7 @@
     - [[#org-defaults][Org Defaults]]
     - [[#org-modules][Org Modules]]
   - [[#org-agenda][Org Agenda]]
+    - [[#habits-org-habit][Habits (=org-habit=)]]
   - [[#org-journal-as-task-daybook][Org Journal as Task Daybook]]
   - [[#clock][Clock]]
   - [[#org-capture-and-refile][Org Capture and Refile]]
@@ -692,6 +693,25 @@ Org-modules' individual behavior is established under their own headings below (
                               "~/org/daybook/"
                               "~/.emacs.d/"))))
 #+end_src
+
+*** Habits (=org-habit=)
+
+Habit tracking via =org-habit= will show a graph in the agenda tracking progress and consistency for established habits. I think it's a good idea to keep the set of habits small and specific.
+
+From [[https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.html][Aaraon Bieber's org-mode setup]]:
+
+#+BEGIN_QUOTE
+To create a habit, you need two things:
+
+1. A SCHEDULED tag with a repeat specification (like .+ or ++), and
+2. A STYLE property set to the value habit.
+#+END_QUOTE
+
+I like my habit graph to show throughout the day even if I’ve already completed a habit, so I adjust =org-habit-show-all-today=:
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-habit-show-all-today t)
+#+END_SRC
 
 ** Org Journal as Task Daybook
 

@@ -22,13 +22,12 @@ Literate programming is human-centric in the sense that programming code is "tan
 - A way to distinguish packages on MELPA, packages not there, and packages that are experimental, and a way to sandbox non-working packages
 - A way to load a minimally working config that will always have my bare bones
 
-*************** TODO Create working minimal config                  :@digital:
+*************** DONE Create working minimal config   :@digital:
 *************** END
 *************** TODO Decide on how to handle picture handling across Areas, Projects, and Resources :@digital:
 *************** END
-*************** TODO Make Projectile work better with Projects :@digital:
+*************** DONE Make Projectile work better with Projects :@digital:
 *************** END
-
 
 ** Things That Will Continue to Be Built Out
 
@@ -817,7 +816,6 @@ Currently, I bind it to =C-c g= and focus only on the =captures.org= file and se
                                               "~/org/cpb/notebook.org"))
     )
 #+END_SRC
-
 
 ** Clock
 ** Contacts Management

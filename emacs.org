@@ -700,6 +700,16 @@ Org-modules' individual behavior is established under their own headings below (
 
 The following code sets the main "agenda" files.
 
+Note that "projects" of various sorts, with their own ~TODO~ items, will not by default appear on the Org Agenda. Currently, this is by design: ~TODO~-cluttering is a well-known gripe against Org and GTD.
+
+From a [[https://stackoverflow.com/questions/52051230/agenda-view-in-org-mode][Stack Overflow question]]:
+
+#+begin_quote
+A quick way to add the current file temporarily to org-agenda-files is C-c [ (which is bound to org-agenda-file-to-front and as its name implies, adds the current file to the front of the list). You can get rid of it with C-c ]
+#+end_quote
+
+I use this method until a project "proves" that it should be added to the permanent list of agenda files.
+
 #+begin_src emacs-lisp
   (setq org-agenda-files (apply 'append
                            (mapcar

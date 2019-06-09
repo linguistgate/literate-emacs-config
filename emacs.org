@@ -54,13 +54,13 @@
     - [[#org-modules][Org Modules]]
   - [[#org-agenda][Org Agenda]]
   - [[#org-journal-as-task-daybook][Org Journal as Task Daybook]]
+  - [[#clock][Clock]]
   - [[#org-capture-and-refile][Org Capture and Refile]]
     - [[#capture-code-org-capture][Capture Code (=org-capture=)]]
     - [[#setting-some-refile-behaviors][Setting some Refile behaviors]]
     - [[#refile-targets-integration-with-para][Refile targets: Integration with P.A.R.A.]]
-  - [[#clock][Clock]]
-  - [[#contacts-management][Contacts Management]]
   - [[#encryption][Encryption]]
+  - [[#contacts-management][Contacts Management]]
   - [[#programming-languages-management][Programming Languages Management]]
     - [[#autocompletion][Autocompletion]]
     - [[#babel][Babel]]
@@ -738,6 +738,7 @@ The capture block prompts for a task title, tag, and effort estimate; the tag is
      :empty-lines 1)
 #+END_EXAMPLE
 
+** Clock
 ** Org Capture and Refile
 
 Org-mode capture templates allow for central implementations of the PARA/BASB concept, as envisioned by Tiago Forte.
@@ -927,9 +928,8 @@ Currently, I bind it to =C-c g= and focus only on the =captures.org= file and se
     )
 #+END_SRC
 
-** Clock
-** Contacts Management
 ** Encryption
+** Contacts Management
 ** Programming Languages Management
 
 *** Autocompletion

@@ -9,7 +9,7 @@
  (position . 96377))
 ("org-capture-last-stored"
  (filename . "~/org/daybook/20190608")
- (front-context-string . "** NOTE 20:20 Gl")
- (rear-context-string . "ercase?\n- Etc.\n\n")
- (position . 1063))
+ (front-context-string . "** NOTE 21:27 Ap")
+ (rear-context-string . "ecific option.\n\n")
+ (position . 1673))
 )

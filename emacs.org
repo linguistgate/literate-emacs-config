@@ -57,6 +57,7 @@ This structure represents about a year of thinking through task, workflow, and k
   - [[#fonts][Fonts]]
     - [[#font-locking][Font Locking]]
     - [[#default-fonts][Default Fonts]]
+    - [[#font-switching][Font Switching]]
   - [[#themes][Themes]]
     - [[#themes-in-rotation][Themes in Rotation]]
       - [[#flatui-dark-theme][flatui-dark-theme]]
@@ -315,6 +316,46 @@ The default fonts need to be installed at least for the relevant user under =~/.
   (add-hook 'text-mode-hook 'variable-pitch-mode)
 #+END_SRC
 
+*** Font Switching
+
+
+Establish function to set font to variable width in current buffer:
+
+#+BEGIN_SRC emacs-lisp
+  (defun owl/buffer-face-mode-variable ()
+    "Set font to a variable width (proportional) fonts in current buffer"
+    (interactive)
+    (setq buffer-face-mode-face '(:family "Input Serif"))
+    (buffer-face-mode))
+#+END_SRC
+
+Establish function to set font to fixed width in current buffer:
+
+#+BEGIN_SRC emacs-lisp
+  (defun owl/buffer-face-mode-fixed ()
+    "Sets a fixed width (monospace) font in current buffer"
+    (interactive)
+    (setq buffer-face-mode-face '(:family "Input Mono"))
+    (buffer-face-mode))
+#+END_SRC
+
+Finally, establish a function to set font to a pretty writing font if Input Serif isn’t what I want. Currently, I’m using ET Book, inspired by Edward Tufte. This function works best in cases where I am not creating tables or doing coding, just hard-core prose.
+
+#+BEGIN_SRC emacs-lisp
+  (defun owl/buffer-face-mode-writing ()
+    "Set font to a variable width (proportional) fonts in current buffer when writing prose"
+    (interactive)
+    (setq buffer-face-mode-face '(:family "ETBembo"))
+    (buffer-face-mode))
+#+END_SRC
+
+=Control-c + u + f/v/w= to change font type:
+
+#+BEGIN_SRC emacs-lisp
+  (bind-keys ("C-c u f" . owl/buffer-face-mode-fixed)
+             ("C-c u v" . owl/buffer-face-mode-variable)
+             ("C-c u w" . owl/buffer-face-mode-writing))
+#+END_SRC
 
 ** Themes
 

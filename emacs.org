@@ -145,6 +145,7 @@ This structure represents about a year of thinking through task, workflow, and k
     - [[#version-control][Version Control]]
       - [[#magit][Magit]]
   - [[#org-mode-initialization][Org-Mode Initialization]]
+    - [[#org-defaults][Org Defaults]]
     - [[#org-modules][Org Modules]]
   - [[#org-agenda][Org Agenda]]
   - [[#org-journal-as-task-daybook][Org Journal as Task Daybook]]
@@ -564,6 +565,33 @@ The default =org-directory= is =~/org=. It can be symlinked but needs to be pres
 #+begin_src emacs-lisp
   (setq org-directory "~/org")
 #+end_src
+
+*** Org Defaults
+
+Establish some meaningful defaults for =org-mode=: 
+
+- =org-confirm-babel-evaluate= :: Set to nil; no need to confirm =org-babel= evaluations of code.
+
+#+BEGIN_QUOTE
+When t, Org prompts the user for confirmation before executing each code block. When nil, Org executes code blocks without prompting the user for confirmation. When this option is set to a custom function, Org invokes the function with these two arguments: the source code language and the body of the code block. The custom function must return either a t or nil, which determines if the user is prompted. Each source code language can be handled separately through this function argument. 
+#+END_QUOTE
+
+- =org-confirm-elisp-link-function= :: No need to prompt me before executing an Emacs Lisp link
+- =org-log-done= ::  
+- =org-hide-emphasis-markers= :: Remove markup characters and display closer to output.
+- =org-return-follows-link= :: Yes, please!
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default org-confirm-babel-evaluate nil
+                org-confirm-elisp-link-function nil
+                org-enforce-todo-dependencies t
+                org-log-done t
+                org-hide-emphasis-markers t
+                org-return-follows-link t)
+
+  (add-hook 'org-mode-hook 'org-indent-mode)
+  (add-hook 'org-mode-hook 'visual-line-mode)
+#+END_SRC
 
 *** Org Modules
 

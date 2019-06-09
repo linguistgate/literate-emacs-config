@@ -145,6 +145,7 @@ This structure represents about a year of thinking through task, workflow, and k
     - [[#version-control][Version Control]]
       - [[#magit][Magit]]
   - [[#org-mode-initialization][Org-Mode Initialization]]
+    - [[#org-modules][Org Modules]]
   - [[#org-agenda][Org Agenda]]
   - [[#org-journal-as-task-daybook][Org Journal as Task Daybook]]
   - [[#org-capture-and-refile][Org Capture and Refile]]
@@ -563,6 +564,33 @@ The default =org-directory= is =~/org=. It can be symlinked but needs to be pres
 #+begin_src emacs-lisp
   (setq org-directory "~/org")
 #+end_src
+
+*** Org Modules
+
+Org modules seem to be a bit like an internal extension system of self-contained libraries, with some modules comprising Org's core and others external to it. There are a number of Org extensions that are initialized as =org-modules=.
+- The package/library/module =org-protocol= allows for capturing webpages and links while browsing and importing that into predefined capture templates.
+- The module =org-inlinetask= allows for tasks to be inserted within outline structures without counting themselves as a heading of the structure /per se/. This is accomplished by making the task having $>15$ stars by default (something that can be changed globally or specific to a file).
+
+Org-modules' individual behavior is established under their own headings below (if needed).
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-modules (quote (org-bbdb
+                            org-bibtex
+                            org-crypt
+                            org-gnus
+                            org-id
+                            org-info
+                            org-habit
+                            org-inlinetask
+                            org-irc
+                            org-protocol
+                            org-w3m)))
+#+END_SRC
+
+**** COMMENT List of modules I'm considering not using:
+- =org-gnus=
+- =org-irc=
+- =org-w3m=
 
 ** Org Agenda
 

@@ -159,6 +159,7 @@ This structure represents about a year of thinking through task, workflow, and k
   - [[#reference-and-resource-management][Reference and Resource Management]]
   - [[#publishing][Publishing]]
   - [[#writing-environment][Writing Environment]]
+- [[#distraction-free-writing][Distraction-Free Writing]]
   - [[#dashboard][Dashboard]]
   - [[#toc-org][Toc-org]]
   - [[#post-initialization][Post Initialization]]
@@ -840,6 +841,43 @@ I use =org-babel= to embed and process some code in my Org files. Here I initial
 ** Reference and Resource Management
 ** Publishing
 ** Writing Environment
+
+* Distraction-Free Writing
+
+I use the =writeroom-mode= package as my main distraction destroyer. It creates a fullscreen Emacs environment, removes the modeline, and centers the text. It works well in its default aspect for me, though it's quite configurable.
+
+I bind it to =C-<f11>= to keep it close to the toggle for =poet-theme=, which I made =C-<f12>=.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package writeroom-mode
+    :bind ("C-<f11>" . writeroom-mode)
+    :config
+    (setq writeroom-width 100
+          writeroom-mode-line nil
+          writeroom-global-effects '(writeroom-set-bottom-divider-width
+                                     writeroom-set-internal-border-width
+                                     (lambda (arg)
+                                       (let ((langs '("python"
+                                                      "emacs-lisp"
+                                                      "common-lisp"
+                                                      "js"
+                                                      "ruby")))
+                                         (cond
+                                          ((= arg 1)
+                                           (progn
+                                             (setq org-src-block-faces
+                                                   (mapcar (lambda (lang) (list lang '(:family "Input Mono" :height 1.0))) langs))
+                                             (normal-mode)
+                                             (variable-pitch-mode)))
+                                          ((= arg -1)
+                                           (progn
+                                             (setq org-src-block-faces
+                                                   (mapcar (lambda (lang) (list lang '(:family "Input Mono" :height 1.0))) langs))
+                                             (normal-mode)
+                                             (variable-pitch-mode)
+                                             (variable-pitch-mode)))))))))
+#+END_SRC
+
 ** Dashboard
 ** Toc-org
  

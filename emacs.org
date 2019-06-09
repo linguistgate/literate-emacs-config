@@ -2,6 +2,84 @@
 #+AUTHOR: Matthew Edward Adams 
 #+PROPERTY: header-args :tangle yes
 #+STARTUP: indent
+* Table of Contents :TOC_5_gh:
+- [[#about-this-file][About This File]]
+- [[#design-concerns][Design Concerns]]
+  - [[#why-a-literate-configuration][Why a Literate Configuration?]]
+  - [[#must-haves][Must-Haves]]
+  - [[#things-that-will-continue-to-be-built-out][Things That Will Continue to Be Built Out]]
+  - [[#desirables][Desirables]]
+  - [[#explanation-of-captures-cpb-daybook-hub][Explanation of Captures, CPB, Daybook, Hub]]
+- [[#org-directory-structure][Org Directory Structure]]
+- [[#configuration][Configuration]]
+  - [[#config-file-tweaks][Config File Tweaks]]
+    - [[#automatically-tangle][Automatically Tangle]]
+    - [[#reload-configuation][Reload Configuation]]
+    - [[#visibility-settings][Visibility Settings]]
+    - [[#table-of-contents][Table of Contents]]
+  - [[#personal-information][Personal Information]]
+  - [[#emacs-initialization][Emacs Initialization]]
+    - [[#garbage-collection][Garbage Collection]]
+    - [[#byte-compilation][Byte Compilation]]
+    - [[#startup-behavior][Startup Behavior]]
+    - [[#directory-structure][Directory Structure]]
+    - [[#package-management][Package Management]]
+      - [[#package-settings][Package Settings]]
+      - [[#use-package-settings][Use-Package Settings]]
+      - [[#manually-set-load-path][Manually Set Load Path]]
+      - [[#initialize-package-management][Initialize Package Management]]
+  - [[#global-defaults][Global Defaults]]
+    - [[#aggressive-indent][Aggressive Indent]]
+  - [[#fonts][Fonts]]
+    - [[#font-locking][Font Locking]]
+    - [[#default-fonts][Default Fonts]]
+    - [[#font-switching][Font Switching]]
+  - [[#themes][Themes]]
+    - [[#themes-in-rotation][Themes in Rotation]]
+      - [[#flatui-dark-theme][flatui-dark-theme]]
+      - [[#doom-themes][doom-themes]]
+      - [[#kaolin-themes][kaolin-themes]]
+      - [[#poet-themes][poet-themes]]
+    - [[#functions-to-switch-among-themes][Functions to Switch Among Themes]]
+  - [[#accessibility][Accessibility]]
+  - [[#navigation][Navigation]]
+    - [[#ivy][Ivy]]
+    - [[#counsel][Counsel]]
+    - [[#swiper][Swiper]]
+  - [[#project-management][Project Management]]
+    - [[#version-control][Version Control]]
+      - [[#magit][Magit]]
+  - [[#org-mode-initialization][Org-Mode Initialization]]
+    - [[#org-defaults][Org Defaults]]
+    - [[#org-modules][Org Modules]]
+  - [[#org-agenda][Org Agenda]]
+  - [[#org-journal-as-task-daybook][Org Journal as Task Daybook]]
+  - [[#org-capture-and-refile][Org Capture and Refile]]
+    - [[#capture-code-org-capture][Capture Code (=org-capture=)]]
+    - [[#setting-some-refile-behaviors][Setting some Refile behaviors]]
+    - [[#refile-targets-integration-with-para][Refile targets: Integration with P.A.R.A.]]
+  - [[#clock][Clock]]
+  - [[#contacts-management][Contacts Management]]
+  - [[#encryption][Encryption]]
+  - [[#programming-languages-management][Programming Languages Management]]
+    - [[#autocompletion][Autocompletion]]
+    - [[#babel][Babel]]
+  - [[#reference-and-resource-management][Reference and Resource Management]]
+  - [[#publishing][Publishing]]
+  - [[#writing-environment][Writing Environment]]
+    - [[#distraction-free-writing][Distraction-Free Writing]]
+  - [[#dashboard][Dashboard]]
+  - [[#toc-org][Toc-org]]
+  - [[#post-initialization][Post Initialization]]
+
+* About This File
+
+This is a rebuild and refactoring of my Emacs configuration using literate programming techniques.
+
+All of my configuration is stored here (no requiring and providing of subfiles) at present.
+
+It contains some optimization for byte-compiling to ensure a faster load time.
+
 * Design Concerns
 
 ** Why a Literate Configuration?
@@ -71,7 +149,7 @@ In addition, projects (including writing, blogging, coding, curriculum developme
 
 In this way, I’ve recapitulated the P.A.R.A. system (Projects - Areas (Hub) - Resources (Library) - Archives (Library Archives)) in a way that works for my workflow. I feel less burdened by having to update tons of files every day and can return to letting the Agenda tell me what needs to be done and where.
 
-* Org Structure
+* Org Directory Structure
 
 Currently I am trying the following structure for my Org-based workflow:
 
@@ -100,82 +178,6 @@ This structure represents about a year of thinking through task, workflow, and k
 :PROPERTIES:
 :VISIBILITY: children
 :END:
-
-** Table of Contents :TOC_5_gh:
-- [[#design-concerns][Design Concerns]]
-  - [[#why-a-literate-configuration][Why a Literate Configuration?]]
-  - [[#must-haves][Must-Haves]]
-  - [[#things-that-will-continue-to-be-built-out][Things That Will Continue to Be Built Out]]
-  - [[#desirables][Desirables]]
-  - [[#explanation-of-captures-cpb-daybook-hub][Explanation of Captures, CPB, Daybook, Hub]]
-- [[#org-structure][Org Structure]]
-- [[#configuration][Configuration]]
-  - [[#about-this-file][About This File]]
-  - [[#config-file-tweaks][Config File Tweaks]]
-    - [[#automatically-tangle][Automatically Tangle]]
-    - [[#reload-configuation][Reload Configuation]]
-    - [[#visibility-settings][Visibility Settings]]
-    - [[#table-of-contents][Table of Contents]]
-  - [[#personal-information][Personal Information]]
-  - [[#emacs-initialization][Emacs Initialization]]
-    - [[#garbage-collection][Garbage Collection]]
-    - [[#byte-compilation][Byte Compilation]]
-    - [[#startup-behavior][Startup Behavior]]
-    - [[#directory-structure][Directory Structure]]
-    - [[#package-management][Package Management]]
-      - [[#package-settings][Package Settings]]
-      - [[#use-package-settings][Use-Package Settings]]
-      - [[#manually-set-load-path][Manually Set Load Path]]
-      - [[#initialize-package-management][Initialize Package Management]]
-  - [[#global-defaults][Global Defaults]]
-    - [[#aggressive-indent][Aggressive Indent]]
-  - [[#fonts][Fonts]]
-    - [[#font-locking][Font Locking]]
-    - [[#default-fonts][Default Fonts]]
-    - [[#font-switching][Font Switching]]
-  - [[#themes][Themes]]
-    - [[#themes-in-rotation][Themes in Rotation]]
-      - [[#flatui-dark-theme][flatui-dark-theme]]
-      - [[#doom-themes][doom-themes]]
-      - [[#kaolin-themes][kaolin-themes]]
-      - [[#poet-themes][poet-themes]]
-    - [[#functions-to-switch-among-themes][Functions to Switch Among Themes]]
-  - [[#accessibility][Accessibility]]
-  - [[#navigation][Navigation]]
-  - [[#project-management][Project Management]]
-    - [[#version-control][Version Control]]
-      - [[#magit][Magit]]
-  - [[#org-mode-initialization][Org-Mode Initialization]]
-    - [[#org-defaults][Org Defaults]]
-    - [[#org-modules][Org Modules]]
-  - [[#org-agenda][Org Agenda]]
-  - [[#org-journal-as-task-daybook][Org Journal as Task Daybook]]
-  - [[#org-capture-and-refile][Org Capture and Refile]]
-    - [[#capture-code-org-capture][Capture Code (=org-capture=)]]
-    - [[#setting-some-refile-behaviors][Setting some Refile behaviors]]
-    - [[#refile-targets-integration-with-para][Refile targets: Integration with P.A.R.A.]]
-  - [[#clock][Clock]]
-  - [[#contacts-management][Contacts Management]]
-  - [[#encryption][Encryption]]
-  - [[#programming-languages-management][Programming Languages Management]]
-    - [[#autocompletion][Autocompletion]]
-    - [[#babel][Babel]]
-  - [[#reference-and-resource-management][Reference and Resource Management]]
-  - [[#publishing][Publishing]]
-  - [[#writing-environment][Writing Environment]]
-    - [[#distraction-free-writing][Distraction-Free Writing]]
-  - [[#dashboard][Dashboard]]
-  - [[#toc-org][Toc-org]]
-  - [[#post-initialization][Post Initialization]]
-
-** About This File
-
-This is a rebuild and refactoring of my Emacs configuration using literate programming techniques.
-
-All of my configuration is stored here (no requiring and providing of subfiles) at present.
-
-It contains some optimization for byte-compiling to ensure a faster load time.
-
 ** Config File Tweaks
 
 There are a few tweaks included in this org file that make it a little easier to
@@ -513,10 +515,56 @@ In order to prevent overlay, =owl/cycle-theme= depends on on two additional func
 #+END_SRC
 
 ** Accessibility
-
-
-
 ** Navigation
+
+*** Ivy
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ivy
+    :demand t
+    :diminish (ivy-mode . "")
+    :bind
+    (:map ivy-mode-map
+	  ("C-'" . ivy-avy))
+    :config
+    (ivy-mode 1)
+    ;;*** Find file actions
+    ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
+    (setq ivy-use-virtual-buffers t)
+    ;; number of result lines to display
+    (setq ivy-height 10)
+    ;; does not count candidates
+    (setq ivy-count-format "")
+    ;; no regexp by default
+    (setq ivy-initial-inputs-alist nil)
+    ;; configure regexp engine
+    (setq ivy-re-builders-alist
+	  ;; allow input not in order
+	  '((t . ivy--regex-ignore-order))))
+
+  (use-package ivy-hydra)
+
+#+END_SRC
+
+*** Counsel
+
+Counsel allows me to utilize ivy by replacing many built-in and common functions with richer versions.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package counsel-projectile)
+  (use-package counsel
+    :demand t)
+#+END_SRC
+
+*** Swiper
+
+Swiper is a searching utility with quick preview in minibuffer. I load it when =swiper= or =swiper-all= is called.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package swiper
+    :commands (swiper swiper-all))
+#+END_SRC
+
 ** Project Management
 
 *** Version Control

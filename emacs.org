@@ -55,6 +55,12 @@ This structure represents about a year of thinking through task, workflow, and k
   - [[#global-defaults][Global Defaults]]
     - [[#aggressive-indent][Aggressive Indent]]
   - [[#themes][Themes]]
+    - [[#themes-in-rotation][Themes in Rotation]]
+      - [[#flatui-dark-theme][flatui-dark-theme]]
+      - [[#doom-themes][doom-themes]]
+      - [[#kaolin-themes][kaolin-themes]]
+      - [[#poet-themes][poet-themes]]
+    - [[#functions-to-switch-among-themes][Functions to Switch Among Themes]]
   - [[#accessibility][Accessibility]]
   - [[#navigation][Navigation]]
   - [[#project-management][Project Management]]
@@ -284,13 +290,83 @@ Because I mainly use Lisp and Python, I want aggressive indenting to be specific
     :config (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode))
 #+END_SRC
 
+
+
 ** Themes
+
+Ensure that variable pitches are respected in loaded themes:
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'text-mode-hook
+            (lambda ()
+              (variable-pitch-mode 1)))
+#+END_SRC
+
+*** Themes in Rotation
+
+**** [[https://peach-melpa.org/themes/flatui-dark-theme][flatui-dark-theme]]
+
+#+BEGIN_SRC emacs-lisp
+  (use-package flatui-dark-theme) 
+#+END_SRC
+
+**** [[https://peach-melpa.org/themes/doom-themes][doom-themes]]
+
+=doom-themes-org-config= corrects and improves Org's native fontification.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package doom-themes
+    :config (setq doom-themes-enable-bold t
+                  doom-themes-enable-italic t)
+    (doom-themes-org-config))
+#+END_SRC
+
+**** [[https://peach-melpa.org/themes/kaolin-themes][kaolin-themes]]
+
+#+begin_src emacs-lisp
+  (use-package kaolin-themes)
+#+end_src
+
+**** [[https://peach-melpa.org/themes/poet-theme][poet-themes]]
 
 For writing.
 
 #+begin_src emacs-lisp
-(use-package poet-theme)
+  (use-package poet-theme)
 #+end_src
+
+*** Functions to Switch Among Themes
+
+Establish a rotating index of themes:
+
+#+BEGIN_SRC emacs-lisp
+  (setq owl/themes '(doom-opera  poet poet-dark poet-monochrome poet-dark-monochrome kaolin-aurora kaolin-valley-light kaolin-valley-dark  leuven))
+  (setq owl/themes-index 0)
+#+END_SRC
+
+I then define a function to cycle through the index of themes and assign it to =<f12>= globally.
+
+#+BEGIN_SRC emacs-lisp
+  ;; Function to cycle through themes
+  (defun owl/cycle-theme ()
+    (interactive)
+    (setq owl/themes-index (% (1+ owl/themes-index) (length owl/themes)))
+    (owl/load-indexed-theme))
+
+  (global-set-key (kbd "<f12>") 'owl/cycle-theme)
+#+END_SRC
+
+In order to prevent overlay, =owl/cycle-theme= depends on on two additional functions:
+
+#+BEGIN_SRC emacs-lisp
+  (defun owl/load-indexed-theme ()
+    (owl/try-load-theme (nth owl/themes-index owl/themes)))
+
+  (defun owl/try-load-theme (theme)
+    (if (ignore-errors (load-theme theme :no-confirm))
+	(mapcar #'disable-theme (remove theme custom-enabled-themes))
+      (message "Unable to find theme file for ‘%s’" theme)))
+#+END_SRC
 
 ** Accessibility
 ** Navigation

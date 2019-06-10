@@ -829,6 +829,11 @@ Org-modules' individual behavior is established under their own headings below (
 ** Org Agenda
 
 #+begin_src emacs-lisp
+  (use-package org-agenda
+    :ensure org-plus-contrib)
+#+end_src
+
+#+begin_src emacs-lisp
   (bind-keys ("C-c a" . org-agenda))
 #+end_src
 

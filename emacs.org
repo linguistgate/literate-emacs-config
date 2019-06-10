@@ -52,6 +52,7 @@
     - [[#counsel][Counsel]]
     - [[#swiper][Swiper]]
   - [[#project-management][Project Management]]
+    - [[#projectile][Projectile]]
     - [[#version-control][Version Control]]
       - [[#magit][Magit]]
       - [[#local-backups][Local Backups]]
@@ -689,6 +690,18 @@ Swiper is a searching utility with quick preview in minibuffer. I load it when =
 #+END_SRC
 
 ** Project Management
+
+*** Projectile
+
+Projectile is a quick and easy project management package.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package projectile
+    :demand t
+    :config
+    (setq projectile-project-search-path '("~/projects/"))
+    (setq projectile-require-project-root nil))
+#+END_SRC
 
 *** Version Control
 

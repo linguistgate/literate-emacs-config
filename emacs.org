@@ -1012,11 +1012,10 @@ Org-mode capture templates allow for central implementations of the PARA/BASB co
                                    "* %? :NOTE:\n:LOGBOOK:\n:CREATED: %U\n:END:"
                                    :prepend nil
                                    :empty-lines 0
-                                   :created t
-                                   )
+                                   :created t)
                                   ("j"
                                    "journal entry"
-                                   entry (file+datetree "~/org/cpb/journal.org")
+                                   entry (file+datetree "~/org/cpb/cpb.org")
                                    "* Event: %?\n\n  %i\n\n  From: %a"
                                    :empty-lines 1)
                                   ("r"
@@ -1026,12 +1025,11 @@ Org-mode capture templates allow for central implementations of the PARA/BASB co
                                    "* TOCOOK %?\n:LOGBOOK:\n:CREATED: %U\n:END:\n:PROPERTIES:\n:SOURCE: \n:SERVES: \n:END:\n** Ingredients\n** Preparation"
                                    :prepend nil
                                    :empty-lines 0
-                                   :created t
-                                   )				
+                                   :created t)				
                                   ("e"
                                    "elfeed"
                                    entry
-                                   (file "~/org/captures/captures.org")
+                                   (file "~/org/cpb/cpb.org")
                                    "* %a  %^G \n:LOGBOOK:\n:CAPTURED: %U\n:END:\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE\n" 
                                    :prepend nil
                                    :empty-lines 0

@@ -953,12 +953,12 @@ Org-mode capture templates allow for central implementations of the PARA/BASB co
       "Template for basic daybook journal entry.")
 
     (defvar owl/org-contacts-template "* %(org-contacts-template-name)
-                        :PROPERTIES:
-                        :ADDRESS: %^{289 Cleveland St. Brooklyn, 11206 NY, USA}
-                        :BIRTHDAY: %^{yyyy-mm-dd}
-                        :EMAIL: %(org-contacts-template-email)
-                        :NOTE: %^{NOTE}
-                        :END:" "Template for org-contacts.")
+                          :PROPERTIES:
+                          :ADDRESS: %^{289 Cleveland St. Brooklyn, 11206 NY, USA}
+                          :BIRTHDAY: %^{yyyy-mm-dd}
+                          :EMAIL: %(org-contacts-template-email)
+                          :NOTE: %^{NOTE}
+                          :END:" "Template for org-contacts.")
 
     (defun owl/org-journal-find-location ()
       ;; Open today's journal, but specify a non-nil prefix argument in order to
@@ -1013,6 +1013,13 @@ Org-mode capture templates allow for central implementations of the PARA/BASB co
                                    :prepend nil
                                    :empty-lines 0
                                    :created t
+                                   )
+                                  ("j"
+                                   "notebook entry"
+                                   entry
+                                   (file+datetree "~/org/cpb/journal.org")
+                                   "* %?"
+                                   :empty-lines 1
                                    )
                                   ("r"
                                    "recipe"

@@ -4,3 +4,7 @@ user/
 emacs.el
 emacs.elc
 transient/
+bookmarks
+ac-comphist.dat
+projectile-bookmarks.eld
+recentf

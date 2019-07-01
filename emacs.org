@@ -40,6 +40,7 @@
       - [[#flatui-dark-theme][flatui-dark-theme]]
       - [[#doom-themes][doom-themes]]
       - [[#kaolin-themes][kaolin-themes]]
+      - [[#parchment-theme][parchment-theme]]
       - [[#poet-themes][poet-themes]]
     - [[#functions-to-switch-among-themes][Functions to Switch Among Themes]]
   - [[#accessibility][Accessibility]]
@@ -65,6 +66,10 @@
   - [[#clock][Clock]]
   - [[#org-capture-and-refile][Org Capture and Refile]]
     - [[#capture-code-org-capture][Capture Code (=org-capture=)]]
+    - [[#capture-sources][Capture Sources]]
+      - [[#elfeed][Elfeed]]
+      - [[#screenshots][Screenshots]]
+      - [[#web-protocol][Web Protocol]]
     - [[#refile-behaviors][Refile Behaviors]]
     - [[#refile-targets-integration-with-para][Refile Targets (Integration with P.A.R.A.)]]
   - [[#encryption][Encryption]]
@@ -499,6 +504,14 @@ Ensure that variable pitches are respected in loaded themes:
   (use-package kaolin-themes)
 #+end_src
 
+**** [[https://peach-melpa.org/themes/parchment-theme][parchment-theme]]
+
+Inspired by Leuven.
+
+#+begin_src emacs-lisp
+  (use-package parchment-theme)
+#+end_src
+
 **** [[https://peach-melpa.org/themes/poet-theme][poet-themes]]
 
 For writing.
@@ -512,7 +525,7 @@ For writing.
 Establish a rotating index of themes:
 
 #+BEGIN_SRC emacs-lisp
-  (setq owl/themes '(doom-opera  poet poet-dark poet-monochrome poet-dark-monochrome kaolin-aurora kaolin-valley-light kaolin-valley-dark  leuven))
+  (setq owl/themes '(doom-opera  poet poet-dark poet-monochrome poet-dark-monochrome kaolin-aurora kaolin-valley-light kaolin-valley-dark  parchment leuven))
   (setq owl/themes-index 0)
 #+END_SRC
 
@@ -857,7 +870,6 @@ I use this method until a project "proves" that it should be added to the perman
                                directory org-agenda-file-regexp))
                             '("~/org/captures/"
                               "~/org/hub/"
-                              "~/org/cpb/"
                               "~/org/daybook/"
                               "~/.emacs.d/"))))
 #+end_src
@@ -1074,6 +1086,36 @@ Org-mode capture templates allow for central implementations of the PARA/BASB co
          (org-babel-execute-src-block)))))
 #+END_SRC
 
+*** Capture Sources
+
+**** Elfeed
+
+#+begin_src emacs-lisp
+  ;; Load elfeed-org
+  (require 'elfeed)
+  (require 'elfeed-org)
+
+  (bind-keys ("C-x w" . elfeed)) 
+
+  ;; Initialize elfeed-org
+  ;; This hooks up elfeed-org to read the configuration when elfeed
+  ;; is started with =M-x elfeed=
+  (elfeed-org)
+
+  ;; Optionally specify a number of files containing elfeed
+  ;; configuration. If not set then the location below is used.
+  ;; Note: The customize interface is also supported.
+  (setq rmh-elfeed-org-files (list "~/org/captures/elfeed.org"))
+
+  ;; Somewhere in your .emacs file
+  ;; (setq elfeed-feeds
+  ;;       '("http://nullprogram.com/feed/"
+  ;;         "http://planet.emacsen.org/atom.xml"))
+#+end_src
+
+
+**** Screenshots
+**** Web Protocol
 *** Refile Behaviors
 
 I like =org-refile= to be promiscuous: it should use outline paths, complete in steps, and allow for the creation of parent nodes on-the-fly. See See https://blog.aaronbieber.com/2017/03/19/organizing-notes-with-refile.html for details on some of the hacks here.

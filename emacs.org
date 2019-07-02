@@ -64,6 +64,7 @@
     - [[#agenda-files][Agenda Files]]
     - [[#][]]
     - [[#habits-org-habit][Habits (=org-habit=)]]
+  - [[#tasks-and-states][Tasks and States]]
   - [[#org-journal-as-task-daybook][Org Journal as Task Daybook]]
   - [[#clock][Clock]]
   - [[#org-capture-and-refile][Org Capture and Refile]]
@@ -909,6 +910,16 @@ I like my habit graph to show throughout the day even if I’ve already complete
 #+BEGIN_SRC emacs-lisp
   (setq org-habit-show-all-today t)
 #+END_SRC
+** Tasks and States
+
+My task keywords generally follow Bernt Hansen's [[http://doc.norang.ca/org-mode.html#TasksAndStates][set of tasks and state transitions]]. I like the simplicity of his insight that a "project" is simply a ~TODO~ with subtasks, and I like the ability to comment on /why/ I'm holding a task. The state transitions he implements are sensible as well.
+
+#+begin_src emacs-lisp
+  (setq org-todo-keywords
+        (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+                (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
+#+end_src
+
 
 ** Org Journal as Task Daybook
 

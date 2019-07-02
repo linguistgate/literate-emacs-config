@@ -933,7 +933,7 @@ The ~fast-todo-selection~ setting allows selection of /any/ todo state via ~C-c 
 
 *** State Triggers
 
-Here I borrow wholesale from [[http://doc.norang.ca/org-mode.html#ToDoStateTriggers][Bernt Hansen's configuration]] (except for the spelling of =CANCEL(L)ED=). I'm not favorable to the American spelling (viz. /cancellation/), but whatever.
+Here I borrow wholesale from [[http://doc.norang.ca/org-mode.html#ToDoStateTriggers][Bernt Hansen's configuration]] (except for the spelling of =CANCEL(L)ED=). I'm not favorable to the American spelling, but whatever (viz. /cancellation/, though of course there is a distinction to be made between derivational and inflectional endings and their ability to trigger spelling changes).
 
 The reason for this code is that I want to be better about task filtering in Agenda views.
 

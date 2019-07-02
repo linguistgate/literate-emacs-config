@@ -1010,6 +1010,9 @@ The capture block prompts for a task title, tag, and effort estimate; the tag is
 #+END_EXAMPLE
 
 ** Clock
+
+There isn't much here yet because I'm not sure I want to use clocking features, though I can see the value and would like to use them better in the future.
+
 ** Org Capture and Refile
 
 Org-mode capture templates allow for central implementations of the PARA/BASB concept, as envisioned by Tiago Forte.

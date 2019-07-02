@@ -61,6 +61,8 @@
     - [[#org-defaults][Org Defaults]]
     - [[#org-modules][Org Modules]]
   - [[#org-agenda][Org Agenda]]
+    - [[#agenda-files][Agenda Files]]
+    - [[#][]]
     - [[#habits-org-habit][Habits (=org-habit=)]]
   - [[#org-journal-as-task-daybook][Org Journal as Task Daybook]]
   - [[#clock][Clock]]
@@ -841,14 +843,27 @@ Org-modules' individual behavior is established under their own headings below (
 
 ** Org Agenda
 
+The ~org-plus-contrib~ repository allows ~org-agenda~ to be used with the ~use-package~ syntax. Currently, I set many Agenda features outside of this block, however.
+
 #+begin_src emacs-lisp
   (use-package org-agenda
     :ensure org-plus-contrib)
 #+end_src
 
+I bind ~org-agenda~ to ~C-c a~:
+
 #+begin_src emacs-lisp
   (bind-keys ("C-c a" . org-agenda))
 #+end_src
+
+When calling the Agenda, I want it to overwrite the current (Emacs) window:
+
+#+begin_src emacs-lisp
+  (setq org-agenda-window-setup 'current-window)
+#+end_src
+
+
+*** Agenda Files
 
 The following code sets the main "agenda" files.
 
@@ -873,6 +888,8 @@ I use this method until a project "proves" that it should be added to the perman
                               "~/org/daybook/"
                               "~/.emacs.d/"))))
 #+end_src
+
+*** 
 
 *** Habits (=org-habit=)
 

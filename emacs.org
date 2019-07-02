@@ -920,6 +920,14 @@ My task keywords generally follow Bernt Hansen's [[http://doc.norang.ca/org-mode
                 (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
 #+end_src
 
+The ~fast-todo-selection~ setting allows selection of /any/ todo state via ~C-c C-t KEY~. The second setting allows simple changing of todo states (~Shift-Left~ or ~Shift-Right~) without having to change other information such as timestamps or notes.
+
+#+begin_src emacs-lisp
+  (setq org-use-fast-todo-selection t)
+  (setq org-treat-S-cursor-todo-selection-as-state-change nil)
+#+end_src
+
+
 
 ** Org Journal as Task Daybook
 

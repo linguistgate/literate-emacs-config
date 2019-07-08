@@ -911,7 +911,8 @@ I like my habit graph to show throughout the day even if I’ve already complete
 
 #+BEGIN_SRC emacs-lisp
   (setq org-habit-show-all-today t)
-#+END_SRC
+#+END_SR
+
 ** Tasks and States
 
 My task keywords generally follow Bernt Hansen's [[http://doc.norang.ca/org-mode.html#TasksAndStates][set of tasks and state transitions]]. I like the simplicity of his insight that a "project" is simply a ~TODO~ with subtasks, and I like the ability to comment on /why/ I'm holding a task. The state transitions he implements are sensible as well.
@@ -933,7 +934,7 @@ The ~fast-todo-selection~ setting allows selection of /any/ todo state via ~C-c 
 
 *** State Triggers
 
-Here I borrow wholesale from [[http://doc.norang.ca/org-mode.html#ToDoStateTriggers][Bernt Hansen's configuration]] (except for the spelling of =CANCEL(L)ED=). I'm not favorable to the American spelling, but whatever (viz. /cancellation/, though of course there is a distinction to be made between derivational and inflectional endings and their ability to trigger spelling changes).
+Here I borrow wholesale from [[http://doc.norang.ca/org-mode.html#ToDoStateTriggers][Bernt Hansen's configuration]] (except for the spelling of =CANCEL(L)ED=). I mean, I'm not favorable to the American spelling, but whatever (viz. /cancellation/, though of course there is a distinction to be made between derivational and inflectional endings and their ability to trigger spelling changes).
 
 The reason for this code is that I want to be better about task filtering in Agenda views.
 

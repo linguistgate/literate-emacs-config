@@ -37,11 +37,14 @@
     - [[#font-sizing][Font Sizing]]
   - [[#themes][Themes]]
     - [[#themes-in-rotation][Themes in Rotation]]
-      - [[#flatui-dark-theme][flatui-dark-theme]]
-      - [[#doom-themes][doom-themes]]
-      - [[#kaolin-themes][kaolin-themes]]
-      - [[#parchment-theme][parchment-theme]]
-      - [[#poet-themes][poet-themes]]
+      - [[#programming-themes][Programming Themes]]
+        - [[#doom-themes][doom-themes]]
+        - [[#flatui-dark-theme][flatui-dark-theme]]
+        - [[#kaolin-themes][kaolin-themes]]
+      - [[#writing-themes][Writing Themes]]
+        - [[#poet-themes][poet-themes]]
+      - [[#org-themes][Org Themes]]
+        - [[#parchment-theme][parchment-theme]]
     - [[#functions-to-switch-among-themes][Functions to Switch Among Themes]]
   - [[#accessibility][Accessibility]]
     - [[#hinting][Hinting]]
@@ -486,13 +489,9 @@ Ensure that variable pitches are respected in loaded themes:
 
 *** Themes in Rotation
 
-**** [[https://peach-melpa.org/themes/flatui-dark-theme][flatui-dark-theme]]
+**** Programming Themes
 
-#+BEGIN_SRC emacs-lisp
-  (use-package flatui-dark-theme) 
-#+END_SRC
-
-**** [[https://peach-melpa.org/themes/doom-themes][doom-themes]]
+***** [[https://peach-melpa.org/themes/doom-themes][doom-themes]]
 
 =doom-themes-org-config= corrects and improves Org's native fontification.
 
@@ -503,26 +502,38 @@ Ensure that variable pitches are respected in loaded themes:
     (doom-themes-org-config))
 #+END_SRC
 
-**** [[https://peach-melpa.org/themes/kaolin-themes][kaolin-themes]]
+***** [[https://peach-melpa.org/themes/flatui-dark-theme][flatui-dark-theme]]
+
+#+BEGIN_SRC emacs-lisp
+  (use-package flatui-dark-theme) 
+#+END_SRC
+
+***** [[https://peach-melpa.org/themes/kaolin-themes][kaolin-themes]]
 
 #+begin_src emacs-lisp
   (use-package kaolin-themes)
 #+end_src
 
-**** [[https://peach-melpa.org/themes/parchment-theme][parchment-theme]]
+**** Writing Themes
 
-Inspired by Leuven.
-
-#+begin_src emacs-lisp
-  (use-package parchment-theme)
-#+end_src
-
-**** [[https://peach-melpa.org/themes/poet-theme][poet-themes]]
+***** [[https://peach-melpa.org/themes/poet-theme][poet-themes]]
 
 For writing.
 
 #+begin_src emacs-lisp
   (use-package poet-theme)
+#+end_src
+
+**** Org Themes
+
+Leuven is the light theme.
+
+***** [[https://peach-melpa.org/themes/parchment-theme][parchment-theme]]
+
+Inspired by Leuven.
+
+#+begin_src emacs-lisp
+  (use-package parchment-theme)
 #+end_src
 
 *** Functions to Switch Among Themes
@@ -537,7 +548,6 @@ Establish a rotating index of themes:
 I then define a function to cycle through the index of themes and assign it to =<f12>= globally.
 
 #+BEGIN_SRC emacs-lisp
-  ;; Function to cycle through themes
   (defun owl/cycle-theme ()
     (interactive)
     (setq owl/themes-index (% (1+ owl/themes-index) (length owl/themes)))
@@ -858,13 +868,6 @@ I bind ~org-agenda~ to ~C-c a~:
 #+begin_src emacs-lisp
   (bind-keys ("C-c a" . org-agenda))
 #+end_src
-
-When calling the Agenda, I want it to overwrite the current (Emacs) window:
-
-#+begin_src emacs-lisp
-  (setq org-agenda-window-setup 'current-window)
-#+end_src
-
 
 *** Agenda Files
 

@@ -99,6 +99,8 @@
     - [[#blog-and-microblog][Blog and Microblog]]
   - [[#writing-environment][Writing Environment]]
     - [[#distraction-free-writing][Distraction-Free Writing]]
+  - [[#memacs][Memacs]]
+  - [[#ledger-and-personal-finance][Ledger and Personal Finance]]
   - [[#dashboard][Dashboard]]
   - [[#toc-org][Toc-org]]
   - [[#post-initialization][Post Initialization]]
@@ -1419,6 +1421,13 @@ I bind it to =C-<f11>= on analogy with <f11>, which creates a general fullscreen
                                              (variable-pitch-mode)
                                              (variable-pitch-mode)))))))))
 #+END_SRC
+** Memacs
+
+Not much here yet, but want to use Memacs potentially as part of move toward quantified awesome.
+
+** Ledger and Personal Finance
+
+Not much here yet, but want to to use Ledger down the road.
 
 ** Dashboard
 

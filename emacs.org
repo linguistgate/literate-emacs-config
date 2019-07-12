@@ -88,6 +88,7 @@
     - [[#literate-programming][Literate Programming]]
     - [[#autocompletion][Autocompletion]]
     - [[#babel][Babel]]
+    - [[#web-development][Web Development]]
   - [[#reference-and-resource-management][Reference and Resource Management]]
   - [[#publishing][Publishing]]
     - [[#broken-links][Broken Links]]
@@ -1313,6 +1314,24 @@ I use =org-babel= to embed and process some code in my Org files. Here I initial
                                (shell . t)
                                (python . t)
                                (gnuplot . t)))
+#+end_src
+
+*** Web Development
+
+For editing of Web documents (HTML, CSS), I use [[http://www.web-mode.org][web-mode]]:
+
+#+begin_src emacs-lisp
+  (use-package web-mode
+    :mode "\\.html?\\'"
+    :config
+    (progn
+      (setq web-mode-markup-indent-offset 2)
+      (setq web-mode-code-indent-offset 2)
+      (setq web-mode-enable-current-element-highlight t)
+      (setq web-mode-ac-sources-alist
+            '(("css" . (ac-source-css-property))
+              ("html" . (ac-source-words-in-buffer ac-source-abbrev)))
+            )))
 #+end_src
 
 ** Reference and Resource Management

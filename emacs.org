@@ -51,6 +51,7 @@
   - [[#accessibility][Accessibility]]
     - [[#hinting][Hinting]]
     - [[#hydra-configuration][Hydra Configuration]]
+    - [[#windmove][Windmove]]
     - [[#ace-window][Ace Window]]
     - [[#zoom-window][Zoom Window]]
   - [[#navigation][Navigation]]
@@ -648,15 +649,30 @@ Hydra allows me to display a list of all the commands implemented in the echo ar
     (require 'hydra-ox))
 #+END_SRC
 
+*** Windmove
+
+Allows for simple traversal of windows beyond the cumbersome ~C-c o~ method.
+
+#+begin_src emacs-lisp
+  (use-package windmove
+    :bind
+    (("<f2> <right>" . windmove-right)
+     ("<f2> <left>" . windmove-left)
+     ("<f2> <up>" . windmove-up)
+     ("<f2> <down>" . windmove-down)))
+#+end_src
+
 *** Ace Window
 
-See http://bnbeckwith.com/bnb-emacs/ for supercharged variant on C-x o traversal.
+See http://bnbeckwith.com/bnb-emacs/ for supercharged variant on ~C-x o~ traversal.
+
+To keep things tidy, the function key ~<f2>~ is also associated with Ace Window commands.
 
 #+BEGIN_SRC emacs-lisp
   (use-package ace-window
     :demand t
     :bind
-    ("<f9> a" . ace-window)
+    ("<f2> a" . ace-window)
     :config
     (setq aw-keys '(?j ?k ?l ?n ?m)
 	  aw-leading-char-style 'path
@@ -688,6 +704,8 @@ Manipulate window size with a hydra.
 #+END_SRC
 
 *** Zoom Window
+
+Selectively "zooms" one window of a complex windows configuration.
 
 #+BEGIN_SRC emacs-lisp
   (use-package zoom-window

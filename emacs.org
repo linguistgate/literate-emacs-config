@@ -89,6 +89,7 @@
     - [[#tabbing-spacing-and-expansion][Tabbing, Spacing, and Expansion]]
     - [[#autocompletion][Autocompletion]]
     - [[#babel][Babel]]
+    - [[#emacs-lisp][Emacs Lisp]]
     - [[#web-development][Web Development]]
   - [[#reference-and-resource-management][Reference and Resource Management]]
   - [[#publishing][Publishing]]
@@ -1329,6 +1330,26 @@ I use =org-babel= to embed and process some code in my Org files. Here I initial
                                (shell . t)
                                (python . t)
                                (gnuplot . t)))
+#+end_src
+
+*** Emacs Lisp
+
+I don't currently use Emacs Lisp that much outside of Org mode configurations, but it's a language I'm fascinated by and want to use for something more extensive.
+
+The ~eldoc~ package provides minibuffer hints to assist in Emacs Lisp writing.
+
+**** COMMENT I currently leave it untangled because I'm not using it. It is here like the man with the vulture eye, a burning, itching reminder.
+
+#+begin_src emacs-lisp :tangle no
+  (use-package eldoc
+    :diminish eldoc-mode
+    :commands turn-on-eldoc-mode
+    :defer t
+    :init
+    (progn
+    (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+    (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
+    (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)))
 #+end_src
 
 *** Web Development

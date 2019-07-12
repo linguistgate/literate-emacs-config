@@ -89,6 +89,7 @@
     - [[#babel][Babel]]
   - [[#reference-and-resource-management][Reference and Resource Management]]
   - [[#publishing][Publishing]]
+    - [[#broken-links][Broken Links]]
     - [[#commonplace-book][Commonplace Book]]
     - [[#hosted-private-html][Hosted Private HTML]]
     - [[#blog-and-microblog][Blog and Microblog]]
@@ -261,7 +262,7 @@ Some basic values:
 
 *** Garbage Collection
 
-I increase the =gc-cons-threshold= to a very high number to decrease the load and compile time.
+I increase the ~gc-cons-threshold~ to a very high number to decrease the load and compile time.
 I'll lower this value significantly after initialization has completed. I don't want to keep this value
 too high or it will result in long GC pauses during normal usage.
 
@@ -1307,6 +1308,14 @@ I use =org-babel= to embed and process some code in my Org files. Here I initial
 
 ** Reference and Resource Management
 ** Publishing
+*** Broken Links
+
+For the love of Psyche, please publish even if there are broken links, Org!
+
+#+begin_src emacs-lisp
+  (setq org-export-with-broken-links t)
+#+end_src
+
 *** Commonplace Book
 *** Hosted Private HTML
 *** Blog and Microblog

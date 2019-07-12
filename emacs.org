@@ -956,6 +956,20 @@ I use this method until a project "proves" that it should be added to the perman
                               "~/.emacs.d/"))))
 #+end_src
 
+Custom commands for Org Agenda
+
+- Notes have a ~NOTE~ tag and are interspersed throughout my Org files. The Agenda should call them by invoking ~N~ under agenda view.
+- 
+
+#+begin_src emacs-lisp
+  (setq org-agenda-custom-commands
+        (quote (("N" "Notes" tags "NOTE"
+                 ((org-agenda-overriding-header "Notes")
+                  (org-tags-match-list-sublevels t)))
+                )))
+#+end_src
+
+
 *** Habits (=org-habit=)
 
 Habit tracking via =org-habit= will show a graph in the agenda tracking progress and consistency for established habits. I think it's a good idea to keep the set of habits small and specific.

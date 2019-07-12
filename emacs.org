@@ -29,6 +29,7 @@
       - [[#manually-set-load-path][Manually Set Load Path]]
       - [[#initialize-package-management][Initialize Package Management]]
   - [[#global-defaults][Global Defaults]]
+    - [[#clock][Clock]]
     - [[#aggressive-indent][Aggressive Indent]]
   - [[#fonts][Fonts]]
     - [[#font-locking][Font Locking]]
@@ -69,7 +70,7 @@
     - [[#fast-todo-selection][Fast Todo Selection]]
     - [[#state-triggers][State Triggers]]
   - [[#org-journal-as-task-daybook][Org Journal as Task Daybook]]
-  - [[#clock][Clock]]
+  - [[#clock-1][Clock]]
   - [[#org-capture-and-refile][Org Capture and Refile]]
     - [[#capture-code-org-capture][Capture Code (=org-capture=)]]
     - [[#capture-sources][Capture Sources]]
@@ -385,6 +386,14 @@ Some core editing desirables:
   (setq-default truncate-lines t
                 indicate-empty-lines t
                 require-final-newline t)
+#+end_src
+
+*** Clock
+
+Clock display in modeline is desirable.
+
+#+begin_src emacs-lisp
+  (display-time-mode 1)
 #+end_src
 
 *** Aggressive Indent

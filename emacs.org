@@ -85,6 +85,7 @@
   - [[#encryption][Encryption]]
   - [[#contacts-management][Contacts Management]]
   - [[#programming-languages-management][Programming Languages Management]]
+    - [[#literate-programming][Literate Programming]]
     - [[#autocompletion][Autocompletion]]
     - [[#babel][Babel]]
   - [[#reference-and-resource-management][Reference and Resource Management]]
@@ -1280,6 +1281,14 @@ Currently, I bind it to =C-c g= and focus only on the =captures.org= file and se
 ** Encryption
 ** Contacts Management
 ** Programming Languages Management
+*** Literate Programming
+
+Require Org ~src~ blocks to use the current window.
+
+#+begin_src emacs-lisp
+  (setq org-src-window-setup 'current-window)
+#+end_src
+
 *** Autocompletion
 
 Package =auto-complete= works very well for some IDE-like behaviors.

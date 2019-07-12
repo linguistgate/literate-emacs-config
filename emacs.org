@@ -86,6 +86,7 @@
   - [[#contacts-management][Contacts Management]]
   - [[#programming-languages-management][Programming Languages Management]]
     - [[#literate-programming][Literate Programming]]
+    - [[#tabbing-spacing-and-expansion][Tabbing, Spacing, and Expansion]]
     - [[#autocompletion][Autocompletion]]
     - [[#babel][Babel]]
     - [[#web-development][Web Development]]
@@ -1288,6 +1289,20 @@ Require Org ~src~ blocks to use the current window.
 
 #+begin_src emacs-lisp
   (setq org-src-window-setup 'current-window)
+#+end_src
+
+*** Tabbing, Spacing, and Expansion
+
+Tab width of ~2~ is compact and readable:
+
+#+begin_src emacs-lisp
+  (setq-default tab-width 2)
+#+end_src
+
+When hitting return, go to the right-ish indendation on the next line, in general:
+
+#+begin_src emacs-lisp
+  (global-set-key (kbd "RET") 'newline-and-indent)
 #+end_src
 
 *** Autocompletion

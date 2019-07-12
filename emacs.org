@@ -29,8 +29,10 @@
       - [[#manually-set-load-path][Manually Set Load Path]]
       - [[#initialize-package-management][Initialize Package Management]]
   - [[#global-defaults][Global Defaults]]
+    - [[#core-editing-desirables][Core Editing Desirables]]
     - [[#clock][Clock]]
     - [[#aggressive-indent][Aggressive Indent]]
+  - [[#undo][Undo]]
   - [[#fonts][Fonts]]
     - [[#font-locking][Font Locking]]
     - [[#default-fonts][Default Fonts]]
@@ -376,7 +378,7 @@ Since the code is automatically compiled during runtime, if the configuration ha
 
 ** Global Defaults
 
-Some core editing desirables:
+*** Core Editing Desirables
 
 - The variable =truncate-lines= turns off wrapping. Long lines will show a continuation character in the right margin.
 - To indicate the presence of empty lines at the end of a file, a marker is placed in the left fringe.
@@ -406,6 +408,29 @@ Because I mainly use Lisp and Python, I want aggressive indenting to be specific
   (use-package aggressive-indent
     :config (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode))
 #+END_SRC
+
+** Undo
+
+The package ~undo-tree~ allows for undo in Emacs to be visualized as a tree, which can be helpful, especially when undos "split off" into separate branches.
+
+#+begin_src emacs-lisp
+  (use-package undo-tree
+    :diminish undo-tree-mode
+    :config
+    (progn
+      (global-undo-tree-mode)
+      (setq undo-tree-visualizer-timestamps t)
+      (setq undo-tree-visualizer-diff t)))
+#+end_src
+
+From Sacha Chua's notes:
+
+#+begin_quote
+People often struggle with the Emacs undo model, where there's really no concept of "redo" --- you simply undo the undo.
+
+This lets you use ~C-x u (undo-tree-visualize)~ to visually walk through the changes you've made, undo back to a certain point (or redo), and go down different branches.
+
+#+end_quote
 
 ** Fonts
 
@@ -616,11 +641,11 @@ The [[https://github.com/Wilfred/helpful][helpful]] package provides better cont
 Hydra allows me to display a list of all the commands implemented in the echo area and easily interact with them.
 
 #+BEGIN_SRC emacs-lisp
-(use-package hydra
-  :init
-  (setq hydra-is-helpful t)
-  :config
-  (require 'hydra-ox))
+  (use-package hydra
+    :init
+    (setq hydra-is-helpful t)
+    :config
+    (require 'hydra-ox))
 #+END_SRC
 
 *** Ace Window

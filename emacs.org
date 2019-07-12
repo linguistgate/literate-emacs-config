@@ -40,7 +40,6 @@
       - [[#programming-themes][Programming Themes]]
         - [[#doom-themes][doom-themes]]
         - [[#flatui-dark-theme][flatui-dark-theme]]
-        - [[#kaolin-themes][kaolin-themes]]
       - [[#writing-themes][Writing Themes]]
         - [[#poet-themes][poet-themes]]
       - [[#org-themes][Org Themes]]
@@ -65,7 +64,6 @@
     - [[#org-modules][Org Modules]]
   - [[#org-agenda][Org Agenda]]
     - [[#agenda-files][Agenda Files]]
-    - [[#][]]
     - [[#habits-org-habit][Habits (=org-habit=)]]
   - [[#tasks-and-states][Tasks and States]]
     - [[#fast-todo-selection][Fast Todo Selection]]
@@ -508,11 +506,6 @@ Ensure that variable pitches are respected in loaded themes:
   (use-package flatui-dark-theme) 
 #+END_SRC
 
-***** [[https://peach-melpa.org/themes/kaolin-themes][kaolin-themes]]
-
-#+begin_src emacs-lisp
-  (use-package kaolin-themes)
-#+end_src
 
 **** Writing Themes
 
@@ -538,10 +531,10 @@ Inspired by Leuven.
 
 *** Functions to Switch Among Themes
 
-Establish a rotating index of themes:
+I establish two rotating themes: one for programming/Org work, ~/owl/programming-themes~, and one for writing ~/owl/writing-themes~.
 
 #+BEGIN_SRC emacs-lisp
-  (setq owl/themes '(doom-opera  poet poet-dark poet-monochrome poet-dark-monochrome kaolin-aurora kaolin-valley-light kaolin-valley-dark  parchment leuven))
+  (setq owl/themes '(doom-opera  poet poet-dark poet-monochrome poet-dark-monochrome  parchment leuven))
   (setq owl/themes-index 0)
 #+END_SRC
 
@@ -895,8 +888,6 @@ I use this method until a project "proves" that it should be added to the perman
                               "~/.emacs.d/"))))
 #+end_src
 
-*** 
-
 *** Habits (=org-habit=)
 
 Habit tracking via =org-habit= will show a graph in the agenda tracking progress and consistency for established habits. I think it's a good idea to keep the set of habits small and specific.
@@ -914,7 +905,7 @@ I like my habit graph to show throughout the day even if I’ve already complete
 
 #+BEGIN_SRC emacs-lisp
   (setq org-habit-show-all-today t)
-#+END_SR
+#+END_SRC
 
 ** Tasks and States
 
@@ -1272,7 +1263,7 @@ I use =org-babel= to embed and process some code in my Org files. Here I initial
 
 I use the =writeroom-mode= package as my main distraction destroyer. It creates a fullscreen Emacs environment, removes the modeline, and centers the text. It works well in its default aspect for me, though it's quite configurable.
 
-I bind it to =C-<f11>= to keep it close to the toggle for =poet-theme=, which I made =C-<f12>=.
+I bind it to =C-<f11>= on analogy with <f11>, which creates a general fullscreen.
 
 #+BEGIN_SRC emacs-lisp
   (use-package writeroom-mode

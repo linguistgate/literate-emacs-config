@@ -28,6 +28,7 @@
       - [[#use-package-settings][Use-Package Settings]]
       - [[#manually-set-load-path][Manually Set Load Path]]
       - [[#initialize-package-management][Initialize Package Management]]
+        - [[#note-for-some-reason-require-bind-key-needs-to-be-overtly-stated-and-seemingly-outside-of-eval-when-compile-for-bind-personal-keybindings-to-work-with-byte-compilation-mea---2018-11-03-sat][NOTE For some reason, =require '(bind-key)= needs to be overtly stated (and seemingly outside of =eval-when-compile= for =:bind= personal keybindings to work with byte compilation (MEA - [2018-11-03 Sat])]]
   - [[#global-defaults][Global Defaults]]
     - [[#core-editing-desirables][Core Editing Desirables]]
     - [[#clock][Clock]]
@@ -64,10 +65,11 @@
       - [[#magit][Magit]]
       - [[#local-backups][Local Backups]]
   - [[#servers-and-syncing][Servers and Syncing]]
-    - [[#comment][COMMENT]]
+    - [[#note][NOTE]]
   - [[#org-mode-initialization][Org-Mode Initialization]]
     - [[#org-defaults][Org Defaults]]
     - [[#org-modules][Org Modules]]
+      - [[#note-list-of-modules-im-considering-not-using][NOTE List of modules I'm considering not using:]]
   - [[#org-agenda][Org Agenda]]
     - [[#agenda-files][Agenda Files]]
     - [[#habits-org-habit][Habits (=org-habit=)]]
@@ -75,6 +77,7 @@
     - [[#fast-todo-selection][Fast Todo Selection]]
     - [[#state-triggers][State Triggers]]
   - [[#org-journal-as-task-daybook][Org Journal as Task Daybook]]
+  - [[#org---gcal-integration][Org - GCal Integration]]
   - [[#clock-1][Clock]]
   - [[#org-capture-and-refile][Org Capture and Refile]]
     - [[#capture-code-org-capture][Capture Code (=org-capture=)]]
@@ -92,6 +95,7 @@
     - [[#autocompletion][Autocompletion]]
     - [[#babel][Babel]]
     - [[#emacs-lisp][Emacs Lisp]]
+      - [[#note-i-currently-leave-it-untangled-because-im-not-using-it-it-is-here-like-the-man-with-the-vulture-eye-a-burning-itching-reminder][NOTE I currently leave it untangled because I'm not using it. It is here like the man with the vulture eye, a burning, itching reminder.]]
     - [[#web-development][Web Development]]
   - [[#reference-and-resource-management][Reference and Resource Management]]
   - [[#publishing][Publishing]]
@@ -385,7 +389,7 @@ Since the code is automatically compiled during runtime, if the configuration ha
   (require 'bind-key) ; Needs to be here for :bind to work with byte-compiled emacs.el ... not sure why
 #+end_src
 
-***** COMMENT For some reason, =require '(bind-key)= needs to be overtly stated (and seemingly outside of =eval-when-compile= for =:bind= personal keybindings to work with byte compilation (MEA - [2018-11-03 Sat])
+***** NOTE For some reason, =require '(bind-key)= needs to be overtly stated (and seemingly outside of =eval-when-compile= for =:bind= personal keybindings to work with byte compilation (MEA - [2018-11-03 Sat]) :NOTE:
 
 ** Global Defaults
 
@@ -821,7 +825,7 @@ Server and long-term backups are handled via Syncthing/Nextcloud and other metho
 
 ** Servers and Syncing
 
-*** COMMENT
+*** NOTE
 
 As my use of Syncthing grows, the potential for annoying conflicts grows as well. The [[https://www.reddit.com/r/emacs/comments/bqqqra/quickly_find_syncthing_conflicts_and_resolve_them/][following code]] allows for an Emacs-internal conflict resolution system, but I don't feel a need to set it up just yet.
 
@@ -910,7 +914,7 @@ Org-modules' individual behavior is established under their own headings below (
                             org-w3m)))
 #+END_SRC
 
-**** COMMENT List of modules I'm considering not using:
+**** NOTE List of modules I'm considering not using:                :NOTE:
 - =org-gnus=
 - =org-irc=
 - =org-w3m=
@@ -1086,6 +1090,10 @@ The capture block prompts for a task title, tag, and effort estimate; the tag is
      :empty-lines 1)
 #+END_EXAMPLE
 
+** Org - GCal Integration
+
+Will want this. OAuth 2.0 confuses me, though. And I need a way to hide the ClientID and secret.
+
 ** Clock
 
 There isn't much here yet because I'm not sure I want to use clocking features, though I can see the value and would like to use them better in the future.
@@ -1116,12 +1124,12 @@ Org-mode capture templates allow for central implementations of the PARA/BASB co
       "Template for basic daybook journal entry.")
 
     (defvar owl/org-contacts-template "* %(org-contacts-template-name)
-                          :PROPERTIES:
-                          :ADDRESS: %^{289 Cleveland St. Brooklyn, 11206 NY, USA}
-                          :BIRTHDAY: %^{yyyy-mm-dd}
-                          :EMAIL: %(org-contacts-template-email)
-                          :NOTE: %^{NOTE}
-                          :END:" "Template for org-contacts.")
+                            :PROPERTIES:
+                            :ADDRESS: %^{289 Cleveland St. Brooklyn, 11206 NY, USA}
+                            :BIRTHDAY: %^{yyyy-mm-dd}
+                            :EMAIL: %(org-contacts-template-email)
+                            :NOTE: %^{NOTE}
+                            :END:" "Template for org-contacts.")
 
     (defun owl/org-journal-find-location ()
       ;; Open today's journal, but specify a non-nil prefix argument in order to
@@ -1171,14 +1179,15 @@ Org-mode capture templates allow for central implementations of the PARA/BASB co
                                   ("n"
                                    "note"
                                    entry
-                                   (file+headline ,org-default-notes-file "Notes")
+                                   (file+datetree "~/org/cpb/cpb.org")
                                    "* %? :NOTE:\n:LOGBOOK:\n:CREATED: %U\n:END:"
                                    :prepend nil
                                    :empty-lines 0
                                    :created t)
                                   ("j"
                                    "journal entry"
-                                   entry (file+datetree "~/org/cpb/cpb.org")
+                                   entry
+                                   (file+datetree "~/org/cpb/cpb.org")
                                    "* Event: %?\n\n  %i\n\n  From: %a"
                                    :empty-lines 1)
                                   ("r"
@@ -1363,7 +1372,7 @@ I don't currently use Emacs Lisp that much outside of Org mode configurations, b
 
 The ~eldoc~ package provides minibuffer hints to assist in Emacs Lisp writing.
 
-**** COMMENT I currently leave it untangled because I'm not using it. It is here like the man with the vulture eye, a burning, itching reminder.
+**** NOTE I currently leave it untangled because I'm not using it. It is here like the man with the vulture eye, a burning, itching reminder. :NOTE:
 
 #+begin_src emacs-lisp :tangle no
   (use-package eldoc

@@ -64,14 +64,8 @@
     - [[#version-control][Version Control]]
       - [[#magit][Magit]]
       - [[#local-backups][Local Backups]]
-<<<<<<< HEAD
   - [[#servers-and-syncing][Servers and Syncing]]
     - [[#note][NOTE]]
-<<<<<<< HEAD
-=======
->>>>>>> parent of a98f740... Adds image+ to scale images to windows size
-=======
->>>>>>> 2d93e1c08d5fcfa990a8552cb4a025ae950f8a13
   - [[#org-mode-initialization][Org-Mode Initialization]]
     - [[#org-defaults][Org Defaults]]
     - [[#org-modules][Org Modules]]
@@ -828,15 +822,13 @@ Server and long-term backups are handled via Syncthing/Nextcloud and other metho
         version-control t)
 #+END_SRC
 
-<<<<<<< HEAD
+
 ** Servers and Syncing
 
 *** NOTE
 
 As my use of Syncthing grows, the potential for annoying conflicts grows as well. The [[https://www.reddit.com/r/emacs/comments/bqqqra/quickly_find_syncthing_conflicts_and_resolve_them/][following code]] allows for an Emacs-internal conflict resolution system, but I don't feel a need to set it up just yet.
 
-=======
->>>>>>> parent of a98f740... Adds image+ to scale images to windows size
 ** Org-Mode Initialization
 
 I favor the newer version of Org-Mode over the built-in one(s).

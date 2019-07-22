@@ -67,8 +67,11 @@
 <<<<<<< HEAD
   - [[#servers-and-syncing][Servers and Syncing]]
     - [[#note][NOTE]]
+<<<<<<< HEAD
 =======
 >>>>>>> parent of a98f740... Adds image+ to scale images to windows size
+=======
+>>>>>>> 2d93e1c08d5fcfa990a8552cb4a025ae950f8a13
   - [[#org-mode-initialization][Org-Mode Initialization]]
     - [[#org-defaults][Org Defaults]]
     - [[#org-modules][Org Modules]]

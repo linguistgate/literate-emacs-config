@@ -64,8 +64,11 @@
     - [[#version-control][Version Control]]
       - [[#magit][Magit]]
       - [[#local-backups][Local Backups]]
+<<<<<<< HEAD
   - [[#servers-and-syncing][Servers and Syncing]]
     - [[#note][NOTE]]
+=======
+>>>>>>> parent of a98f740... Adds image+ to scale images to windows size
   - [[#org-mode-initialization][Org-Mode Initialization]]
     - [[#org-defaults][Org Defaults]]
     - [[#org-modules][Org Modules]]
@@ -104,7 +107,6 @@
     - [[#hosted-private-html][Hosted Private HTML]]
     - [[#blog-and-microblog][Blog and Microblog]]
   - [[#writing-environment][Writing Environment]]
-    - [[#automatically-resize-images][Automatically Resize Images]]
     - [[#distraction-free-writing][Distraction-Free Writing]]
   - [[#memacs][Memacs]]
   - [[#ledger-and-personal-finance][Ledger and Personal Finance]]
@@ -823,12 +825,15 @@ Server and long-term backups are handled via Syncthing/Nextcloud and other metho
         version-control t)
 #+END_SRC
 
+<<<<<<< HEAD
 ** Servers and Syncing
 
 *** NOTE
 
 As my use of Syncthing grows, the potential for annoying conflicts grows as well. The [[https://www.reddit.com/r/emacs/comments/bqqqra/quickly_find_syncthing_conflicts_and_resolve_them/][following code]] allows for an Emacs-internal conflict resolution system, but I don't feel a need to set it up just yet.
 
+=======
+>>>>>>> parent of a98f740... Adds image+ to scale images to windows size
 ** Org-Mode Initialization
 
 I favor the newer version of Org-Mode over the built-in one(s).
@@ -1418,21 +1423,11 @@ For the love of Psyche, please publish even if there are broken links, Org!
 *** Hosted Private HTML
 *** Blog and Microblog
 ** Writing Environment
-*** Automatically Resize Images
-
- The ~image+~ package is handy for displaying the images so that they're scaled to the window size.
-
- #+begin_src emacs-lisp
-   (use-package image+
-     :commands (imagex-global-sticky-mode imagex-auto-adjust-mode)
-     :init (progn (imagex-global-sticky-mode) (imagex-auto-adjust-mode)))
- #+end_src
-
 *** Distraction-Free Writing
 
 I use the =writeroom-mode= package as my main distraction destroyer. It creates a fullscreen Emacs environment, removes the modeline, and centers the text. It works well in its default aspect for me, though it's quite configurable.
 
-I bind it to ~C-<f11>~ on analogy with ~<f11>~, which creates a general fullscreen.
+I bind it to =C-<f11>= on analogy with <f11>, which creates a general fullscreen.
 
 #+BEGIN_SRC emacs-lisp
   (use-package writeroom-mode
@@ -1463,7 +1458,6 @@ I bind it to ~C-<f11>~ on analogy with ~<f11>~, which creates a general fullscre
                                              (variable-pitch-mode)
                                              (variable-pitch-mode)))))))))
 #+END_SRC
-
 ** Memacs
 
 Not much here yet, but want to use Memacs potentially as part of move toward quantified awesome.

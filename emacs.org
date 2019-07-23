@@ -3,6 +3,9 @@
 #+PROPERTY: header-args :tangle yes
 #+STARTUP: indent
 * Table of Contents :TOC_5_gh:
+:PROPERTIES:
+:ID:       82d3e2f0-b0da-4a82-8944-d4950e447ce0
+:END:
 - [[#about-this-file][About This File]]
 - [[#design-concerns][Design Concerns]]
   - [[#why-a-literate-configuration][Why a Literate Configuration?]]
@@ -65,7 +68,7 @@
       - [[#magit][Magit]]
       - [[#local-backups][Local Backups]]
   - [[#servers-and-syncing][Servers and Syncing]]
-    - [[#note][NOTE]]
+    - [[#note-syncthing][NOTE Syncthing]]
   - [[#org-mode-initialization][Org-Mode Initialization]]
     - [[#org-defaults][Org Defaults]]
     - [[#org-modules][Org Modules]]
@@ -80,6 +83,7 @@
   - [[#org---gcal-integration][Org - GCal Integration]]
   - [[#clock-1][Clock]]
   - [[#org-capture-and-refile][Org Capture and Refile]]
+    - [[#webtools][Webtools]]
     - [[#capture-code-org-capture][Capture Code (=org-capture=)]]
     - [[#capture-sources][Capture Sources]]
       - [[#elfeed][Elfeed]]
@@ -112,6 +116,9 @@
   - [[#post-initialization][Post Initialization]]
 
 * About This File
+:PROPERTIES:
+:ID:       9fce0725-e152-43ce-a86f-9cc25d0b87f8
+:END:
 
 This is a rebuild and refactoring of my Emacs configuration using literate programming techniques.
 
@@ -120,12 +127,21 @@ All of my configuration is stored here (no requiring and providing of subfiles) 
 It contains some optimization for byte-compiling to ensure a faster load time.
 
 * Design Concerns
+:PROPERTIES:
+:ID:       bccc206c-d933-4b64-b48a-74b4ee7d4e8c
+:END:
 
 ** Why a Literate Configuration?
+:PROPERTIES:
+:ID:       897f5db6-4c3f-4dcb-83a0-2120f9212958
+:END:
 
 Literate programming is human-centric in the sense that programming code is "tangled" with prose. Moreover, the "program" unfolds in a way that reflects human reasoning, not machine logic. I don't have a stake in whether I think literate programming is good (and I don't even really know where it stands among programmers and coders in 2018). In wanting my Emacs configuration to be configurable but not get out of hand, I have been trying different options over the years. The literate programming examples I've seen online have made a good case for something resembling "literate" programming as the basis for a dot Emacs configuration.
 
 ** Must-Haves
+:PROPERTIES:
+:ID:       a63c262e-c5fd-41d8-a4b0-5c52a30997ef
+:END:
 
 - A reliable and fast-loading configuration; a byte-compiled =init.elc= for even faster load time
 - A writing-centric setup with a beautiful writing theme (=poet-theme=)
@@ -141,13 +157,25 @@ Literate programming is human-centric in the sense that programming code is "tan
 - A way to load a minimally working config that will always have my bare bones
 
 *************** DONE Create working minimal config   :@digital:
+:PROPERTIES:
+:ID:       fe25082a-d062-4528-8eab-929ea2276f6b
+:END:
 *************** END
 *************** TODO Decide on how to handle picture handling across Areas, Projects, and Resources :@digital:
+:PROPERTIES:
+:ID:       a766c334-4a4e-4b64-9f8c-b5764b52c38a
+:END:
 *************** END
 *************** DONE Make Projectile work better with Projects :@digital:
+:PROPERTIES:
+:ID:       da2b76ca-6b46-449f-a88d-73c017a8b3d6
+:END:
 *************** END
 
 ** Things That Will Continue to Be Built Out
+:PROPERTIES:
+:ID:       df20995d-4be6-4d5b-adb8-6e34e8568800
+:END:
 
 - A server and publishing system that allows for Wikis, notebooks, and web pages to be created from Org content
 - Various ways of capturing online material and storing it in =resources/= for offline access (=org-download=, etc.)
@@ -155,6 +183,9 @@ Literate programming is human-centric in the sense that programming code is "tan
 - Non-linear, non-hierarchical tools like =org-brain= as ways to enhance the knowledge management system I am building
 
 ** Desirables
+:PROPERTIES:
+:ID:       6b3e1d81-02db-4d11-8680-765d9fd3b345
+:END:
 - Ledger ([[https://www.ledger-cli.org/][Ledger]]). Also possibly [[https://github.com/NicolasPetton/elbank][Elbank]].
 - [[https://github.com/abo-abo/org-download][Org-download]]
 - Possibly some code from [[https://github.com/rnkn/fountain-mode/][Founntain Mode]] (screenwriting)
@@ -162,6 +193,9 @@ Literate programming is human-centric in the sense that programming code is "tan
 - Possible integration of [[https://github.com/novoid/Memacs][Memacs]] someday. 
 
 ** Explanation of Captures, CPB, Daybook, Hub
+:PROPERTIES:
+:ID:       499ffb46-1a55-4051-a1ac-50f5d1f3d8b7
+:END:
 
 The =captures= and =cpb= directories encapsulate [[https://medium.com/@tasshin/implementing-a-second-brain-in-emacs-and-org-mode-ef0e44fb7ca5][progressive summarization]], at least the first four layers:
 
@@ -189,6 +223,9 @@ In addition, projects (including writing, blogging, coding, curriculum developme
 In this way, I’ve recapitulated the P.A.R.A. system (Projects - Areas (Hub) - Resources (Library) - Archives (Library Archives)) in a way that works for my workflow. I feel less burdened by having to update tons of files every day and can return to letting the Agenda tell me what needs to be done and where.
 
 * Org Directory Structure
+:PROPERTIES:
+:ID:       02113f8f-0885-4c2c-a308-d2244d75914b
+:END:
 
 Currently I am trying the following structure for my Org-based workflow:
 
@@ -216,13 +253,20 @@ This structure represents about a year of thinking through task, workflow, and k
 * Configuration
 :PROPERTIES:
 :VISIBILITY: children
+:ID:       079e06ac-5c7d-4b50-aafa-9ad7889ce0c0
 :END:
 ** Config File Tweaks
+:PROPERTIES:
+:ID:       5f35a8e1-12cf-4d3b-8753-34cdfff75fd4
+:END:
 
 There are a few tweaks included in this org file that make it a little easier to
 work with.
 
 *** Automatically Tangle
+:PROPERTIES:
+:ID:       a49db780-29bc-4c16-8c52-8787035e2001
+:END:
 
 First there is a property defined on the file:
 
@@ -235,6 +279,9 @@ generating the code for the config, unless the code block explicitly includes
 =:tangle no= as the above code block does.
 
 *** Reload Configuation
+:PROPERTIES:
+:ID:       2fd7e19a-7f34-41f8-8f46-763c844b3f69
+:END:
 
 Reload my configuration from inside of =org-mode= and assign custom function to =C-c r=.
 
@@ -248,12 +295,18 @@ Reload my configuration from inside of =org-mode= and assign custom function to 
 #+end_src
 
 *** Visibility Settings
+:PROPERTIES:
+:ID:       f09e7ffe-e683-4a04-a04f-05755e10ea58
+:END:
 
 Next we have a property defined on the [[Configuration][Configuration]] heading that defines the visibility
 that tells org to show its direct children on startup. This way a clean outline of all
 sub headings under Configuration is shown each time this file is opened in org-mode.
 
 *** Table of Contents
+:PROPERTIES:
+:ID:       be48627e-307a-48f4-b920-9b05295ae60b
+:END:
 
 Finally, there is a [[Table of Contents][Table of Contents]] heading that includes the tag: =:TOC_5_gh:=. This
 tells an org-mode package =toc-org= to generate a table of contents under this heading
@@ -262,6 +315,9 @@ is updated everytime the file is saved and makes for a functional table of conte
 works property directly on github.
 
 ** Personal Information
+:PROPERTIES:
+:ID:       5ffcf544-6fe1-4910-96bd-761e780a8a59
+:END:
 
 Some basic values:
 
@@ -271,8 +327,14 @@ Some basic values:
 #+end_src
 
 ** Emacs Initialization
+:PROPERTIES:
+:ID:       43cacb3d-d9f4-4ee4-962c-4505bfc892ce
+:END:
 
 *** Garbage Collection
+:PROPERTIES:
+:ID:       f1073c8a-e27a-4815-89ab-d9561ca468ab
+:END:
 
 I increase the ~gc-cons-threshold~ to a very high number to decrease the load and compile time.
 I'll lower this value significantly after initialization has completed. I don't want to keep this value
@@ -285,6 +347,9 @@ too high or it will result in long GC pauses during normal usage.
 #+end_src
 
 *** Byte Compilation
+:PROPERTIES:
+:ID:       6dcd1b63-c9c4-4617-b8a2-c78cf9354ef3
+:END:
 
 Disable certain byte compiler warnings to cut down on the noise. This can be removed
 if I would like to see any and all byte compiler warnings.
@@ -294,6 +359,9 @@ if I would like to see any and all byte compiler warnings.
 #+end_src
 
 *** Startup Behavior
+:PROPERTIES:
+:ID:       4bc0d25d-02e9-48d0-ac77-dbdbf26c46c9
+:END:
 
 When I startup, I want a minimal Emacs layout: no startup screen, no toolbar, no scrollbar, and no menubar.
 
@@ -305,6 +373,9 @@ When I startup, I want a minimal Emacs layout: no startup screen, no toolbar, no
 #+end_src
 
 *** Directory Structure
+:PROPERTIES:
+:ID:       84827ff9-e506-4e7f-b01c-2b3350f35eaa
+:END:
 
 Set the directory where the Emacs configuration is installed.
 
@@ -323,8 +394,14 @@ The default ELPA package directory is =.emacs.d/elpa=. User-defined or non-liste
 Custom themes should be stored in =./user/themes/=.
 
 *** Package Management
+:PROPERTIES:
+:ID:       e1799ef7-1ca6-4296-9ddc-fe538996292d
+:END:
 
 **** Package Settings
+:PROPERTIES:
+:ID:       88f08654-9178-4fa0-a845-5e34121ca990
+:END:
 
 Set the =load-path= ourselves and avoid calling =(package-initilize)= (for
 performance reasons) so set =package--init-file-ensured= to true to tell =package.el=
@@ -344,6 +421,9 @@ to not automatically call it on my behalf. Additionally I'm setting
 #+end_src
 
 **** Use-Package Settings
+:PROPERTIES:
+:ID:       9d1b21fd-942d-45c1-a605-da6f9a9f97ca
+:END:
 
 Tell =use-package= to always defer loading packages unless explicitly told otherwise. This speeds up
 initialization significantly as many packages are only loaded later when they are explicitly used.
@@ -354,6 +434,9 @@ initialization significantly as many packages are only loaded later when they ar
 #+end_src
 
 **** Manually Set Load Path
+:PROPERTIES:
+:ID:       3661381b-b296-44e9-b135-6677346d5d7a
+:END:
 
 We're going to set the load path ourselves so that we don't have to call =package-initialize= at runtime and incur a large performance hit. This load-path will actually be faster than the one created by =package-initialize= because it appends the elpa packages to the end of the load path. Otherwise any time a builtin package was required it would have to search all of third party paths first.
 
@@ -363,6 +446,9 @@ We're going to set the load path ourselves so that we don't have to call =packag
 #+end_src
 
 **** Initialize Package Management
+:PROPERTIES:
+:ID:       81b4a117-0aee-4dae-bd62-29412cb53ae3
+:END:
 
 Next we are going to require =package.el= and add our additional package archives, 'melpa' and 'org'. Afterwards we need to initialize our packages and then ensure that =use-package= is installed, which we promptly install if it's missing. Finally we load =use-package= and tell it to always install any missing packages.
 
@@ -389,10 +475,19 @@ Since the code is automatically compiled during runtime, if the configuration ha
 #+end_src
 
 ***** NOTE For some reason, =require '(bind-key)= needs to be overtly stated (and seemingly outside of =eval-when-compile= for =:bind= personal keybindings to work with byte compilation (MEA - [2018-11-03 Sat]) :NOTE:
+:PROPERTIES:
+:ID:       203a9bcd-5ca6-4435-b018-a7ce43745519
+:END:
 
 ** Global Defaults
+:PROPERTIES:
+:ID:       270782fa-209c-4035-8618-d1d04701e982
+:END:
 
 *** Core Editing Desirables
+:PROPERTIES:
+:ID:       28492db9-f492-4134-81f3-d890dad114da
+:END:
 
 - The variable =truncate-lines= turns off wrapping. Long lines will show a continuation character in the right margin.
 - To indicate the presence of empty lines at the end of a file, a marker is placed in the left fringe.
@@ -405,6 +500,9 @@ Since the code is automatically compiled during runtime, if the configuration ha
 #+end_src
 
 *** Clock
+:PROPERTIES:
+:ID:       6bf365cc-91b1-4103-a491-c595ba8f9d64
+:END:
 
 Clock display in modeline is desirable.
 
@@ -413,6 +511,9 @@ Clock display in modeline is desirable.
 #+end_src
 
 *** Aggressive Indent
+:PROPERTIES:
+:ID:       a35b1a43-2395-46dd-ab04-42f6d870241e
+:END:
 
 The package reindents code after every change, making it purportedly more reliable than =electric-indent-mode=.
 
@@ -424,6 +525,9 @@ Because I mainly use Lisp and Python, I want aggressive indenting to be specific
 #+END_SRC
 
 ** Undo
+:PROPERTIES:
+:ID:       d24993ae-0bd6-47da-91bd-62a5273cb90d
+:END:
 
 The package ~undo-tree~ allows for undo in Emacs to be visualized as a tree, which can be helpful, especially when undos "split off" into separate branches.
 
@@ -447,8 +551,14 @@ This lets you use ~C-x u (undo-tree-visualize)~ to visually walk through the cha
 #+end_quote
 
 ** Fonts
+:PROPERTIES:
+:ID:       ac029552-fdc5-41ec-8f48-c67bf21b56e1
+:END:
 
 *** Font Locking
+:PROPERTIES:
+:ID:       64b71aaa-17a2-44bd-b56f-0bb729f6ab40
+:END:
 
 Font Lock mode is a minor mode, always local to a particular buffer, and each buffer's major made tells Font Lock mode which text to fontify (add faces to). A programming language, for instance, will have rules about fontifying syntactically relevant constructs like comments, strings, and function names (from [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Font-Lock.html][the GNU Emacs manual]]).
 
@@ -457,6 +567,9 @@ Font Lock mode is a minor mode, always local to a particular buffer, and each bu
 #+END_SRC
 
 *** Default Fonts
+:PROPERTIES:
+:ID:       fc64b3e8-12d7-47c6-88b3-89df6fef75d9
+:END:
 
 The default fonts need to be installed at least for the relevant user under =~/.fonts=. I currently use the Input series of fonts.
 
@@ -469,6 +582,9 @@ The default fonts need to be installed at least for the relevant user under =~/.
 #+END_SRC
 
 *** Font Switching
+:PROPERTIES:
+:ID:       15a55c7b-cdd9-4100-b0c5-d6c89db6856c
+:END:
 
 Establish function to set font to variable width in current buffer:
 
@@ -509,6 +625,9 @@ Finally, establish a function to set font to a pretty writing font if Input Seri
 #+END_SRC
 
 *** Font Sizing
+:PROPERTIES:
+:ID:       8fe02d30-1098-4c61-9663-406a20a7411f
+:END:
 
 Individual hydras are written in the relevant place in the configuration.
 
@@ -524,6 +643,9 @@ I like a hydra to help me increase or decrease text scale in a given buffer:
 #+END_SRC
 
 ** Themes
+:PROPERTIES:
+:ID:       01823f16-5a14-4940-bc47-15b5eeca9c01
+:END:
 
 Ensure that variable pitches are respected in loaded themes:
 
@@ -534,10 +656,19 @@ Ensure that variable pitches are respected in loaded themes:
 #+END_SRC
 
 *** Themes in Rotation
+:PROPERTIES:
+:ID:       46c841ef-f639-4d8c-85e2-339f72eda0ec
+:END:
 
 **** Programming Themes
+:PROPERTIES:
+:ID:       7f71bb51-853e-4005-82aa-bb5e87b129fa
+:END:
 
 ***** [[https://peach-melpa.org/themes/doom-themes][doom-themes]]
+:PROPERTIES:
+:ID:       a7cd8396-65ab-41c4-aab2-5ee401c583fc
+:END:
 
 =doom-themes-org-config= corrects and improves Org's native fontification.
 
@@ -549,6 +680,9 @@ Ensure that variable pitches are respected in loaded themes:
 #+END_SRC
 
 ***** [[https://peach-melpa.org/themes/flatui-dark-theme][flatui-dark-theme]]
+:PROPERTIES:
+:ID:       2389fed2-557c-46c1-a15b-1118ef48aa96
+:END:
 
 #+BEGIN_SRC emacs-lisp
   (use-package flatui-dark-theme) 
@@ -556,8 +690,14 @@ Ensure that variable pitches are respected in loaded themes:
 
 
 **** Writing Themes
+:PROPERTIES:
+:ID:       48b0ea03-cade-4448-bda7-67ab0963cc67
+:END:
 
 ***** [[https://peach-melpa.org/themes/poet-theme][poet-themes]]
+:PROPERTIES:
+:ID:       4fad27e1-9052-48a3-a637-d39ed77746d7
+:END:
 
 For writing.
 
@@ -566,10 +706,16 @@ For writing.
 #+end_src
 
 **** Org Themes
+:PROPERTIES:
+:ID:       c8fa51d8-c589-45aa-8857-40a620668338
+:END:
 
 Leuven is the light theme.
 
 ***** [[https://peach-melpa.org/themes/parchment-theme][parchment-theme]]
+:PROPERTIES:
+:ID:       3e4ff970-bf66-4fea-a618-4f0572a6f29f
+:END:
 
 Inspired by Leuven.
 
@@ -578,6 +724,9 @@ Inspired by Leuven.
 #+end_src
 
 *** Functions to Switch Among Themes
+:PROPERTIES:
+:ID:       5d9abc78-9ba4-4837-9b75-74076737b964
+:END:
 
 I establish two rotating themes: one for programming/Org work, ~/owl/programming-themes~, and one for writing ~/owl/writing-themes~.
 
@@ -610,8 +759,14 @@ In order to prevent overlay, =owl/cycle-theme= depends on on two additional func
 #+END_SRC
 
 ** Accessibility
+:PROPERTIES:
+:ID:       bb4ed211-f81d-4807-991e-71ff81ed979a
+:END:
 
 *** Hinting
+:PROPERTIES:
+:ID:       2787e5d5-226f-4584-b368-65dea5c53998
+:END:
 
 To remember all custom functions I create (=owl/NAME=), the following function will help format a simple table:
 
@@ -651,6 +806,9 @@ The [[https://github.com/Wilfred/helpful][helpful]] package provides better cont
 #+END_SRC
 
 *** Hydra Configuration
+:PROPERTIES:
+:ID:       5a53dcce-6315-4e2d-958f-1301c2bfdeea
+:END:
 
 Hydra allows me to display a list of all the commands implemented in the echo area and easily interact with them.
 
@@ -663,6 +821,9 @@ Hydra allows me to display a list of all the commands implemented in the echo ar
 #+END_SRC
 
 *** Windmove
+:PROPERTIES:
+:ID:       34dcae52-d56a-4f96-98b6-0ff1642461d4
+:END:
 
 Allows for simple traversal of windows beyond the cumbersome ~C-c o~ method.
 
@@ -676,6 +837,9 @@ Allows for simple traversal of windows beyond the cumbersome ~C-c o~ method.
 #+end_src
 
 *** Ace Window
+:PROPERTIES:
+:ID:       2e496530-d155-4ddf-abd3-ed0120b76d56
+:END:
 
 See http://bnbeckwith.com/bnb-emacs/ for supercharged variant on ~C-x o~ traversal.
 
@@ -717,6 +881,9 @@ Manipulate window size with a hydra.
 #+END_SRC
 
 *** Zoom Window
+:PROPERTIES:
+:ID:       8aad8c86-7387-4565-89cf-eb7f79e4f7fd
+:END:
 
 Selectively "zooms" one window of a complex windows configuration.
 
@@ -726,8 +893,14 @@ Selectively "zooms" one window of a complex windows configuration.
 #+END_SRC
 
 ** Navigation
+:PROPERTIES:
+:ID:       9a0c7d49-f8a8-4fb2-af8b-30811d2a8767
+:END:
 
 *** Ivy
+:PROPERTIES:
+:ID:       0ed4dade-6383-48d7-afd6-56a566cf4115
+:END:
 
 #+BEGIN_SRC emacs-lisp
   (use-package ivy
@@ -757,6 +930,9 @@ Selectively "zooms" one window of a complex windows configuration.
 #+END_SRC
 
 *** Counsel
+:PROPERTIES:
+:ID:       205e2aef-0d9a-420a-adc3-27b21467e7c9
+:END:
 
 Counsel allows me to utilize ivy by replacing many built-in and common functions with richer versions.
 
@@ -767,6 +943,9 @@ Counsel allows me to utilize ivy by replacing many built-in and common functions
 #+END_SRC
 
 *** Swiper
+:PROPERTIES:
+:ID:       1760b536-a071-42d4-bdb9-f6c4e445ad4d
+:END:
 
 Swiper is a searching utility with quick preview in minibuffer. I load it when =swiper= or =swiper-all= is called.
 
@@ -776,8 +955,14 @@ Swiper is a searching utility with quick preview in minibuffer. I load it when =
 #+END_SRC
 
 ** Project Management
+:PROPERTIES:
+:ID:       36a65694-3c6e-4034-8234-f4dba920db1d
+:END:
 
 *** Projectile
+:PROPERTIES:
+:ID:       3d1f5efa-1b01-4f05-8199-f46355e6d445
+:END:
 
 Projectile is a quick and easy project management package.
 
@@ -790,8 +975,14 @@ Projectile is a quick and easy project management package.
 #+END_SRC
 
 *** Version Control
+:PROPERTIES:
+:ID:       a6e957aa-7886-4c29-b4d4-60d685340b02
+:END:
 
 **** Magit
+:PROPERTIES:
+:ID:       a6f1301e-d24d-47ec-b2e9-72c64dbc8563
+:END:
 
 Magit allows use of Git inside of Org-Mode. No more bumping out to a terminal.
 
@@ -807,6 +998,9 @@ Magit allows use of Git inside of Org-Mode. No more bumping out to a terminal.
 #+end_src
 
 **** Local Backups
+:PROPERTIES:
+:ID:       4db2270b-5a34-4c7b-a54b-6500353373a1
+:END:
 
 The following defaults allow for a saner backup system with Emacs files.
 
@@ -822,14 +1016,22 @@ Server and long-term backups are handled via Syncthing/Nextcloud and other metho
         version-control t)
 #+END_SRC
 
-
 ** Servers and Syncing
+:PROPERTIES:
+:ID:       21750f8c-2e20-45be-9c0e-1b1d8716ba54
+:END:
 
-*** NOTE
+*** NOTE Syncthing
+:PROPERTIES:
+:ID:       40f81e52-07af-4db2-81da-bb8a8491e643
+:END:
 
 As my use of Syncthing grows, the potential for annoying conflicts grows as well. The [[https://www.reddit.com/r/emacs/comments/bqqqra/quickly_find_syncthing_conflicts_and_resolve_them/][following code]] allows for an Emacs-internal conflict resolution system, but I don't feel a need to set it up just yet.
 
 ** Org-Mode Initialization
+:PROPERTIES:
+:ID:       cf8726f9-da9b-4a4a-8728-935f83bac5d1
+:END:
 
 I favor the newer version of Org-Mode over the built-in one(s).
 
@@ -866,6 +1068,9 @@ The default =org-directory= is =~/org=. It can be symlinked but needs to be pres
 #+end_src
 
 *** Org Defaults
+:PROPERTIES:
+:ID:       d001c79b-f3a8-495f-96bb-523312878028
+:END:
 
 Establish some meaningful defaults for =org-mode=: 
 
@@ -893,6 +1098,9 @@ When t, Org prompts the user for confirmation before executing each code block. 
 #+END_SRC
 
 *** Org Modules
+:PROPERTIES:
+:ID:       6d987ada-84e8-4a23-bda7-6754657aa5f6
+:END:
 
 Org modules seem to be a bit like an internal extension system of self-contained libraries, with some modules comprising Org's core and others external to it. There are a number of Org extensions that are initialized as =org-modules=.
 - The package/library/module =org-protocol= allows for capturing webpages and links while browsing and importing that into predefined capture templates.
@@ -915,11 +1123,17 @@ Org-modules' individual behavior is established under their own headings below (
 #+END_SRC
 
 **** NOTE List of modules I'm considering not using:                :NOTE:
+:PROPERTIES:
+:ID:       0cc5159e-caba-447e-9d4b-7baecf2590b2
+:END:
 - =org-gnus=
 - =org-irc=
 - =org-w3m=
 
 ** Org Agenda
+:PROPERTIES:
+:ID:       dca106a3-dfff-45c3-adb2-e4c35361e5dc
+:END:
 
 The ~org-plus-contrib~ repository allows ~org-agenda~ to be used with the ~use-package~ syntax. Currently, I set many Agenda features outside of this block, however.
 
@@ -935,6 +1149,9 @@ I bind ~org-agenda~ to ~C-c a~:
 #+end_src
 
 *** Agenda Files
+:PROPERTIES:
+:ID:       b4d97b28-cb88-4702-939e-f59c2cff36d2
+:END:
 
 The following code sets the main "agenda" files.
 
@@ -975,6 +1192,9 @@ Custom commands for Org Agenda
 
 
 *** Habits (=org-habit=)
+:PROPERTIES:
+:ID:       6bd97298-43c5-4bcb-ae63-6dfbbd1a93f0
+:END:
 
 Habit tracking via =org-habit= will show a graph in the agenda tracking progress and consistency for established habits. I think it's a good idea to keep the set of habits small and specific.
 
@@ -994,6 +1214,9 @@ I like my habit graph to show throughout the day even if I’ve already complete
 #+END_SRC
 
 ** Tasks and States
+:PROPERTIES:
+:ID:       eb7f2b91-0a38-4b0d-9bf9-3f90e106ff2a
+:END:
 
 My task keywords generally follow Bernt Hansen's [[http://doc.norang.ca/org-mode.html#TasksAndStates][set of tasks and state transitions]]. I like the simplicity of his insight that a "project" is simply a ~TODO~ with subtasks, and I like the ability to comment on /why/ I'm holding a task. The state transitions he implements are sensible as well.
 
@@ -1004,6 +1227,9 @@ My task keywords generally follow Bernt Hansen's [[http://doc.norang.ca/org-mode
 #+end_src
 
 *** Fast Todo Selection
+:PROPERTIES:
+:ID:       2045ee80-805e-466e-8489-5bba3169dc17
+:END:
 
 The ~fast-todo-selection~ setting allows selection of /any/ todo state via ~C-c C-t KEY~. The second setting allows simple changing of todo states (~Shift-Left~ or ~Shift-Right~) without having to change other information such as timestamps or notes.
 
@@ -1013,6 +1239,9 @@ The ~fast-todo-selection~ setting allows selection of /any/ todo state via ~C-c 
 #+end_src
 
 *** State Triggers
+:PROPERTIES:
+:ID:       bc67ffd9-9ce4-4ac5-92b4-1f1e27030eb0
+:END:
 
 Here I borrow wholesale from [[http://doc.norang.ca/org-mode.html#ToDoStateTriggers][Bernt Hansen's configuration]] (except for the spelling of =CANCEL(L)ED=). I mean, I'm not favorable to the American spelling, but whatever (cf. /cancellation/, though of course there is a distinction to be made between derivational and inflectional endings and their ability to trigger spelling changes).
 
@@ -1046,8 +1275,17 @@ The tags are used to filter tasks in the agenda views conveniently.
 #+end_src
 
 ** Org Journal as Task Daybook
+:PROPERTIES:
+:ID:       10e8a6e7-3a71-4950-9e73-4bbcd1a0be7b
+:END:
 
 The directory =~/org/daybook= holds a set of short diary files that together comprise a bullet-journal-esque daybook.
+
+The following code follows the ~use-package~ defaults set in [[https://github.com/bastibe/org-journal#an-example-setup][the example setup on Github]].
+
+Additional code that references ~icalendar~ is part of a project that synchronizes my daybook tasks with my smarphone. I'm currently [2019-07-23 Tue] following the [[https://bastibe.de/2018-06-03-syncing-org-journal-with-your-calendar.html][setup on Bastibe.de]]'s blog. The code below that references ~icalendar~ isn't itself doing much unless I /manually/ invoke a function like ~org-icalendar-combine-agenda-files~, which will export an ~.ics~ calendar of my daybook tasks for the current day (and future tasks).
+
+The actual implementation is handled elsewhere: I have a cron job that runs Emacs in batch mode, accessing a short init file script that contains similar code. Via Syncthing (as of [2019-07-23 Tue]), my smartphone accesses the output ~.ics~ file, and an app on the phone handles importation to my calendar app. It's a decent solution and a workaround for the fact that Orgzly, qua a task manager interface for Org Mode on Android, does not read daybook files or embedded directories in a satisfactory way. (Though it should still be possible to have the daybook file format be directly ~.org~, which should allow for Orgzly to read the current day file.)
 
 #+BEGIN_SRC emacs-lisp
   (use-package org-journal
@@ -1057,6 +1295,9 @@ The directory =~/org/daybook= holds a set of short diary files that together com
     (org-journal-date-format "%A, %x")                                                             ; date name format
     (org-journal-carryover-items "TODO=\"TODO\"|TODO=\"STARTED\"|TODO=\"NEXT\"|TODO=\"WAITING\"")  ; carryover items
     (org-journal-enable-agenda-integration t)                                                      ; ensure entries are on the agenda
+    (org-icalendar-store-UID t)                                                                    ; so changes sync correctly
+    (org-icalendar-include-todo "all")                                                             ; include TODOs and DONEs
+    (org-icalendar-combined-agenda-file "~/org/hub/calendars/org-journal.ics")
     )
   (org-journal-update-auto-mode-alist)
 #+END_SRC
@@ -1091,18 +1332,42 @@ The capture block prompts for a task title, tag, and effort estimate; the tag is
 #+END_EXAMPLE
 
 ** Org - GCal Integration
+:PROPERTIES:
+:ID:       cab3520f-ee4a-41b1-9925-8f9946ed40df
+:END:
 
 Will want this. OAuth 2.0 confuses me, though. And I need a way to hide the ClientID and secret.
 
 ** Clock
+:PROPERTIES:
+:ID:       55e7ae37-5f9b-4e63-af45-687d013d002c
+:END:
 
 There isn't much here yet because I'm not sure I want to use clocking features, though I can see the value and would like to use them better in the future.
 
 ** Org Capture and Refile
+:PROPERTIES:
+:ID:       00a4100c-d56d-4425-bece-8bf819465287
+:END:
 
 Org-mode capture templates allow for central implementations of the PARA/BASB concept, as envisioned by Tiago Forte.
 
+*** Webtools
+:PROPERTIES:
+:ID:       d72150c7-cee0-4d89-ad38-00759428f33d
+:END:
+
+I use webtools to help facilitate some web capturing.
+
+#+begin_src emacs-lisp
+  (use-package org-web-tools)
+#+end_src
+
+
 *** Capture Code (=org-capture=)
+:PROPERTIES:
+:ID:       f02e9a5e-9455-4892-9994-c44f0159df17
+:END:
 
 #+BEGIN_SRC emacs-lisp
   (use-package org-capture
@@ -1124,12 +1389,12 @@ Org-mode capture templates allow for central implementations of the PARA/BASB co
       "Template for basic daybook journal entry.")
 
     (defvar owl/org-contacts-template "* %(org-contacts-template-name)
-                            :PROPERTIES:
-                            :ADDRESS: %^{289 Cleveland St. Brooklyn, 11206 NY, USA}
-                            :BIRTHDAY: %^{yyyy-mm-dd}
-                            :EMAIL: %(org-contacts-template-email)
-                            :NOTE: %^{NOTE}
-                            :END:" "Template for org-contacts.")
+                              :PROPERTIES:
+                              :ADDRESS: %^{289 Cleveland St. Brooklyn, 11206 NY, USA}
+                              :BIRTHDAY: %^{yyyy-mm-dd}
+                              :EMAIL: %(org-contacts-template-email)
+                              :NOTE: %^{NOTE}
+                              :END:" "Template for org-contacts.")
 
     (defun owl/org-journal-find-location ()
       ;; Open today's journal, but specify a non-nil prefix argument in order to
@@ -1148,6 +1413,38 @@ Org-mode capture templates allow for central implementations of the PARA/BASB co
                                    :empty-lines 0                  ; properties
                                    :created t                      ; properties
                                    )
+                                  ("c"
+                                   "commonplace book entries")
+                                  ("cc"
+                                   "plain entry"
+                                   entry
+                                   (file+datetree "~/org/cpb/cpb.org")
+                                   "* %(if (string-empty-p \"%a\") \"%^{Heading}\" \"%a\") %^G %U %?%(unless (string-empty-p \"%i\") \"
+
+                                     ,#+BEGIN_QUOTE
+                                        %i
+                                     ,#+END_QUOTE
+
+                                     \")"
+                                   :clock-in t
+                                   :clock-resume t
+                                   :empty-lines 1)
+                                  ("cl"
+                                   "link to web page"
+                                   entry
+                                   (file+datetree "~/org/cpb/cpb.org")
+                                   "* %(org-web-tools--org-link-for-url) :website: %U %?"
+                                   :clock-in t
+                                   :clock-resume t
+                                   :empty-lines 1)
+                                  ("cr"
+                                   "readable content of web page"
+                                   entry
+                                   (file+datetree "~/org/cpb/cpb.org")
+                                   "%(org-web-tools--url-as-readable-org)"
+                                   :clock-in t
+                                   :clock-resume t
+                                   :empty-lines 1)
                                   ("d" "daybook")
                                   ("dt"				
                                    "daybook task"
@@ -1170,7 +1467,7 @@ Org-mode capture templates allow for central implementations of the PARA/BASB co
                                    :empty-lines 1   
                                    :created t       
                                    )
-                                  ("c" 
+                                  ("z" 
                                    "contact"
                                    entry
                                    (file "~/org/hub/contacts.org"),
@@ -1227,6 +1524,9 @@ Org-mode capture templates allow for central implementations of the PARA/BASB co
     )
 #+END_SRC
 
+#+RESULTS:
+: org-refile
+
 #+BEGIN_SRC emacs-lisp
   (defun owl/org-call-src-block (name)
     ;; Based on <http://kitchingroup.cheme.cmu.edu/blog/2014/08/11/Using-org-mode-outside-of-Emacs-sort-of/>
@@ -1247,8 +1547,14 @@ Org-mode capture templates allow for central implementations of the PARA/BASB co
 #+END_SRC
 
 *** Capture Sources
+:PROPERTIES:
+:ID:       6a0da1f3-c52f-4222-8e27-de34147aa1fc
+:END:
 
 **** Elfeed
+:PROPERTIES:
+:ID:       3aee0867-a353-483f-b312-9fa99d4d8f18
+:END:
 
 #+begin_src emacs-lisp
   ;; Load elfeed-org
@@ -1275,8 +1581,17 @@ Org-mode capture templates allow for central implementations of the PARA/BASB co
 
 
 **** Screenshots
+:PROPERTIES:
+:ID:       9ff2cfc7-ecbf-41c1-80e0-b77de82c0c8c
+:END:
 **** Web Protocol
+:PROPERTIES:
+:ID:       a71e4a98-c10e-47f3-9d08-c564f440d81c
+:END:
 *** Refile Behaviors
+:PROPERTIES:
+:ID:       577909d5-ae56-4dee-b616-f448b9d1fa22
+:END:
 
 I like =org-refile= to be promiscuous: it should use outline paths, complete in steps, and allow for the creation of parent nodes on-the-fly. See See https://blog.aaronbieber.com/2017/03/19/organizing-notes-with-refile.html for details on some of the hacks here.
 
@@ -1289,6 +1604,9 @@ I like =org-refile= to be promiscuous: it should use outline paths, complete in 
 #+END_SRC
 
 *** Refile Targets (Integration with P.A.R.A.)
+:PROPERTIES:
+:ID:       b2d5bec8-eecb-4489-be65-42ab20d2bb96
+:END:
 
 The following code 
 
@@ -1316,9 +1634,21 @@ Currently, I bind it to =C-c g= and focus only on the =captures.org= file and se
 #+END_SRC
 
 ** Encryption
+:PROPERTIES:
+:ID:       d8fb0ac8-f51a-4859-87a4-7ac00641169e
+:END:
 ** Contacts Management
+:PROPERTIES:
+:ID:       731610d6-0ed3-44c7-aa9d-80328aebb109
+:END:
 ** Programming Languages Management
+:PROPERTIES:
+:ID:       c506119e-a2f0-4bc9-857f-b77e3d544a3a
+:END:
 *** Literate Programming
+:PROPERTIES:
+:ID:       c71966b7-8755-4dd1-9293-2ddf9613ed14
+:END:
 
 Require Org ~src~ blocks to use the current window.
 
@@ -1327,6 +1657,9 @@ Require Org ~src~ blocks to use the current window.
 #+end_src
 
 *** Tabbing, Spacing, and Expansion
+:PROPERTIES:
+:ID:       1c1bc964-4581-4483-8844-60d6a70a0945
+:END:
 
 Tab width of ~2~ is compact and readable:
 
@@ -1341,6 +1674,9 @@ When hitting return, go to the right-ish indendation on the next line, in genera
 #+end_src
 
 *** Autocompletion
+:PROPERTIES:
+:ID:       71d2d4d0-6aa9-4cc0-a7d5-8eda69e722e5
+:END:
 
 Package =auto-complete= works very well for some IDE-like behaviors.
 
@@ -1351,6 +1687,9 @@ Package =auto-complete= works very well for some IDE-like behaviors.
 #+END_SRC
 
 *** Babel
+:PROPERTIES:
+:ID:       ebf55f39-acd9-4c92-8e06-47b79643133b
+:END:
 
 I use =org-babel= to embed and process some code in my Org files. Here I initialize the set of languages I commonly and less-than-commonly rely on:
 
@@ -1367,12 +1706,18 @@ I use =org-babel= to embed and process some code in my Org files. Here I initial
 #+end_src
 
 *** Emacs Lisp
+:PROPERTIES:
+:ID:       2ee56f28-7e15-4102-91e0-06b233fbdb02
+:END:
 
 I don't currently use Emacs Lisp that much outside of Org mode configurations, but it's a language I'm fascinated by and want to use for something more extensive.
 
 The ~eldoc~ package provides minibuffer hints to assist in Emacs Lisp writing.
 
 **** NOTE I currently leave it untangled because I'm not using it. It is here like the man with the vulture eye, a burning, itching reminder. :NOTE:
+:PROPERTIES:
+:ID:       212308f8-2600-415a-9e95-1f88354a706c
+:END:
 
 #+begin_src emacs-lisp :tangle no
   (use-package eldoc
@@ -1387,6 +1732,9 @@ The ~eldoc~ package provides minibuffer hints to assist in Emacs Lisp writing.
 #+end_src
 
 *** Web Development
+:PROPERTIES:
+:ID:       a7dc904c-1832-45bc-995d-4af63c34eb48
+:END:
 
 For editing of Web documents (HTML, CSS), I use [[http://www.web-mode.org][web-mode]]:
 
@@ -1405,8 +1753,17 @@ For editing of Web documents (HTML, CSS), I use [[http://www.web-mode.org][web-m
 #+end_src
 
 ** Reference and Resource Management
+:PROPERTIES:
+:ID:       ed5c790d-79cc-4a25-b719-e8bf865a66e3
+:END:
 ** Publishing
+:PROPERTIES:
+:ID:       7ca07abd-0335-4a7c-95c3-2a6fcdb690f2
+:END:
 *** Broken Links
+:PROPERTIES:
+:ID:       a379410f-bdaf-461b-9d31-c27c247a841c
+:END:
 
 For the love of Psyche, please publish even if there are broken links, Org!
 
@@ -1415,10 +1772,25 @@ For the love of Psyche, please publish even if there are broken links, Org!
 #+end_src
 
 *** Commonplace Book
+:PROPERTIES:
+:ID:       9f41a051-6015-4338-ac6d-f65a060206f4
+:END:
 *** Hosted Private HTML
+:PROPERTIES:
+:ID:       a6c0b232-c118-4174-b8a7-44154887fd73
+:END:
 *** Blog and Microblog
+:PROPERTIES:
+:ID:       4d6c59ba-695d-42ed-bb0a-41a01c7083b0
+:END:
 ** Writing Environment
+:PROPERTIES:
+:ID:       68537fd2-3945-49be-aff0-8fc47ac61ebf
+:END:
 *** Distraction-Free Writing
+:PROPERTIES:
+:ID:       74cdbdff-e9b4-48e9-901b-42c9d38733e6
+:END:
 
 I use the =writeroom-mode= package as my main distraction destroyer. It creates a fullscreen Emacs environment, removes the modeline, and centers the text. It works well in its default aspect for me, though it's quite configurable.
 
@@ -1454,14 +1826,23 @@ I bind it to =C-<f11>= on analogy with <f11>, which creates a general fullscreen
                                              (variable-pitch-mode)))))))))
 #+END_SRC
 ** Memacs
+:PROPERTIES:
+:ID:       012efff3-8008-46a9-9ec1-bf61da5c84ed
+:END:
 
 Not much here yet, but want to use Memacs potentially as part of move toward quantified awesome.
 
 ** Ledger and Personal Finance
+:PROPERTIES:
+:ID:       7ed4d1a6-5e7b-4001-a1d3-4a34c640e38e
+:END:
 
 Not much here yet, but want to to use Ledger down the road.
 
 ** Dashboard
+:PROPERTIES:
+:ID:       8b3d7877-6838-4532-9e15-83f899c82886
+:END:
 
 This is an extensible Emacs startup screen that I've started to experiment with as a slow replacement for =organizer.org=.
 
@@ -1492,6 +1873,9 @@ Dashboard requires =page-break-lines= and =projectile=.
 #+END_SRC
 
 ** Toc-org
+:PROPERTIES:
+:ID:       792aa2f3-526d-4d08-a547-28c3c950f7f5
+:END:
  
 Install and load the =toc-org= package after org mode is loaded. This is the package that automatically generates an up to date table of contents for us.
 
@@ -1502,6 +1886,9 @@ Install and load the =toc-org= package after org mode is loaded. This is the pac
  #+end_src
 
 ** Post Initialization
+:PROPERTIES:
+:ID:       f7d06bac-3b2e-4557-a8d5-0be4916f7f0f
+:END:
 
  Lower our GC thresholds back down to a sane level.
 

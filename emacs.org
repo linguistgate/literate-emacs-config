@@ -85,6 +85,7 @@
   - [[#org-capture-and-refile][Org Capture and Refile]]
     - [[#webtools][Webtools]]
     - [[#capture-code-org-capture][Capture Code (=org-capture=)]]
+    - [[#capture-templates][Capture Templates]]
     - [[#capture-sources][Capture Sources]]
       - [[#elfeed][Elfeed]]
       - [[#screenshots][Screenshots]]
@@ -1295,9 +1296,6 @@ The actual implementation is handled elsewhere: I have a cron job that runs Emac
     (org-journal-date-format "%A, %x")                                                             ; date name format
     (org-journal-carryover-items "TODO=\"TODO\"|TODO=\"STARTED\"|TODO=\"NEXT\"|TODO=\"WAITING\"")  ; carryover items
     (org-journal-enable-agenda-integration t)                                                      ; ensure entries are on the agenda
-    (org-icalendar-store-UID t)                                                                    ; so changes sync correctly
-    (org-icalendar-include-todo "all")                                                             ; include TODOs and DONEs
-    (org-icalendar-combined-agenda-file "~/org/hub/calendars/org-journal.ics")
     )
   (org-journal-update-auto-mode-alist)
 #+END_SRC
@@ -1369,7 +1367,7 @@ I use webtools to help facilitate some web capturing.
 :ID:       f02e9a5e-9455-4892-9994-c44f0159df17
 :END:
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package org-capture
     :ensure nil
     :after org
@@ -1389,12 +1387,12 @@ I use webtools to help facilitate some web capturing.
       "Template for basic daybook journal entry.")
 
     (defvar owl/org-contacts-template "* %(org-contacts-template-name)
-                              :PROPERTIES:
-                              :ADDRESS: %^{289 Cleveland St. Brooklyn, 11206 NY, USA}
-                              :BIRTHDAY: %^{yyyy-mm-dd}
-                              :EMAIL: %(org-contacts-template-email)
-                              :NOTE: %^{NOTE}
-                              :END:" "Template for org-contacts.")
+                                :PROPERTIES:
+                                :ADDRESS: %^{289 Cleveland St. Brooklyn, 11206 NY, USA}
+                                :BIRTHDAY: %^{yyyy-mm-dd}
+                                :EMAIL: %(org-contacts-template-email)
+                                :NOTE: %^{NOTE}
+                                :END:" "Template for org-contacts.")
 
     (defun owl/org-journal-find-location ()
       ;; Open today's journal, but specify a non-nil prefix argument in order to
@@ -1402,130 +1400,136 @@ I use webtools to help facilitate some web capturing.
       (org-journal-new-entry t)
       ;; Position point on the journal's top-level heading so that org-capture
       ;; will add the new entry as a child entry.
-      (goto-char (point-min)))
+      (goto-char (point-min))))
+#+end_src
 
-    (setq org-capture-templates `(("u"                             ; key
-                                   "unscheduled task in place"     ; description
-                                   entry                           ; type
-                                   (function (lambda () (message "You have already arrived at your destination."))) ; target
-                                   "* TODO [#B] %^{Todo} %^g\n:PROPERTIES:\n:Created: %U\n:Effort: %^{effort|1:00|0:05|0:15|0:30|2:00|4:00}\n:END:"                          ; template
-                                   :prepend nil                    ; properties
-                                   :empty-lines 0                  ; properties
-                                   :created t                      ; properties
-                                   )
-                                  ("c"
-                                   "commonplace book entries")
-                                  ("cc"
-                                   "plain entry"
-                                   entry
-                                   (file+datetree "~/org/cpb/cpb.org")
-                                   "* %(if (string-empty-p \"%a\") \"%^{Heading}\" \"%a\") %^G %U %?%(unless (string-empty-p \"%i\") \"
+*** Capture Templates
+
+#+begin_src emacs-lisp
+  (setq org-capture-templates `(("u"                             ; key
+                                 "unscheduled task in place"     ; description
+                                 entry                           ; type
+                                 (function (lambda () (message "You have already arrived at your destination."))) ; target
+                                 "* TODO [#B] %^{Todo} %^g\n:PROPERTIES:\n:Created: %U\n:Effort: %^{effort|1:00|0:05|0:15|0:30|2:00|4:00}\n:END:"                          ; template
+                                 :prepend nil                    ; properties
+                                 :empty-lines 0                  ; properties
+                                 :created t                      ; properties
+                                 )
+                                ("c"
+                                 "commonplace book entries")
+                                ("cc"
+                                 "plain entry"
+                                 entry
+                                 (file+datetree "~/org/cpb/cpb.org")
+                                 "* %(if (string-empty-p \"%a\") \"%^{Heading}\" \"%a\") %^G %U %?%(unless (string-empty-p \"%i\") \"
 
                                      ,#+BEGIN_QUOTE
                                         %i
                                      ,#+END_QUOTE
 
                                      \")"
-                                   :clock-in t
-                                   :clock-resume t
-                                   :empty-lines 1)
-                                  ("cl"
-                                   "link to web page"
-                                   entry
-                                   (file+datetree "~/org/cpb/cpb.org")
-                                   "* %(org-web-tools--org-link-for-url) :website: %U %?"
-                                   :clock-in t
-                                   :clock-resume t
-                                   :empty-lines 1)
-                                  ("cr"
-                                   "readable content of web page"
-                                   entry
-                                   (file+datetree "~/org/cpb/cpb.org")
-                                   "%(org-web-tools--url-as-readable-org)"
-                                   :clock-in t
-                                   :clock-resume t
-                                   :empty-lines 1)
-                                  ("d" "daybook")
-                                  ("dt"				
-                                   "daybook task"
-                                   entry
-                                   (function owl/org-journal-find-location),
-                                   owl/org-daybook-task-template     ; template
-                                   :empty-lines 1)
-                                  ("de"
-                                   "daybook entry"
-                                   entry
-                                   (function owl/org-journal-find-location),
-                                   owl/org-daybook-entry-template
-                                   :empty-lines 1)
-                                  ("a"               
-                                   "article"         
-                                   entry             
-                                   (file+headline "~/org/cpb/bibliographies/mainref.org" "Article") 
-                                   "* %^{Title} %(org-set-tags)  :article: \n:PROPERTIES:\n:Created: %U\n:Linked: %A\n:END:\n%i\nBrief description:\n%?" 
-                                   :prepend t       
-                                   :empty-lines 1   
-                                   :created t       
-                                   )
-                                  ("z" 
-                                   "contact"
-                                   entry
-                                   (file "~/org/hub/contacts.org"),
-                                   owl/org-contacts-template
-                                   :empty-lines 1)
-                                  ("n"
-                                   "note"
-                                   entry
-                                   (file+datetree "~/org/cpb/cpb.org")
-                                   "* %? :NOTE:\n:LOGBOOK:\n:CREATED: %U\n:END:"
-                                   :prepend nil
-                                   :empty-lines 0
-                                   :created t)
-                                  ("j"
-                                   "journal entry"
-                                   entry
-                                   (file+datetree "~/org/cpb/cpb.org")
-                                   "* Event: %?\n\n  %i\n\n  From: %a"
-                                   :empty-lines 1)
-                                  ("r"
-                                   "recipe"
-                                   entry
-                                   (file+headline "~/org/cpb/food.org" "Recipes")
-                                   "* TOCOOK %?\n:LOGBOOK:\n:CREATED: %U\n:END:\n:PROPERTIES:\n:SOURCE: \n:SERVES: \n:END:\n** Ingredients\n** Preparation"
-                                   :prepend nil
-                                   :empty-lines 0
-                                   :created t)				
-                                  ("e"
-                                   "elfeed"
-                                   entry
-                                   (file "~/org/cpb/cpb.org")
-                                   "* %a  %^G \n:LOGBOOK:\n:CAPTURED: %U\n:END:\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE\n" 
-                                   :prepend nil
-                                   :empty-lines 0
-                                   :created t
-                                   )
-                                  ("f" "Fitness")
-                                  ("fw" "Weight" 
-                                   table-line
-                                   "| | %U | %^{Weight} | %^{Comment}"
-                                   :immediate-finish t)
-                                  ("s"
-                                   "selected org-protocol link"
-                                   entry
-                                   (file "~/org/captures/captures.org")
-                                   "* %^{Title}\nSource: %u, [[%:link][%:description]] \n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-                                  ("p" 
-                                   "org-protocol-link"
-                                   entry
-                                   (file "~/org/captures/captures.org")
-                                   "* %? [[%:link][%:description]] \nCaptured On: %U")				
-                                  )
-          )
-    )
-#+END_SRC
-
-#+RESULTS:
-: org-refile
+                                 :clock-in t
+                                 :clock-resume t
+                                 :empty-lines 1)
+                                ("cl"
+                                 "link to web page"
+                                 entry
+                                 (file+datetree "~/org/cpb/cpb.org")
+                                 "* %(org-web-tools--org-link-for-url) :website: %U %?"
+                                 :clock-in t
+                                 :clock-resume t
+                                 :empty-lines 1)
+                                ("cr"
+                                 "readable content of web page"
+                                 entry
+                                 (file+datetree "~/org/cpb/cpb.org")
+                                 "%(org-web-tools--url-as-readable-org)"
+                                 :clock-in t
+                                 :clock-resume t
+                                 :empty-lines 1)
+                                ("d" "daybook")
+                                ("dt"				
+                                 "daybook task"
+                                 entry
+                                 (function owl/org-journal-find-location),
+                                 owl/org-daybook-task-template     ; template
+                                 :empty-lines 1)
+                                ("de"
+                                 "daybook entry"
+                                 entry
+                                 (function owl/org-journal-find-location),
+                                 owl/org-daybook-entry-template
+                                 :empty-lines 1)
+                                ("a"               
+                                 "article"         
+                                 entry             
+                                 (file+headline "~/org/cpb/bibliographies/mainref.org" "Article") 
+                                 "* %^{Title} %(org-set-tags)  :article: \n:PROPERTIES:\n:Created: %U\n:Linked: %A\n:END:\n%i\nBrief description:\n%?" 
+                                 :prepend t       
+                                 :empty-lines 1   
+                                 :created t       
+                                 )
+                                ("z" 
+                                 "contact"
+                                 entry
+                                 (file "~/org/hub/contacts.org"),
+                                 owl/org-contacts-template
+                                 :empty-lines 1)
+                                ("n"
+                                 "note"
+                                 entry
+                                 (file+datetree "~/org/cpb/cpb.org")
+                                 "* %? :NOTE:\n:LOGBOOK:\n:CREATED: %U\n:END:"
+                                 :prepend nil
+                                 :empty-lines 0
+                                 :created t)
+                                ("j"
+                                 "journal entry"
+                                 entry
+                                 (file+datetree "~/org/cpb/cpb.org")
+                                 "* Event: %?\n\n  %i\n\n  From: %a"
+                                 :empty-lines 1)
+                                ("r"
+                                 "recipe"
+                                 entry
+                                 (file+headline "~/org/cpb/food.org" "Recipes")
+                                 "* TOCOOK %?\n:LOGBOOK:\n:CREATED: %U\n:END:\n:PROPERTIES:\n:SOURCE: \n:SERVES: \n:END:\n** Ingredients\n** Preparation"
+                                 :prepend nil
+                                 :empty-lines 0
+                                 :created t)				
+                                ("e"
+                                 "elfeed"
+                                 entry
+                                 (file "~/org/cpb/cpb.org")
+                                 "* %a  %^G \n:LOGBOOK:\n:CAPTURED: %U\n:END:\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE\n" 
+                                 :prepend nil
+                                 :empty-lines 0
+                                 :created t
+                                 )
+                                ("f" "Fitness")
+                                ("fw"
+                                 "Weight" 
+                                 table-line
+                                 (file+headline "~/org/cpb/fitness.org" "Weight Log")
+                                 "| | %U | %^{Weight} | %^{Comment}"
+                                 :immediate-finish t)
+                                ("fh"
+                                 "Hike" 
+                                 table-line
+                                 (file+headline "~/org/cpb/fitness.org" "Hike")
+                                 "| | %U | %^{Weight} | %^{Comment}"
+                                 :immediate-finish t)
+                                ("s"
+                                 "selected org-protocol link"
+                                 entry
+                                 (file "~/org/captures/captures.org")
+                                 "* %^{Title}\nSource: %u, [[%:link][%:description]] \n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+                                ("p" 
+                                 "org-protocol-link"
+                                 entry
+                                 (file "~/org/captures/captures.org")
+                                 "* %? [[%:link][%:description]] \nCaptured On: %U")))
+#+end_src
 
 #+BEGIN_SRC emacs-lisp
   (defun owl/org-call-src-block (name)

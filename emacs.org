@@ -1168,14 +1168,13 @@ I use this method until a project "proves" that it should be added to the perman
 
 #+begin_src emacs-lisp
   (setq org-agenda-files (apply 'append
-                           (mapcar
-                            (lambda (directory)
-                              (directory-files-recursively
-                               directory org-agenda-file-regexp))
-                            '("~/org/captures/"
-                              "~/org/hub/"
-                              "~/org/daybook/"
-                              "~/.emacs.d/"))))
+                                (mapcar
+                                 (lambda (directory)
+                                   (directory-files-recursively
+                                    directory org-agenda-file-regexp))
+                                 '("~/org/hub/"
+                                   "~/org/notebooks/"
+                                   "~/.emacs.d/"))))
 #+end_src
 
 Custom commands for Org Agenda

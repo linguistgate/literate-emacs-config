@@ -1280,6 +1280,8 @@ The tags are used to filter tasks in the agenda views conveniently.
 :ID:       10e8a6e7-3a71-4950-9e73-4bbcd1a0be7b
 :END:
 
+*** COMMENT Currently defunct 
+
 The directory =~/org/daybook= holds a set of short diary files that together comprise a bullet-journal-esque daybook.
 
 The following code follows the ~use-package~ defaults set in [[https://github.com/bastibe/org-journal#an-example-setup][the example setup on Github]].
@@ -1288,7 +1290,7 @@ Additional code that references ~icalendar~ is part of a project that synchroniz
 
 The actual implementation is handled elsewhere: I have a cron job that runs Emacs in batch mode, accessing a short init file script that contains similar code. Via Syncthing (as of [2019-07-23 Tue]), my smartphone accesses the output ~.ics~ file, and an app on the phone handles importation to my calendar app. It's a decent solution and a workaround for the fact that Orgzly, qua a task manager interface for Org Mode on Android, does not read daybook files or embedded directories in a satisfactory way. (Though it should still be possible to have the daybook file format be directly ~.org~, which should allow for Orgzly to read the current day file.)
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
   (use-package org-journal
     :defer t
     :custom
@@ -1420,7 +1422,7 @@ I use webtools to help facilitate some web capturing.
                                 ("cc"
                                  "plain entry"
                                  entry
-                                 (file+datetree "~/org/cpb/cpb.org")
+                                 (file+datetree "~/org/notebooks/cpb.org")
                                  "* %(if (string-empty-p \"%a\") \"%^{Heading}\" \"%a\") %^G %U %?%(unless (string-empty-p \"%i\") \"
 
                                      ,#+BEGIN_QUOTE
@@ -1434,7 +1436,7 @@ I use webtools to help facilitate some web capturing.
                                 ("cl"
                                  "link to web page"
                                  entry
-                                 (file+datetree "~/org/cpb/cpb.org")
+                                 (file+datetree "~/org/notebooks/cpb.org")
                                  "* %(org-web-tools--org-link-for-url) :website: %U %?"
                                  :clock-in t
                                  :clock-resume t
@@ -1442,7 +1444,7 @@ I use webtools to help facilitate some web capturing.
                                 ("cr"
                                  "readable content of web page"
                                  entry
-                                 (file+datetree "~/org/cpb/cpb.org")
+                                 (file+datetree "~/org/notebooks/cpb.org")
                                  "%(org-web-tools--url-as-readable-org)"
                                  :clock-in t
                                  :clock-resume t
@@ -1463,7 +1465,7 @@ I use webtools to help facilitate some web capturing.
                                 ("a"               
                                  "article"         
                                  entry             
-                                 (file+headline "~/org/cpb/bibliographies/mainref.org" "Article") 
+                                 (file+headline "~/org/notebooks/bibliographies/mainref.org" "Article") 
                                  "* %^{Title} %(org-set-tags)  :article: \n:PROPERTIES:\n:Created: %U\n:Linked: %A\n:END:\n%i\nBrief description:\n%?" 
                                  :prepend t       
                                  :empty-lines 1   
@@ -1478,7 +1480,7 @@ I use webtools to help facilitate some web capturing.
                                 ("n"
                                  "note"
                                  entry
-                                 (file+datetree "~/org/cpb/cpb.org")
+                                 (file+datetree "~/org/notebooks/cpb.org")
                                  "* %? :NOTE:\n:LOGBOOK:\n:CREATED: %U\n:END:"
                                  :prepend nil
                                  :empty-lines 0
@@ -1486,13 +1488,13 @@ I use webtools to help facilitate some web capturing.
                                 ("j"
                                  "journal entry"
                                  entry
-                                 (file+datetree "~/org/cpb/cpb.org")
+                                 (file+datetree "~/org/notebooks/cpb.org")
                                  "* Event: %?\n\n  %i\n\n  From: %a"
                                  :empty-lines 1)
                                 ("r"
                                  "recipe"
                                  entry
-                                 (file+headline "~/org/cpb/food.org" "Recipes")
+                                 (file+headline "~/org/notebooks/food.org" "Recipes")
                                  "* TOCOOK %?\n:LOGBOOK:\n:CREATED: %U\n:END:\n:PROPERTIES:\n:SOURCE: \n:SERVES: \n:END:\n** Ingredients\n** Preparation"
                                  :prepend nil
                                  :empty-lines 0
@@ -1500,7 +1502,7 @@ I use webtools to help facilitate some web capturing.
                                 ("e"
                                  "elfeed"
                                  entry
-                                 (file "~/org/cpb/cpb.org")
+                                 (file "~/org/notebooks/cpb.org")
                                  "* %a  %^G \n:LOGBOOK:\n:CAPTURED: %U\n:END:\n#+BEGIN_QUOTE\n%i\n#+END_QUOTE\n" 
                                  :prepend nil
                                  :empty-lines 0
@@ -1510,24 +1512,24 @@ I use webtools to help facilitate some web capturing.
                                 ("fw"
                                  "Weight" 
                                  table-line
-                                 (file+headline "~/org/cpb/fitness.org" "Weight Log")
+                                 (file+headline "~/org/notebooks/fitness.org" "Weight Log")
                                  "| | %U | %^{Weight} | %^{Comment}"
                                  :immediate-finish t)
                                 ("fh"
                                  "Hike" 
                                  table-line
-                                 (file+headline "~/org/cpb/fitness.org" "Hike")
+                                 (file+headline "~/org/notebooks/fitness.org" "Hike")
                                  "| | %U | %^{Weight} | %^{Comment}"
                                  :immediate-finish t)
                                 ("s"
                                  "selected org-protocol link"
                                  entry
-                                 (file "~/org/captures/captures.org")
+                                 (file "~/org/hub/captures.org")
                                  "* %^{Title}\nSource: %u, [[%:link][%:description]] \n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
                                 ("p" 
                                  "org-protocol-link"
                                  entry
-                                 (file "~/org/captures/captures.org")
+                                 (file "~/org/hub/captures.org")
                                  "* %? [[%:link][%:description]] \nCaptured On: %U")))
 #+end_src
 
@@ -1575,7 +1577,7 @@ I use webtools to help facilitate some web capturing.
   ;; Optionally specify a number of files containing elfeed
   ;; configuration. If not set then the location below is used.
   ;; Note: The customize interface is also supported.
-  (setq rmh-elfeed-org-files (list "~/org/captures/elfeed.org"))
+  (setq rmh-elfeed-org-files (list "~/org/hub/elfeed.org"))
 
   ;; Somewhere in your .emacs file
   ;; (setq elfeed-feeds
@@ -1628,12 +1630,12 @@ Currently, I bind it to =C-c g= and focus only on the =captures.org= file and se
   (use-package org-randomnote
     :ensure t
     :bind ("C-c g" . org-randomnote)
-    :config (setq org-randomnote-candidates '("~/org/captures/captures.org"
+    :config (setq org-randomnote-candidates '("~/org/hub/captures.org"
                                               "~/org/hub/systems.org"
-                                              "~/org/cpb/journal.org"
-                                              "~/org/cpb/cs.org"
-                                              "~/org/cpb/reading.org"
-                                              "~/org/cpb/notebook.org"))
+                                              "~/org/notebooks/journal.org"
+                                              "~/org/notebooks/cs.org"
+                                              "~/org/notebooks//reading.org"
+                                              "~/org/notebooks/notebook.org"))
     )
 #+END_SRC
 

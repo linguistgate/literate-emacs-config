@@ -1172,8 +1172,7 @@ I use this method until a project "proves" that it should be added to the perman
                                  (lambda (directory)
                                    (directory-files-recursively
                                     directory org-agenda-file-regexp))
-                                 '("~/org/hub/"
-                                   "~/org/notebooks/"
+                                 '("~/org/hub/"                                
                                    "~/.emacs.d/"))))
 #+end_src
 

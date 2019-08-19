@@ -1221,7 +1221,7 @@ My task keywords generally follow Bernt Hansen's [[http://doc.norang.ca/org-mode
 
 #+begin_src emacs-lisp
   (setq org-todo-keywords
-        (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+        (quote ((sequence "TODO(t)" "NEXT(n)" "IN-PROGRESS(i)"  "|" "DONE(d)")
                 (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELED(c@/!)" "PHONE" "MEETING"))))
 #+end_src
 

@@ -1223,7 +1223,7 @@ My task keywords generally follow Bernt Hansen's [[http://doc.norang.ca/org-mode
   (setq org-todo-keywords
         (quote ((sequence "TODO(t)" "NEXT(n)" "IN-PROGRESS(i)"  "|" "DONE(d)")
                 (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELED(c@/!)" "PHONE" "MEETING")
-                (sequence "SOMEDAY(s)" "IDEA(i)"))))
+                (sequence "TICKLER" "IDEA"))))
 #+end_src
 
 *** Fast Todo Selection

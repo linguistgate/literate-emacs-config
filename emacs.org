@@ -1222,7 +1222,8 @@ My task keywords generally follow Bernt Hansen's [[http://doc.norang.ca/org-mode
 #+begin_src emacs-lisp
   (setq org-todo-keywords
         (quote ((sequence "TODO(t)" "NEXT(n)" "IN-PROGRESS(i)"  "|" "DONE(d)")
-                (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELED(c@/!)" "PHONE" "MEETING"))))
+                (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELED(c@/!)" "PHONE" "MEETING")
+                (sequence "SOMEDAY(s)" "IDEA(i)"))))
 #+end_src
 
 *** Fast Todo Selection
@@ -1386,6 +1387,11 @@ I use webtools to help facilitate some web capturing.
       "* NOTE %(format-time-string org-journal-time-format)%^{Title} %^g\n:PROPERTIES:\n:Created: %U\n:END:\n%?"
       "Template for basic daybook journal entry.")
 
+    (defvar owl/friday-reflection-template
+      "* Friday Reflection"
+      "Template for Friday reflection."
+      )
+
     (defvar owl/org-contacts-template "* %(org-contacts-template-name)
                                 :PROPERTIES:
                                 :ADDRESS: %^{289 Cleveland St. Brooklyn, 11206 NY, USA}
@@ -1406,14 +1412,12 @@ I use webtools to help facilitate some web capturing.
 *** Capture Templates
 
 #+begin_src emacs-lisp
-  (setq org-capture-templates `(("u"                             ; key
-                                 "unscheduled task in place"     ; description
-                                 entry                           ; type
-                                 (function (lambda () (message "You have already arrived at your destination."))) ; target
-                                 "* TODO [#B] %^{Todo} %^g\n:PROPERTIES:\n:Created: %U\n:Effort: %^{effort|1:00|0:05|0:15|0:30|2:00|4:00}\n:END:"                          ; template
-                                 :prepend nil                    ; properties
-                                 :empty-lines 0                  ; properties
-                                 :created t                      ; properties
+  (setq org-capture-templates `(("t"
+                                 "basic task entry"
+                                 entry
+                                 (file "~/org/hub/tasks.org"),
+                                 owl/org-basic-task-template
+                                 :empty-lines 1
                                  )
                                 ("c"
                                  "commonplace book entries")
@@ -1423,11 +1427,11 @@ I use webtools to help facilitate some web capturing.
                                  (file+datetree "~/org/notebooks/cpb.org")
                                  "* %(if (string-empty-p \"%a\") \"%^{Heading}\" \"%a\") %^G %U %?%(unless (string-empty-p \"%i\") \"
 
-                                     ,#+BEGIN_QUOTE
-                                        %i
-                                     ,#+END_QUOTE
+                                         ,#+BEGIN_QUOTE
+                                            %i
+                                         ,#+END_QUOTE
 
-                                     \")"
+                                         \")"
                                  :clock-in t
                                  :clock-resume t
                                  :empty-lines 1)

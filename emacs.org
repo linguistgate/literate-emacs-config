@@ -1415,10 +1415,8 @@ I use webtools to help facilitate some web capturing.
   (setq org-capture-templates `(("t"
                                  "basic task entry"
                                  entry
-                                 (file "~/org/hub/tasks.org"),
-                                 owl/org-basic-task-template
-                                 :empty-lines 1
-                                 )
+                                 (file "~/org/hub/inbox.org"),
+                                 owl/org-basic-task-template)
                                 ("c"
                                  "commonplace book entries")
                                 ("cc"
@@ -1526,12 +1524,12 @@ I use webtools to help facilitate some web capturing.
                                 ("s"
                                  "selected org-protocol link"
                                  entry
-                                 (file "~/org/hub/captures.org")
+                                 (file "~/org/hub/inbox.org")
                                  "* %^{Title}\nSource: %u, [[%:link][%:description]] \n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
                                 ("p" 
                                  "org-protocol-link"
                                  entry
-                                 (file "~/org/hub/captures.org")
+                                 (file "~/org/hub/inbox.org")
                                  "* %? [[%:link][%:description]] \nCaptured On: %U")))
 #+end_src
 

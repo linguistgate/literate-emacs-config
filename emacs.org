@@ -1562,7 +1562,7 @@ I use webtools to help facilitate some web capturing.
 :ID:       3aee0867-a353-483f-b312-9fa99d4d8f18
 :END:
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   ;; Load elfeed-org
   (require 'elfeed)
   (require 'elfeed-org)
@@ -1856,7 +1856,7 @@ It's not doing a great job interacting with Agenda [2019-06-09 Sun].
 
 Dashboard requires =page-break-lines= and =projectile=.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 
   (use-package page-break-lines)
 

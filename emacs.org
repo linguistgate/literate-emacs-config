@@ -53,7 +53,7 @@
     - [[#capture-code-and-functions][Capture Code and Functions]]
     - [[#capture-templates][Capture Templates]]
     - [[#refile-behaviors][Refile Behaviors]]
-    - [[#refile-targets-integration-with-para][Refile Targets (Integration with P.A.R.A.)]]
+    - [[#refile-targets][Refile Targets]]
     - [[#capture-sources][Capture Sources]]
       - [[#elfeed][Elfeed]]
       - [[#screenshots][Screenshots]]
@@ -775,21 +775,7 @@ Org-mode capture templates allow for central implementations of the PARA/BASB co
       (goto-char (point-min))))
 #+END_SRC
 
-*** Capture Templates
 
-#+BEGIN_SRC emacs-lisp
-  (setq org-capture-templates `(("t"
-                                 "basic task entry"
-                                 entry
-                                 (file "~/org/hub/inbox.org"),
-                                 owl/org-basic-task-template)
-                                ("j"
-                                 "journal entry"
-                                 entry
-                                 (file+datetree "~/org/notebooks/cpb.org")
-                                 "* Event: %?\n\n  %i\n\n  From: %a"
-                                 :empty-lines 1)))
-#+END_SRC
 
 #+BEGIN_SRC emacs-lisp
   (defun owl/org-call-src-block (name)
@@ -809,10 +795,24 @@ Org-mode capture templates allow for central implementations of the PARA/BASB co
        (let ((org-confirm-babel-evaluate nil))
          (org-babel-execute-src-block)))))
 #+END_SRC
+
+*** Capture Templates
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-capture-templates `(("t"
+                                 "basic task entry"
+                                 entry
+                                 (file "~/org/hub/inbox.org"),
+                                 owl/org-basic-task-template)
+                                ("j"
+                                 "journal entry"
+                                 entry
+                                 (file+datetree "~/org/notebooks/cpb.org")
+                                 "* Event: %?\n\n  %i\n\n  From: %a"
+                                 :empty-lines 1)))
+#+END_SRC
+
 *** Refile Behaviors
-:PROPERTIES:
-:ID:       577909d5-ae56-4dee-b616-f448b9d1fa22
-:END:
 
 I like =org-refile= to be promiscuous: it should use outline paths, complete in steps, and allow for the creation of parent nodes on-the-fly. See See https://blog.aaronbieber.com/2017/03/19/organizing-notes-with-refile.html for details on some of the hacks here.
 
@@ -824,12 +824,7 @@ I like =org-refile= to be promiscuous: it should use outline paths, complete in 
   (setq org-refile-allow-creating-parent-nodes 'confirm)
 #+END_SRC
 
-*** Refile Targets (Integration with P.A.R.A.)
-:PROPERTIES:
-:ID:       b2d5bec8-eecb-4489-be65-42ab20d2bb96
-:END:
-
-The following code 
+*** Refile Targets
 
 #+BEGIN_SRC emacs-lisp
   (setq org-refile-targets '((org-agenda-files :maxlevel . 5)))
@@ -845,26 +840,18 @@ Currently, I bind it to =C-c g= and focus only on the =captures.org= file and se
   (use-package org-randomnote
     :ensure t
     :bind ("C-c g" . org-randomnote)
-    :config (setq org-randomnote-candidates '("~/org/hub/captures.org"
+    :config (setq org-randomnote-candidates '("~/org/hub/inbox.org"
                                               "~/org/hub/systems.org"
                                               "~/org/notebooks/journal.org"
-                                              "~/org/notebooks/cs.org"
                                               "~/org/notebooks//reading.org"
-                                              "~/org/notebooks/notebook.org"))
-    )
+                                              "~/org/notebooks/notebook.org")))
 #+END_SRC
 
 *** Capture Sources
-:PROPERTIES:
-:ID:       6a0da1f3-c52f-4222-8e27-de34147aa1fc
-:END:
 
 **** Elfeed
-:PROPERTIES:
-:ID:       3aee0867-a353-483f-b312-9fa99d4d8f18
-:END:
 
-#+begin_src emacs-lisp :tangle no
+#+BEGIN_SRC emacs-lisp :tangle no
   ;; Load elfeed-org
   (require 'elfeed)
   (require 'elfeed-org)
@@ -885,28 +872,19 @@ Currently, I bind it to =C-c g= and focus only on the =captures.org= file and se
   ;; (setq elfeed-feeds
   ;;       '("http://nullprogram.com/feed/"
   ;;         "http://planet.emacsen.org/atom.xml"))
-#+end_src
-
+#+END_SRC
 
 **** Screenshots
-:PROPERTIES:
-:ID:       9ff2cfc7-ecbf-41c1-80e0-b77de82c0c8c
-:END:
+
 **** Web Protocol
-:PROPERTIES:
-:ID:       a71e4a98-c10e-47f3-9d08-c564f440d81c
-:END:
 
 *** Webtools
-:PROPERTIES:
-:ID:       d72150c7-cee0-4d89-ad38-00759428f33d
-:END:
 
 I use webtools to help facilitate some web capturing.
 
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (use-package org-web-tools)
-#+end_src
+#+END_SRC
 
 ** Project Management
 

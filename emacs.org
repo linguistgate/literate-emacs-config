@@ -40,6 +40,7 @@
       - [[#programming-themes][Programming Themes]]
       - [[#writing-themes][Writing Themes]]
       - [[#org-themes][Org Themes]]
+    - [[#writing-environment][Writing Environment]]
   - [[#org-mode-initialization][Org-Mode Initialization]]
     - [[#org-defaults][Org Defaults]]
     - [[#org-modules][Org Modules]]
@@ -64,6 +65,19 @@
     - [[#version-control][Version Control]]
       - [[#magit][Magit]]
       - [[#local-backups][Local Backups]]
+  - [[#reference-management][Reference Management]]
+  - [[#publishing-management][Publishing Management]]
+    - [[#broken-links][Broken Links]]
+    - [[#commonplace-book][Commonplace Book]]
+    - [[#hosted-private-html][Hosted Private HTML]]
+    - [[#blog-and-microblog][Blog and Microblog]]
+  - [[#programming][Programming]]
+    - [[#literate-programming][Literate Programming]]
+    - [[#tabbing-spacing-and-expansion][Tabbing, Spacing, and Expansion]]
+    - [[#autocompletion][Autocompletion]]
+    - [[#babel][Babel]]
+    - [[#emacs-lisp][Emacs Lisp]]
+    - [[#web-development][Web Development]]
   - [[#toc-org][Toc-org]]
   - [[#post-initialization][Post Initialization]]
 
@@ -555,6 +569,10 @@ I like a hydra to help me increase or decrease text scale in a given buffer:
 
 **** Org Themes
 
+*** Writing Environment
+
+Write a function here that pulls together certain packages?
+
 ** Org-Mode Initialization
 
 I favor the newer version of Org-Mode over the built-in one(s).
@@ -887,7 +905,6 @@ I use webtools to help facilitate some web capturing.
 #+END_SRC
 
 ** Project Management
-
 *** Projectile
 
 Projectile is a quick and easy project management package.
@@ -931,6 +948,102 @@ Server and long-term backups are handled via Syncthing/Nextcloud and other metho
         kept-new-versions 6
         kept-old-versions 2
         version-control t)
+#+END_SRC
+
+** Reference Management
+** Publishing Management
+
+*** Broken Links
+
+For the love of Psyche, please publish even if there are broken links, Org!
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-export-with-broken-links t)
+#+END_SRC
+
+*** Commonplace Book
+*** Hosted Private HTML
+*** Blog and Microblog
+
+** Programming
+*** Literate Programming
+
+Require Org ~src~ blocks to use the current window. Currently turned off.
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (setq org-src-window-setup 'current-window)
+#+END_SRC
+
+*** Tabbing, Spacing, and Expansion
+
+Tab width of ~2~ is compact and readable:
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default tab-width 2)
+#+END_SRC
+
+When hitting return, go to the right-ish indendation on the next line, in general:
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "RET") 'newline-and-indent)
+#+END_SRC
+
+*** Autocompletion
+
+Package =auto-complete= works very well for some IDE-like behaviors.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package auto-complete
+    :diminish auto-complete-mode
+    :config (ac-config-default))
+#+END_SRC
+
+*** Babel
+
+I use =org-babel= to embed and process some code in my Org files. Here I initialize the set of languages I commonly and less-than-commonly rely on:
+
+#+BEGIN_SRC emacs-lisp
+  (use-package gnuplot)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (org-babel-do-load-languages
+   'org-babel-load-languages '((C . t)
+                               (shell . t)
+                               (python . t)
+                               (gnuplot . t)))
+#+END_SRC
+
+*** Emacs Lisp
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (use-package eldoc
+    :diminish eldoc-mode
+    :commands turn-on-eldoc-mode
+    :defer t
+    :init
+    (progn
+    (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+    (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
+    (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)))
+#+END_SRC
+
+*** Web Development
+
+For editing of Web documents (HTML, CSS), I use [[http://www.web-mode.org][web-mode]]:
+
+#+BEGIN_SRC emacs-lisp
+  (use-package web-mode
+    :mode "\\.html?\\'"
+    :config
+    (progn
+      (setq web-mode-markup-indent-offset 2)
+      (setq web-mode-code-indent-offset 2)
+      (setq web-mode-enable-current-element-highlight t)
+      (setq web-mode-ac-sources-alist
+            '(("css" . (ac-source-css-property))
+              ("html" . (ac-source-words-in-buffer ac-source-abbrev)))
+            )))
 #+END_SRC
 
 ** Toc-org

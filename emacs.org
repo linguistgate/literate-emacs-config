@@ -31,9 +31,8 @@
     - [[#counsel][Counsel]]
     - [[#swiper][Swiper]]
   - [[#global-defaults][Global Defaults]]
-    - [[#core-editing-desirables][Core Editing Desirables]]
+    - [[#core-editing][Core Editing]]
     - [[#clock][Clock]]
-    - [[#aggressive-indent][Aggressive Indent]]
   - [[#fonts][Fonts]]
     - [[#font-locking][Font Locking]]
     - [[#default-fonts][Default Fonts]]
@@ -45,6 +44,7 @@
       - [[#writing-themes][Writing Themes]]
       - [[#org-themes][Org Themes]]
     - [[#writing-environment][Writing Environment]]
+    - [[#functions-to-switch-among-themes][Functions to Switch Among Themes]]
   - [[#org-mode-initialization][Org-Mode Initialization]]
     - [[#org-defaults][Org Defaults]]
     - [[#org-modules][Org Modules]]
@@ -82,6 +82,7 @@
     - [[#babel][Babel]]
     - [[#emacs-lisp][Emacs Lisp]]
     - [[#web-development][Web Development]]
+    - [[#aggressive-indent][Aggressive Indent]]
   - [[#toc-org][Toc-org]]
   - [[#post-initialization][Post Initialization]]
 
@@ -478,7 +479,7 @@ Swiper is a searching utility with quick preview in minibuffer. I load it when =
 
 ** Global Defaults
 
-*** Core Editing Desirables
+*** Core Editing
 
 - The variable =truncate-lines= turns off wrapping. Long lines will show a continuation character in the right margin.
 - To indicate the presence of empty lines at the end of a file, a marker is placed in the left fringe.
@@ -496,20 +497,6 @@ Put a clock in the modeline.
 
 #+BEGIN_SRC emacs-lisp
   (display-time-mode 1)
-#+END_SRC
-
-*** Aggressive Indent
-:PROPERTIES:
-:ID:       a35b1a43-2395-46dd-ab04-42f6d870241e
-:END:
-
-The package reindents code after every change, making it purportedly more reliable than =electric-indent-mode=.
-
-Because I mainly use Lisp and Python, I want aggressive indenting to be specific to =emacs-lisp-mode= so I activate it via hook.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package aggressive-indent
-    :config (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode))
 #+END_SRC
 
 ** Fonts
@@ -613,6 +600,35 @@ I like a hydra to help me increase or decrease text scale in a given buffer:
 
 Write a function here that pulls together certain packages?
 
+*** Functions to Switch Among Themes
+
+#+BEGIN_SRC emacs-lisp
+  (setq owl/themes '(poet poet-dark leuven))
+  (setq owl/themes-index 0)
+#+END_SRC
+
+I then define a function to cycle through the index of themes and assign it to =<f12>= globally.
+
+#+BEGIN_SRC emacs-lisp
+  (defun owl/cycle-theme ()
+    (interactive)
+    (setq owl/themes-index (% (1+ owl/themes-index) (length owl/themes)))
+    (owl/load-indexed-theme))
+
+  (global-set-key (kbd "<f12>") 'owl/cycle-theme)
+#+END_SRC
+
+In order to prevent overlay, =owl/cycle-theme= depends on on two additional functions:
+
+#+BEGIN_SRC emacs-lisp
+  (defun owl/load-indexed-theme ()
+    (owl/try-load-theme (nth owl/themes-index owl/themes)))
+
+  (defun owl/try-load-theme (theme)
+    (if (ignore-errors (load-theme theme :no-confirm))
+	(mapcar #'disable-theme (remove theme custom-enabled-themes))
+      (message "Unable to find theme file for ‘%s’" theme)))
+#+END_SRC
 ** Org-Mode Initialization
 
 I favor the newer version of Org-Mode over the built-in one(s).
@@ -1084,6 +1100,17 @@ For editing of Web documents (HTML, CSS), I use [[http://www.web-mode.org][web-m
             '(("css" . (ac-source-css-property))
               ("html" . (ac-source-words-in-buffer ac-source-abbrev)))
             )))
+#+END_SRC
+
+*** Aggressive Indent
+
+The package reindents code after every change, making it purportedly more reliable than =electric-indent-mode=.
+
+Because I mainly use Lisp and Python, I want aggressive indenting to be specific to =emacs-lisp-mode= so I activate it via hook.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package aggressive-indent
+    :config (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode))
 #+END_SRC
 
 ** Toc-org

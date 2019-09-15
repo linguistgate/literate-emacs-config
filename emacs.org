@@ -2,6 +2,59 @@
 #+AUTHOR: Matthew Edward Adams 
 #+PROPERTY: header-args :tangle yes
 #+STARTUP: indent
+* Table of Contents :TOC_5_gh:
+- [[#configuration][Configuration]]
+  - [[#config-file-tweaks][Config File Tweaks]]
+    - [[#automatically-tangle][Automatically Tangle]]
+    - [[#reload-configuation][Reload Configuation]]
+    - [[#visibility-settings][Visibility Settings]]
+    - [[#table-of-contents][Table of Contents]]
+  - [[#emacs-initialization][Emacs Initialization]]
+    - [[#garbage-collection][Garbage Collection]]
+    - [[#byte-compilation][Byte Compilation]]
+    - [[#startup-behavior][Startup Behavior]]
+    - [[#directory-structure][Directory Structure]]
+    - [[#package-management][Package Management]]
+      - [[#package-settings][Package Settings]]
+      - [[#use-package-settings][Use-Package Settings]]
+      - [[#manually-set-load-path][Manually Set Load Path]]
+      - [[#initialize-package-management][Initialize Package Management]]
+  - [[#personal-information][Personal Information]]
+  - [[#accessibility][Accessibility]]
+    - [[#hinting][Hinting]]
+    - [[#hydra-configuration][Hydra Configuration]]
+    - [[#windmove][Windmove]]
+    - [[#ace-window][Ace Window]]
+    - [[#zoom-window][Zoom Window]]
+  - [[#navigation][Navigation]]
+    - [[#ivy][Ivy]]
+    - [[#counsel][Counsel]]
+    - [[#swiper][Swiper]]
+  - [[#fonts][Fonts]]
+    - [[#font-locking][Font Locking]]
+    - [[#default-fonts][Default Fonts]]
+    - [[#font-switching][Font Switching]]
+    - [[#font-sizing][Font Sizing]]
+  - [[#themes][Themes]]
+    - [[#themes-in-rotation][Themes in Rotation]]
+      - [[#programming-themes][Programming Themes]]
+      - [[#writing-themes][Writing Themes]]
+      - [[#org-themes][Org Themes]]
+  - [[#org-mode-initialization][Org-Mode Initialization]]
+  - [[#org-agenda][Org Agenda]]
+    - [[#agenda-files][Agenda Files]]
+    - [[#habits-org-habit][Habits (=org-habit=)]]
+  - [[#tasks-and-states][Tasks and States]]
+    - [[#fast-todo-selection][Fast Todo Selection]]
+    - [[#state-triggers][State Triggers]]
+  - [[#project-management][Project Management]]
+    - [[#projectile][Projectile]]
+    - [[#version-control][Version Control]]
+      - [[#magit][Magit]]
+      - [[#local-backups][Local Backups]]
+  - [[#toc-org][Toc-org]]
+  - [[#post-initialization][Post Initialization]]
+
 * Configuration
 :PROPERTIES:
 :VISIBILITY: children
@@ -561,6 +614,58 @@ I like my habit graph to show throughout the day even if I’ve already complete
   (setq org-habit-show-all-today t)
 #+END_SRC
 
+** Tasks and States
+
+My task keywords generally follow Bernt Hansen's [[http://doc.norang.ca/org-mode.html#TasksAndStates][set of tasks and state transitions]]. I like the simplicity of his insight that a "project" is simply a ~TODO~ with subtasks, and I like the ability to comment on /why/ I'm holding a task. The state transitions he implements are sensible as well.
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-todo-keywords
+        (quote ((sequence "TODO(t)" "NEXT(n)" "IN-PROGRESS(i)"  "|" "DONE(d)")
+                (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELED(c@/!)" "PHONE" "MEETING")
+                (sequence "TICKLER" "IDEA"))))
+#+END_SRC
+
+*** Fast Todo Selection
+
+The ~fast-todo-selection~ setting allows selection of /any/ todo state via ~C-c C-t KEY~. The second setting allows simple changing of todo states (~Shift-Left~ or ~Shift-Right~) without having to change other information such as timestamps or notes.
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-use-fast-todo-selection t)
+  (setq org-treat-S-cursor-todo-selection-as-state-change nil)
+#+END_SRC
+
+*** State Triggers
+
+Here I borrow wholesale from [[http://doc.norang.ca/org-mode.html#ToDoStateTriggers][Bernt Hansen's configuration]] (except for the spelling of =CANCEL(L)ED=). I mean, I'm not favorable to the American spelling, but whatever (cf. /cancellation/, though of course there is a distinction to be made between derivational and inflectional endings and their ability to trigger spelling changes).
+
+The reason for this code is that I want to be better about task filtering in Agenda views.
+
+#+BEGIN_QUOTE
+ I have a few triggers that automatically assign tags to tasks based on state changes. If a task moves to ~CANCELLED~ state then it gets a ~CANCELLED~ tag. Moving a ~CANCELLED~ task back to ~TODO~ removes the ~CANCELLED~ tag. These are used for filtering tasks in agenda views which I'll talk about later.
+
+The triggers break down to the following rules:
+
+    Moving a task to ~CANCELLED~ adds a ~CANCELLED~ tag
+    Moving a task to ~WAITING~ adds a ~WAITING~ tag
+    Moving a task to ~HOLD~ adds ~WAITING~ and ~HOLD~ tags
+    Moving a task to a done state removes ~WAITING~ and ~HOLD~ tags
+    Moving a task to ~TODO~ removes ~WAITING~, ~CANCELLED~, and ~HOLD~ tags
+    Moving a task to ~NEXT~ removes ~WAITING~, ~CANCELLED~, and ~HOLD~ tags
+    Moving a task to ~DONE~ removes ~WAITING~, ~CANCELLED~, and ~HOLD~ tags
+
+The tags are used to filter tasks in the agenda views conveniently.
+#+END_QUOTE
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-todo-state-tags-triggers
+        (quote (("CANCELED" ("CANCELED" . t))
+                ("WAITING" ("WAITING" . t))
+                ("HOLD" ("WAITING") ("HOLD" . t))
+                (done ("WAITING") ("HOLD"))
+                ("TODO" ("WAITING") ("CANCELED") ("HOLD"))
+                ("NEXT" ("WAITING") ("CANCELED") ("HOLD"))
+                ("DONE" ("WAITING") ("CANCELED") ("HOLD")))))
+#+END_SRC
 
 ** Project Management
 
@@ -608,3 +713,22 @@ Server and long-term backups are handled via Syncthing/Nextcloud and other metho
         kept-old-versions 2
         version-control t)
 #+END_SRC
+
+** Toc-org
+ 
+Install and load the =toc-org= package after org mode is loaded. This is the package that automatically generates an up to date table of contents for us.
+
+ #+BEGIN_SRC emacs-lisp
+   (use-package toc-org
+     :after org
+     :init (add-hook 'org-mode-hook #'toc-org-enable))
+ #+END_SRC
+
+** Post Initialization
+
+ Lower the GC thresholds back down to a sane level.
+
+ #+BEGIN_SRC emacs-lisp
+   (setq gc-cons-threshold 16777216
+	 gc-cons-percentage 0.1)
+ #+END_SRC

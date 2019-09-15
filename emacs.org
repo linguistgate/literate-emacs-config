@@ -42,12 +42,23 @@
       - [[#org-themes][Org Themes]]
   - [[#org-mode-initialization][Org-Mode Initialization]]
     - [[#org-defaults][Org Defaults]]
+    - [[#org-modules][Org Modules]]
   - [[#org-agenda][Org Agenda]]
     - [[#agenda-files][Agenda Files]]
     - [[#habits-org-habit][Habits (=org-habit=)]]
-  - [[#tasks-and-states][Tasks and States]]
+  - [[#org-tasks-and-states][Org Tasks and States]]
     - [[#fast-todo-selection][Fast Todo Selection]]
     - [[#state-triggers][State Triggers]]
+  - [[#org-capture-and-refile][Org Capture and Refile]]
+    - [[#capture-code-and-functions][Capture Code and Functions]]
+    - [[#capture-templates][Capture Templates]]
+    - [[#refile-behaviors][Refile Behaviors]]
+    - [[#refile-targets-integration-with-para][Refile Targets (Integration with P.A.R.A.)]]
+    - [[#capture-sources][Capture Sources]]
+      - [[#elfeed][Elfeed]]
+      - [[#screenshots][Screenshots]]
+      - [[#web-protocol][Web Protocol]]
+    - [[#webtools][Webtools]]
   - [[#project-management][Project Management]]
     - [[#projectile][Projectile]]
     - [[#version-control][Version Control]]
@@ -581,6 +592,27 @@ When t, Org prompts the user for confirmation before executing each code block. 
   (add-hook 'org-mode-hook 'visual-line-mode)
 #+END_SRC
 
+*** Org Modules
+
+Org modules seem to be a bit like an internal extension system of self-contained libraries, with some modules comprising Org's core and others external to it. There are a number of Org extensions that are initialized as =org-modules=.
+- The package/library/module =org-protocol= allows for capturing webpages and links while browsing and importing that into predefined capture templates.
+- The module =org-inlinetask= allows for tasks to be inserted within outline structures without counting themselves as a heading of the structure /per se/. This is accomplished by making the task having $>15$ stars by default (something that can be changed globally or specific to a file).
+
+Org-modules' individual behavior is established under their own headings below (if needed).
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-modules (quote (org-bbdb
+                            org-bibtex
+                            org-crypt
+                            org-gnus
+                            org-id
+                            org-info
+                            org-habit
+                            org-inlinetask
+                            org-irc
+                            org-protocol
+                            org-w3m)))
+#+END_SRC
 
 ** Org Agenda
 
@@ -643,7 +675,7 @@ I like my habit graph to show throughout the day even if I’ve already complete
   (setq org-habit-show-all-today t)
 #+END_SRC
 
-** Tasks and States
+** Org Tasks and States
 
 My task keywords generally follow Bernt Hansen's [[http://doc.norang.ca/org-mode.html#TasksAndStates][set of tasks and state transitions]]. I like the simplicity of his insight that a "project" is simply a ~TODO~ with subtasks, and I like the ability to comment on /why/ I'm holding a task. The state transitions he implements are sensible as well.
 
@@ -695,6 +727,186 @@ The tags are used to filter tasks in the agenda views conveniently.
                 ("NEXT" ("WAITING") ("CANCELED") ("HOLD"))
                 ("DONE" ("WAITING") ("CANCELED") ("HOLD")))))
 #+END_SRC
+
+** Org Capture and Refile
+
+Org-mode capture templates allow for central implementations of the PARA/BASB concept, as envisioned by Tiago Forte.
+
+*** Capture Code and Functions
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org-capture
+    :ensure nil
+    :after org
+    :bind (("C-c c" . org-capture)
+           ("C-c w" . org-refile))
+    :preface
+    (defvar owl/org-basic-task-template
+      "* TODO [#B] %^{Task} %^g\nSCHEDULED: %^t\n:PROPERTIES:\n:Created: %U\n:Effort: %^{effort|1:00|0:05|0:15|0:30|2:00|4:00}\n:END:"
+      "Template for basic task.")
+
+    (defvar owl/org-daybook-task-template
+      "* TODO %^{Task} %^g\n%^T\n:PROPERTIES:\n:Created: %U\n:Effort: %^{effort|1:00|0:05|0:15|0:30|2:00|4:00}\n:END:"
+      "Template for basic daybook task entry. No time indicator for time of entry; prompt for scheduled time/date.")
+
+    (defvar owl/org-daybook-entry-template
+      "* NOTE %(format-time-string org-journal-time-format)%^{Title} %^g\n:PROPERTIES:\n:Created: %U\n:END:\n%?"
+      "Template for basic daybook journal entry.")
+
+    (defvar owl/friday-reflection-template
+      "* Friday Reflection"
+      "Template for Friday reflection."
+      )
+
+    (defvar owl/org-contacts-template "* %(org-contacts-template-name)
+                                :PROPERTIES:
+                                :ADDRESS: %^{289 Cleveland St. Brooklyn, 11206 NY, USA}
+                                :BIRTHDAY: %^{yyyy-mm-dd}
+                                :EMAIL: %(org-contacts-template-email)
+                                :NOTE: %^{NOTE}
+                                :END:" "Template for org-contacts.")
+
+    (defun owl/org-journal-find-location ()
+      ;; Open today's journal, but specify a non-nil prefix argument in order to
+      ;; inhibit inserting the heading; org-capture will insert the heading.
+      (org-journal-new-entry t)
+      ;; Position point on the journal's top-level heading so that org-capture
+      ;; will add the new entry as a child entry.
+      (goto-char (point-min))))
+#+END_SRC
+
+*** Capture Templates
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-capture-templates `(("t"
+                                 "basic task entry"
+                                 entry
+                                 (file "~/org/hub/inbox.org"),
+                                 owl/org-basic-task-template)
+                                ("j"
+                                 "journal entry"
+                                 entry
+                                 (file+datetree "~/org/notebooks/cpb.org")
+                                 "* Event: %?\n\n  %i\n\n  From: %a"
+                                 :empty-lines 1)))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (defun owl/org-call-src-block (name)
+    ;; Based on <http://kitchingroup.cheme.cmu.edu/blog/2014/08/11/Using-org-mode-outside-of-Emacs-sort-of/>
+    ;; This works better than the org-sbe (aka sbe) macro, because it
+    ;; calls the block upon expansion, making it difficult to bind to
+    ;; a command to run later
+    ;; TODO: Use `org-babel-goto-named-src-block'!  I guess it's new...or not, it's from 2010!
+    (org-with-wide-buffer
+     (-when-let (src (org-element-map (org-element-parse-buffer) 'src-block
+                       (lambda (element)
+                         (when (string= name (org-element-property :name element))
+                           element))
+                       nil ;info
+                       t ))
+       (goto-char (org-element-property :begin src))
+       (let ((org-confirm-babel-evaluate nil))
+         (org-babel-execute-src-block)))))
+#+END_SRC
+*** Refile Behaviors
+:PROPERTIES:
+:ID:       577909d5-ae56-4dee-b616-f448b9d1fa22
+:END:
+
+I like =org-refile= to be promiscuous: it should use outline paths, complete in steps, and allow for the creation of parent nodes on-the-fly. See See https://blog.aaronbieber.com/2017/03/19/organizing-notes-with-refile.html for details on some of the hacks here.
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-refile-use-outline-path 'file)
+  (setq org-outline-path-complete-in-steps nil)
+
+  ;; Allow on-the-fly creation of parent headings
+  (setq org-refile-allow-creating-parent-nodes 'confirm)
+#+END_SRC
+
+*** Refile Targets (Integration with P.A.R.A.)
+:PROPERTIES:
+:ID:       b2d5bec8-eecb-4489-be65-42ab20d2bb96
+:END:
+
+The following code 
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-refile-targets '((org-agenda-files :maxlevel . 5)))
+#+END_SRC
+
+The package [[https://github.com/mwfogleman/org-randomnote][org-randomnote]], created by [[https://github.com/mwfogleman][Tasshin Fogleman]], further implements P.A.R.A. workflow by mimicking the “Random Note” functionality advocated by Tiago Forte with Evernote.
+
+It can be used to “revisit nearly-forgotten but potentially-useful notes, or to spark creative insights by bringing older subjects into mind with new subjects.”
+
+Currently, I bind it to =C-c g= and focus only on the =captures.org= file and several other well-stocked files. There is additional code that can traverse entire directories. I might want to add this later.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org-randomnote
+    :ensure t
+    :bind ("C-c g" . org-randomnote)
+    :config (setq org-randomnote-candidates '("~/org/hub/captures.org"
+                                              "~/org/hub/systems.org"
+                                              "~/org/notebooks/journal.org"
+                                              "~/org/notebooks/cs.org"
+                                              "~/org/notebooks//reading.org"
+                                              "~/org/notebooks/notebook.org"))
+    )
+#+END_SRC
+
+*** Capture Sources
+:PROPERTIES:
+:ID:       6a0da1f3-c52f-4222-8e27-de34147aa1fc
+:END:
+
+**** Elfeed
+:PROPERTIES:
+:ID:       3aee0867-a353-483f-b312-9fa99d4d8f18
+:END:
+
+#+begin_src emacs-lisp :tangle no
+  ;; Load elfeed-org
+  (require 'elfeed)
+  (require 'elfeed-org)
+
+  (bind-keys ("C-x w" . elfeed)) 
+
+  ;; Initialize elfeed-org
+  ;; This hooks up elfeed-org to read the configuration when elfeed
+  ;; is started with =M-x elfeed=
+  (elfeed-org)
+
+  ;; Optionally specify a number of files containing elfeed
+  ;; configuration. If not set then the location below is used.
+  ;; Note: The customize interface is also supported.
+  (setq rmh-elfeed-org-files (list "~/org/hub/elfeed.org"))
+
+  ;; Somewhere in your .emacs file
+  ;; (setq elfeed-feeds
+  ;;       '("http://nullprogram.com/feed/"
+  ;;         "http://planet.emacsen.org/atom.xml"))
+#+end_src
+
+
+**** Screenshots
+:PROPERTIES:
+:ID:       9ff2cfc7-ecbf-41c1-80e0-b77de82c0c8c
+:END:
+**** Web Protocol
+:PROPERTIES:
+:ID:       a71e4a98-c10e-47f3-9d08-c564f440d81c
+:END:
+
+*** Webtools
+:PROPERTIES:
+:ID:       d72150c7-cee0-4d89-ad38-00759428f33d
+:END:
+
+I use webtools to help facilitate some web capturing.
+
+#+begin_src emacs-lisp
+  (use-package org-web-tools)
+#+end_src
 
 ** Project Management
 

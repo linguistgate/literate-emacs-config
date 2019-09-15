@@ -41,6 +41,7 @@
       - [[#writing-themes][Writing Themes]]
       - [[#org-themes][Org Themes]]
   - [[#org-mode-initialization][Org-Mode Initialization]]
+    - [[#org-defaults][Org Defaults]]
   - [[#org-agenda][Org Agenda]]
     - [[#agenda-files][Agenda Files]]
     - [[#habits-org-habit][Habits (=org-habit=)]]
@@ -553,6 +554,34 @@ I favor the newer version of Org-Mode over the built-in one(s).
     :pin org)
 #+END_SRC
  
+*** Org Defaults
+
+Establish some meaningful defaults for =org-mode=: 
+
+- =org-confirm-babel-evaluate= :: Set to nil; no need to confirm =org-babel= evaluations of code.
+
+#+BEGIN_QUOTE
+When t, Org prompts the user for confirmation before executing each code block. When nil, Org executes code blocks without prompting the user for confirmation. When this option is set to a custom function, Org invokes the function with these two arguments: the source code language and the body of the code block. The custom function must return either a t or nil, which determines if the user is prompted. Each source code language can be handled separately through this function argument. 
+#+END_QUOTE
+
+- =org-confirm-elisp-link-function= :: No need to prompt me before executing an Emacs Lisp link
+- =org-log-done= ::  
+- =org-hide-emphasis-markers= :: Remove markup characters and display closer to output.
+- =org-return-follows-link= :: Yes, please!
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default org-confirm-babel-evaluate nil
+                org-confirm-elisp-link-function nil
+                org-enforce-todo-dependencies t
+                org-log-done t
+                org-hide-emphasis-markers t
+                org-return-follows-link t)
+
+  (add-hook 'org-mode-hook 'org-indent-mode)
+  (add-hook 'org-mode-hook 'visual-line-mode)
+#+END_SRC
+
+
 ** Org Agenda
 
 The ~org-plus-contrib~ repository allows ~org-agenda~ to be used with the ~use-package~ syntax. Currently, I set many Agenda features outside of this block, however.

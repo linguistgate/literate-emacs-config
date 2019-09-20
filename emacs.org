@@ -64,6 +64,7 @@
       - [[#screenshots][Screenshots]]
       - [[#web-protocol][Web Protocol]]
     - [[#webtools][Webtools]]
+    - [[#org-board][Org Board]]
   - [[#project-management][Project Management]]
     - [[#projectile][Projectile]]
     - [[#version-control][Version Control]]
@@ -521,9 +522,6 @@ The default fonts need to be installed at least for the relevant user under =~/.
 #+END_SRC
 
 *** Font Switching
-:PROPERTIES:
-:ID:       15a55c7b-cdd9-4100-b0c5-d6c89db6856c
-:END:
 
 Establish function to set font to variable width in current buffer:
 
@@ -960,6 +958,12 @@ I use webtools to help facilitate some web capturing.
   (use-package org-web-tools)
 #+END_SRC
 
+*** Org Board
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org-board)
+#+END_SRC
+
 ** Project Management
 *** Projectile
 
@@ -1050,8 +1054,7 @@ Package =auto-complete= works very well for some IDE-like behaviors.
 
 #+BEGIN_SRC emacs-lisp
   (use-package auto-complete
-    :diminish auto-complete-mode
-    :config (ac-config-default))
+    :diminish auto-complete-mode)
 #+END_SRC
 
 *** Babel

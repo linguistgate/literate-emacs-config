@@ -12,7 +12,6 @@
   - [[#emacs-initialization][Emacs Initialization]]
     - [[#garbage-collection][Garbage Collection]]
     - [[#byte-compilation][Byte Compilation]]
-    - [[#startup-behavior][Startup Behavior]]
     - [[#directory-structure][Directory Structure]]
     - [[#package-management][Package Management]]
       - [[#package-settings][Package Settings]]
@@ -20,6 +19,7 @@
       - [[#manually-set-load-path][Manually Set Load Path]]
       - [[#initialize-package-management][Initialize Package Management]]
   - [[#personal-information][Personal Information]]
+  - [[#crypto][Crypto]]
   - [[#accessibility][Accessibility]]
     - [[#hinting][Hinting]]
     - [[#hydra-configuration][Hydra Configuration]]
@@ -31,6 +31,7 @@
     - [[#counsel][Counsel]]
     - [[#swiper][Swiper]]
   - [[#global-defaults][Global Defaults]]
+    - [[#better-defaults][Better Defaults]]
     - [[#core-editing][Core Editing]]
     - [[#clock][Clock]]
   - [[#fonts][Fonts]]
@@ -182,24 +183,7 @@ if I would like to see any and all byte compiler warnings.
   (setq byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
 #+END_SRC
 
-*** Startup Behavior
-:PROPERTIES:
-:ID:       4bc0d25d-02e9-48d0-ac77-dbdbf26c46c9
-:END:
-
-When I startup, I want a minimal Emacs layout: no startup screen, no toolbar, no scrollbar, and no menubar.
-
-#+BEGIN_SRC emacs-lisp
-  (setq inhibit-startup-screen t)
-  (tool-bar-mode 0)
-  (menu-bar-mode 0)
-  (scroll-bar-mode -1)
-#+END_SRC
-
 *** Directory Structure
-:PROPERTIES:
-:ID:       84827ff9-e506-4e7f-b01c-2b3350f35eaa
-:END:
 
 Set the directory where the Emacs configuration is installed.
 
@@ -309,6 +293,8 @@ Some basic values:
   (setq user-full-name "Matthew Edward Adams"
         user-mail-address "m2eadams@gmail.com")
 #+END_SRC
+
+** Crypto
 
 ** Accessibility
 
@@ -479,6 +465,46 @@ Swiper is a searching utility with quick preview in minibuffer. I load it when =
 #+END_SRC
 
 ** Global Defaults
+*** Better Defaults
+
+From [[https://github.com/technomancy/better-defaults][technomancy's better-defaults package]]:
+
+
+
+    ido-mode allows many operations (like buffer switching and file navigation) to be enhanced with instant feedback among the completion choices. If you like ido, you should check out ido-hacks and smex. Sometimes when creating a new file you'll want to temporarily disable ido; this can be done with C-f. You may also want to look at ido-use-virtual-buffers.
+
+    The toolbar, menu bar, and scroll bar are all turned off.
+
+    The uniquify library makes it so that when you visit two files with the same name in different directories, the buffer names have the directory name appended to them instead of the silly hello<2> names you get by default.
+
+    The saveplace library saves the location of the point when you kill a buffer and returns to it next time you visit the associated file.
+
+    A few key bindings are replaced with more powerful equivalents: M-/ is hippie-expand instead of dabbrev-expand, C-x C-b is ibuffer instead of list-buffers, and C-s and C-r are swapped with regex-aware incremental search functions.
+
+    show-paren-mode highlights the matching pair when the point is over parentheses.
+
+    Under X, killing and yanking uses the X clipboard rather than just the primary selection.
+
+    Apropos commands perform more extensive searches than default.
+
+    Mouse yanking inserts at the point instead of the location of the click.
+
+    Backups are stored inside user-emacs-directory. (Usually ~/.emacs.d)
+
+    M-z (formerly zap-to-char) is replaced with the far more useful zap-up-to-char.
+
+    require-final-newline is set to avoid problems with crontabs, etc.
+
+    Setting load-prefer-newer prevents stale elisp bytecode from shadowing more up-to-date source files.
+
+    Ediff is set up to use the existing frame instead of creating a new one.
+
+    indent-tabs-mode defaults to nil.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package better-defaults)
+  (message "Loaded better-defaults package")
+#+END_SRC
 
 *** Core Editing
 

@@ -18,8 +18,9 @@
       - [[#use-package-settings][Use-Package Settings]]
       - [[#manually-set-load-path][Manually Set Load Path]]
       - [[#initialize-package-management][Initialize Package Management]]
+  - [[#shortcuts-and-registers][Shortcuts and Registers]]
+    - [[#registers][Registers]]
   - [[#personal-information][Personal Information]]
-  - [[#crypto][Crypto]]
   - [[#accessibility][Accessibility]]
     - [[#hinting][Hinting]]
     - [[#hydra-configuration][Hydra Configuration]]
@@ -27,6 +28,7 @@
     - [[#ace-window][Ace Window]]
     - [[#zoom-window][Zoom Window]]
   - [[#navigation][Navigation]]
+    - [[#dired][Dired]]
     - [[#ivy][Ivy]]
     - [[#counsel][Counsel]]
     - [[#swiper][Swiper]]
@@ -282,6 +284,20 @@ Since the code is automatically compiled during runtime, if the configuration ha
   (require 'bind-key) ; Needs to be here for :bind to work with byte-compiled emacs.el ... not sure why
 #+END_SRC
 
+** Shortcuts and Registers
+*** Registers
+
+#+BEGIN_SRC emacs-lisp
+  (set-register ?e (cons 'file "~/.emacs.d/emacs.org"))
+  (set-register ?h (cons 'file "~/org/hub/"))
+  (set-register ?i (cons 'file "~/org/hub/inbox.org"))
+  (set-register ?p (cons 'file "~/projects/"))
+  (set-register ?r (cons 'file "~/org/hub/records/"))
+  (set-register ?s (cons 'file "~/org/hub/systems.org"))
+  (set-register ?t (cons 'file "~/projects/teaching/waterford/"))
+  (set-register ?w (cons 'file "~/org/hub/waterford.org"))
+#+END_SRC
+
 ** Personal Information
 :PROPERTIES:
 :ID:       5ffcf544-6fe1-4910-96bd-761e780a8a59
@@ -293,8 +309,6 @@ Some basic values:
   (setq user-full-name "Matthew Edward Adams"
         user-mail-address "m2eadams@gmail.com")
 #+END_SRC
-
-** Crypto
 
 ** Accessibility
 
@@ -414,6 +428,24 @@ Selectively "zooms" one window of a complex windows configuration.
 #+END_SRC
 
 ** Navigation
+*** Dired
+
+#+BEGIN_SRC emacs-lisp
+  (use-package dired
+    :ensure org-plus-contrib
+    :delight dired-mode "Dired"
+    :preface
+    (defun owl/dired-directories-first ()
+      "Sort dired listing with directories first before adding marks."
+      (save-excursion
+        (let (buffer-read-only)
+          (forward-line 2)
+          (sort-regexp-fields t "^.*$" "[ ]*." (point) (point-max)))
+        (set-buffer-modified-p nil)))
+    )
+#+END_SRC
+
+
 *** Ivy
 :PROPERTIES:
 :ID:       0ed4dade-6383-48d7-afd6-56a566cf4115

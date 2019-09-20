@@ -287,6 +287,9 @@ Since the code is automatically compiled during runtime, if the configuration ha
 ** Shortcuts and Registers
 *** Registers
 
+- "Emacs registers are compartments where you can save text, rectangles, positions, and other things for later use. Once you save text or a rectangle in a register, you can copy it into the buffer once or many times; once you save a position in a register, you can jump back to that position once or many times."
+- To visit the file whose name is in register /r/, type ~C-x r j~ /r/.
+
 #+BEGIN_SRC emacs-lisp
   (set-register ?e (cons 'file "~/.emacs.d/emacs.org"))
   (set-register ?h (cons 'file "~/org/hub/"))

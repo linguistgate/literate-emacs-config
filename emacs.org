@@ -291,6 +291,7 @@ Since the code is automatically compiled during runtime, if the configuration ha
 - To visit the file whose name is in register /r/, type ~C-x r j~ /r/.
 
 #+BEGIN_SRC emacs-lisp
+  (set-register ?c (cons 'file "~/org/notebooks/notebook.org"))
   (set-register ?e (cons 'file "~/.emacs.d/emacs.org"))
   (set-register ?h (cons 'file "~/org/hub/"))
   (set-register ?i (cons 'file "~/org/hub/inbox.org"))
@@ -631,6 +632,13 @@ I like a hydra to help me increase or decrease text scale in a given buffer:
 
 *** Themes in Rotation
 **** Programming Themes
+
+#+BEGIN_SRC emacs-lisp
+  (use-package flatland-theme)
+  (use-package moe-theme
+    :config (moe-theme-set-color 'cyan))
+#+END_SRC
+
 **** Writing Themes
 
 #+BEGIN_SRC emacs-lisp
@@ -639,6 +647,10 @@ I like a hydra to help me increase or decrease text scale in a given buffer:
 
 **** Org Themes
 
+#+BEGIN_SRC emacs-lisp
+  (use-package cyberpunk-theme)
+#+END_SRC
+
 *** Writing Environment
 
 Write a function here that pulls together certain packages?
@@ -646,7 +658,7 @@ Write a function here that pulls together certain packages?
 *** Functions to Switch Among Themes
 
 #+BEGIN_SRC emacs-lisp
-  (setq owl/themes '(poet poet-dark leuven))
+  (setq owl/themes '(flatland moe-dark poet poet-dark leuven cyberpunk))
   (setq owl/themes-index 0)
 #+END_SRC
 

@@ -9,3 +9,5 @@ ac-comphist.dat
 projectile-bookmarks.eld
 recentf
 init.elc
+/.org-id-locations
+*.original

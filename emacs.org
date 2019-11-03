@@ -812,7 +812,7 @@ My task keywords generally follow Bernt Hansen's [[http://doc.norang.ca/org-mode
   (setq org-todo-keywords
         (quote ((sequence "TODO(t)" "NEXT(n)" "IN-PROGRESS(i)"  "|" "DONE(d)")
                 (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELED(c@/!)" "PHONE" "MEETING")
-                (sequence "TICKLER" "IDEA"))))
+                (sequence "TOMERGE(m)" "TICKLER" "IDEA"))))
 #+END_SRC
 
 *** Fast Todo Selection
@@ -931,7 +931,7 @@ Org-mode capture templates allow for central implementations of the PARA/BASB co
   (setq org-capture-templates `(("t"
                                  "basic task entry"
                                  entry
-                                 (file "~/org/hub/inbox.org"),
+                                 (file+olp+datetree "~/org/hub/inbox.org"),
                                  owl/org-basic-task-template)
                                 ("j"
                                  "journal entry"
@@ -942,13 +942,13 @@ Org-mode capture templates allow for central implementations of the PARA/BASB co
                                 ("p"
                                  "protocol"
                                  entry
-                                 (file "~/org/hub/inbox.org"),
+                                 (file+olp+datetree "~/org/hub/inbox.org"),
                                  "* %?[[%:link][%:description]] %U\n%i\n" 
                                  :prepend t)
                                 ("s"
                                  "selected protocol"
                                  entry
-                                 (file "~/org/hub/inbox.org"),
+                                 (file+olp+datetree "~/org/hub/inbox.org"),
                                  "* %^{Title}\nSource: [[%:link][%:description]]\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE")))
 #+END_SRC
 

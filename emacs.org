@@ -938,7 +938,18 @@ Org-mode capture templates allow for central implementations of the PARA/BASB co
                                  entry
                                  (file+datetree "~/org/notebooks/cpb.org")
                                  "* Event: %?\n\n  %i\n\n  From: %a"
-                                 :empty-lines 1)))
+                                 :empty-lines 1)
+                                ("p"
+                                 "protocol"
+                                 entry
+                                 (file "~/org/hub/inbox.org"),
+                                 "* %?[[%:link][%:description]] %U\n%i\n" 
+                                 :prepend t)
+                                ("s"
+                                 "selected protocol"
+                                 entry
+                                 (file "~/org/hub/inbox.org"),
+                                 "* %^{Title}\nSource: [[%:link][%:description]]\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE")))
 #+END_SRC
 
 *** Refile Behaviors

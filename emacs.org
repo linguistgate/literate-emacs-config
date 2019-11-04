@@ -936,7 +936,7 @@ Org-mode capture templates allow for central implementations of the PARA/BASB co
                                 ("j"
                                  "journal entry"
                                  entry
-                                 (file+datetree "~/org/notebooks/cpb.org")
+                                 (file+olp+datetree "~/org/notebooks/cpb.org")
                                  "* Event: %?\n\n  %i\n\n  From: %a"
                                  :empty-lines 1)
                                 ("p"

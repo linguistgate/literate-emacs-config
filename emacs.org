@@ -943,12 +943,12 @@ Org-mode capture templates allow for central implementations of the PARA/BASB co
                                  "protocol"
                                  entry
                                  (file+olp+datetree "~/org/hub/inbox.org"),
-                                 "* %?[[%:link][%:description]] %U\n%i\n" 
+                                 "* TOMERGE %?[[%:link][%:description]] %U\n%i\n" 
                                  :prepend t)
                                 ("s"
                                  "selected protocol"
                                  entry
-                                 (file+olp+datetree "~/org/hub/inbox.org"),
+                                 (file+olp+datetree "~/org/notebooks/cpb.org"),
                                  "* %^{Title}\nSource: [[%:link][%:description]]\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE")))
 #+END_SRC
 

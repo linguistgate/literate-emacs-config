@@ -74,6 +74,7 @@
       - [[#magit][Magit]]
       - [[#local-backups][Local Backups]]
   - [[#reference-management][Reference Management]]
+    - [[#book-and-film-logging][Book and Film Logging]]
   - [[#publishing-management][Publishing Management]]
     - [[#broken-links][Broken Links]]
     - [[#commonplace-book][Commonplace Book]]
@@ -1079,6 +1080,20 @@ Server and long-term backups are handled via Syncthing/Nextcloud and other metho
 #+END_SRC
 
 ** Reference Management
+*** Book and Film Logging
+
+Currently ([2019-11-10 Sun]) trying out this package as a simple logging system for books and films I've seen over the years. The idea is to have a /separate/ master list that catalogs when I watched something, along with basic information (author, director, etc.). It's separate from the ~cpb.org~ file that would possibly include notes about what I read or watched.
+
+Unfortunately, it requires ~helm~, ~helm-org~, and ~enlive~, which I don't use elsewhere, so I've had to load them here. In addition, the package itself is not on MELPA, so I've had to use ~:load-path~ and point it to ~/.emacs.d/user/packges/~. In the ideal case, I want to keep things simple without too many custom packages in this directory.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org-books
+    :load-path "~/.emacs.d/user/packages/org-books"
+    :init (use-package helm)
+    (use-package helm-org)
+    (use-package enlive)
+    :config (setq org-books-file "~/org/notebooks/reading.org"))
+#+END_SRC
 ** Publishing Management
 
 *** Broken Links

@@ -1092,8 +1092,9 @@ Unfortunately, it requires ~helm~, ~helm-org~, and ~enlive~, which I don't use e
     :init (use-package helm)
     (use-package helm-org)
     (use-package enlive)
-    :config (setq org-books-file "~/org/notebooks/reading.org"))
+    :config (setq org-books-file "~/org/notebooks/log.org"))
 #+END_SRC
+
 ** Publishing Management
 
 *** Broken Links

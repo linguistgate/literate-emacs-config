@@ -75,6 +75,8 @@
       - [[#local-backups][Local Backups]]
   - [[#reference-management][Reference Management]]
     - [[#book-and-film-logging][Book and Film Logging]]
+      - [[#comment][COMMENT]]
+    - [[#article-management-and-notes][Article Management and Notes]]
   - [[#publishing-management][Publishing Management]]
     - [[#broken-links][Broken Links]]
     - [[#commonplace-book][Commonplace Book]]
@@ -1103,6 +1105,8 @@ Unfortunately, it requires ~helm~, ~helm-org~, and ~enlive~, which I don't use e
 
 I use ISBN 13 (when available) and [[https://openlibrary.org/][OpenLibrary]] to track books and editions. I use [[https://eidr.org/][EIDR]] for cataloguing media.
 
+
+
 #+BEGIN_SRC emacs-lisp
   (use-package org-books
     :load-path "~/.emacs.d/user/packages/org-books"
@@ -1112,7 +1116,16 @@ I use ISBN 13 (when available) and [[https://openlibrary.org/][OpenLibrary]] to 
     :config (setq org-books-file "~/org/notebooks/log.org"))
 #+END_SRC
 
-The collection and tagging process is aided by two capture templates.
+**** COMMENT
+In reality, this package isn't really needed ...
+
+*** Article Management and Notes
+
+Using [[https://github.com/jkitchin/org-ref][org-ref]], obvs.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org-ref)
+#+END_SRC
 
 ** Publishing Management
 

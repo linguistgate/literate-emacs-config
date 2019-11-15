@@ -1105,8 +1105,6 @@ Unfortunately, it requires ~helm~, ~helm-org~, and ~enlive~, which I don't use e
 
 I use ISBN 13 (when available) and [[https://openlibrary.org/][OpenLibrary]] to track books and editions. I use [[https://eidr.org/][EIDR]] for cataloguing media.
 
-
-
 #+BEGIN_SRC emacs-lisp
   (use-package org-books
     :load-path "~/.emacs.d/user/packages/org-books"
@@ -1121,10 +1119,28 @@ In reality, this package isn't really needed ...
 
 *** Article Management and Notes
 
+#+BEGIN_SRC emacs-lisp
+  (require 'ox-bibtex)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package reftex
+    :commands turn-on-reftex
+    :init
+    (progn
+      (setq reftex-default-bibliography '("~/org/bib/library.bib"))
+      (setq reftex-plug-intoAUCTex t)))
+#+END_SRC
+
 Using [[https://github.com/jkitchin/org-ref][org-ref]], obvs.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package org-ref)
+  (use-package org-ref
+    :after org
+    :init
+    (setq reftex-default-bibliography '("~/org/bib/library.bib"))
+    (setq org-ref-default-bibliography '("~/org/bib/library.bib"))
+    (setq org-ref-pdf-directory '("~/library/articles")))
 #+END_SRC
 
 ** Publishing Management

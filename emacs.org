@@ -1103,7 +1103,7 @@ Server and long-term backups are handled via Syncthing/Nextcloud and other metho
 
 Currently ([2019-11-10 Sun]) trying out [[https://github.com/lepisma/org-books][org-books]] as a simple logging system for books and films I've seen over the years. The idea is to have a /separate/ master list that catalogs when I watched something, along with basic information (author, director, etc.). It's separate from the ~cpb.org~ file that would possibly include notes about what I read or watched.
 
-Unfortunately, it requires ~helm~, ~helm-org~, and ~enlive~, which I don't use elsewhere, so I've had to load them here. In addition, the package itself is not on MELPA, so I've had to use ~:load-path~ and point it to ~/.emacs.d/user/packges/~. In the ideal case, I want to keep things simple without too many custom packages in this directory.
+Unfortunately, it requires ~helm~, ~helm-org~, and ~enlive~, which I don't use elsewhere, so I've had to load them here. In addition, the package itself is not on MELPA, so I've had to use ~:load-path~ and point it to ~~/.emacs.d/user/packges/~. In the ideal case, I want to keep things simple without too many custom packages in this directory.
 
 I use ISBN 13 (when available) and [[https://openlibrary.org/][OpenLibrary]] to track books and editions. I use [[https://eidr.org/][EIDR]] for cataloguing media.
 

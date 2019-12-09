@@ -287,6 +287,12 @@ Since the code is automatically compiled during runtime, if the configuration ha
   (require 'bind-key) ; Needs to be here for :bind to work with byte-compiled emacs.el ... not sure why
 #+END_SRC
 
+#+BEGIN_SRC emacs-lisp
+  (use-package exec-path-from-shell)
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize))
+#+END_SRC
+
 ** Shortcuts and Registers
 *** Registers
 

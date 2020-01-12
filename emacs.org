@@ -430,6 +430,12 @@ Manipulate window size with a hydra.
   (add-to-list 'aw-dispatch-alist '(?w hydra-window-size/body) t)
 #+END_SRC
 
+Transpose from horizontal to vertical frame.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package transpose-frame)
+#+END_SRC
+
 *** Zoom Window
 :PROPERTIES:
 :ID:       8aad8c86-7387-4565-89cf-eb7f79e4f7fd

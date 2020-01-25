@@ -23,6 +23,7 @@
   - [[#personal-information][Personal Information]]
   - [[#accessibility][Accessibility]]
     - [[#hinting][Hinting]]
+    - [[#eyebrowse][Eyebrowse]]
     - [[#hydra-configuration][Hydra Configuration]]
     - [[#windmove][Windmove]]
     - [[#ace-window][Ace Window]]
@@ -355,7 +356,37 @@ The [[https://github.com/Wilfred/helpful][helpful]] package provides better cont
   ("C-h z" . helpful-macro))
 #+END_SRC
 
+*** Eyebrowse
+
+From [[https://github.com/wasamasa/eyebrowse][Wasamasa's Eyebrowse Quick Tutorial]]:
+
+#+BEGIN_QUOTE
+- You start with your current window config on slot 1. Once you hit ~C-c C-w 2~, you will see the modeline indicator appearing and showing slot 1 and 2 with slot 2 slightly emphasized. Slot 1 has been saved automatically for you and contains your last window config. Do something meaningful like a window split, then hit ~C-c C-w 1~. The window config on slot 2 is saved and the window config from slot 1 is loaded. Try switching back and forth between them with ~C-c C-w '~ to get a feeling for how subsequent window manipulations are handled.
+
+- To make keeping track of workspaces easier, a tagging feature was added. Use ~C-c C-w ,~ to set a tag for the current window config, it will both appear in the modeline indicator and when using ~M-x eyebrowse-switch-to-window-config~. Setting the tag to an empty value will undo this change.
+
+- Key bindings
+
+The default key bindings are:
+
+| Key bind 	  | Function                         |
+|--------------+----------------------------------|
+| ~C-c C-w <~ 	 | Switch to previous window config |
+| ~C-c C-w >~ 	 | Switch to next window config     |
+| ~C-c C-w '~ 	 | Switch to last window config     |
+| ~C-c C-w "~ 	 | Close current window config      |
+| ~C-c C-w ,~ 	 | Rename current window config     |
+| ~C-c C-w 0~ 	 | Switch to window config 0        |
+| ~C-c C-w 9~ 	 | Switch to window config 9        |
+#+END_QUOTE
+
+
+#+BEGIN_SRC emacs-lisp
+  (use-package eyebrowse)
+#+END_SRC
+
 *** Hydra Configuration
+
 :PROPERTIES:
 :ID:       5a53dcce-6315-4e2d-958f-1301c2bfdeea
 :END:

@@ -590,6 +590,7 @@ Put a clock in the modeline.
 
 #+BEGIN_SRC emacs-lisp
   (display-time-mode 1)
+  (setq display-time-24hr-format t)
 #+END_SRC
 
 ** Fonts

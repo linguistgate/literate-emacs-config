@@ -684,6 +684,8 @@ I like a hydra to help me increase or decrease text scale in a given buffer:
   (use-package flatland-theme)
   (use-package moe-theme
     :config (moe-theme-set-color 'cyan))
+  (use-package dracula-theme)
+  (use-package anti-zenburn-theme)
 #+END_SRC
 
 **** Writing Themes
@@ -705,7 +707,7 @@ Write a function here that pulls together certain packages?
 *** Functions to Switch Among Themes
 
 #+BEGIN_SRC emacs-lisp
-  (setq owl/themes '(flatland moe-dark poet poet-dark leuven cyberpunk))
+  (setq owl/themes '(flatland moe-dark moe-light anti-zenburn dracula poet poet-dark leuven cyberpunk))
   (setq owl/themes-index 0)
 #+END_SRC
 

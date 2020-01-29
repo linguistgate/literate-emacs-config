@@ -493,8 +493,7 @@ Selectively "zooms" one window of a complex windows configuration.
         (let (buffer-read-only)
           (forward-line 2)
           (sort-regexp-fields t "^.*$" "[ ]*." (point) (point-max)))
-        (set-buffer-modified-p nil)))
-    )
+        (set-buffer-modified-p nil))))
 #+END_SRC
 
 *** Ivy
@@ -733,6 +732,7 @@ In order to prevent overlay, =owl/cycle-theme= depends on on two additional func
 	(mapcar #'disable-theme (remove theme custom-enabled-themes))
       (message "Unable to find theme file for ‘%s’" theme)))
 #+END_SRC
+
 ** Org-Mode Initialization
 
 I favor the newer version of Org-Mode over the built-in one(s).
@@ -1137,7 +1137,7 @@ Server and long-term backups are handled via Syncthing/Nextcloud and other metho
 #+BEGIN_SRC emacs-lisp
   (setq backup-by-copying t
         create-lockfiles nil
-        backup-directory-alist '((".*" . "~/.emacs-saves"))
+        backup-directory-alist '((".*" . "~/.emacs.d/user/.emacs-saves"))
         delete-old-versions t
         kept-new-versions 6
         kept-old-versions 2

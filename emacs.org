@@ -48,6 +48,7 @@
       - [[#writing-themes][Writing Themes]]
       - [[#org-themes][Org Themes]]
     - [[#writing-environment][Writing Environment]]
+      - [[#write-a-function-here-that-pulls-together-certain-packages][Write a function here that pulls together certain packages?]]
     - [[#functions-to-switch-among-themes][Functions to Switch Among Themes]]
   - [[#org-mode-initialization][Org-Mode Initialization]]
     - [[#org-defaults][Org Defaults]]
@@ -660,7 +661,7 @@ Individual hydras are written in the relevant place in the configuration.
 
 I like a hydra to help me increase or decrease text scale in a given buffer:
 
-#+BEGIN_SRC emacs-lisp :tangle no
+#+BEGIN_SRC emacs-lisp :tangle yes
 (defhydra hydra-zoom (global-map "<f6>")
   ("g" text-scale-increase "in")
   ("l" text-scale-decrease "out") 
@@ -702,7 +703,13 @@ I like a hydra to help me increase or decrease text scale in a given buffer:
 
 *** Writing Environment
 
-Write a function here that pulls together certain packages?
+#+BEGIN_SRC emacs-lisp
+  (use-package writeroom-mode)
+#+END_SRC
+
+**** TODO Write a function here that pulls together certain packages?
+
+
 
 *** Functions to Switch Among Themes
 

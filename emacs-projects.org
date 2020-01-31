@@ -25,7 +25,7 @@ SCHEDULED: <2020-01-30 Thu>
 :Effort: 0:15
 :END:
 * TODO [#B] Consolidate tags and create running master list         :orgmode:
-SCHEDULED: <2020-01-29 Wed 16:00>
+SCHEDULED: <2020-02-01 Sat 16:00>
 :PROPERTIES:
 :Created: [2019-11-03 Sun 08:01]
 :Effort: 0:30

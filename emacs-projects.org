@@ -4,7 +4,7 @@
 #+FILETAGS: @computer
 * TODO [#C] Set up publishing for hub files   
 * IN-PROGRESS [#C] Create new capture templates
-SCHEDULED: <2020-02-02 Sun 16:00>
+SCHEDULED: <2020-02-08 Sat 16:00>
 :PROPERTIES:
 :Created: [2019-11-03 Sun 08:00]
 :Effort: 1:00
@@ -24,7 +24,7 @@ CLOSED: [2020-02-02 Sun 15:37] SCHEDULED: <2020-02-02 Sun 16:00>
 :END:
 * DONE [#B] Add eyebrowse to emacs config                        
 * TODO [#B] Find way to suppress state logging in certain files :@computer:logging:
-SCHEDULED: <2020-02-02 Sun>
+SCHEDULED: <2020-02-08 Sat>
 :PROPERTIES:
 :Created: [2020-02-02 Sun 15:54]
 :Effort: 0:15

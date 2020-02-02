@@ -56,6 +56,7 @@
   - [[#org-agenda][Org Agenda]]
     - [[#agenda-files][Agenda Files]]
     - [[#habits-org-habit][Habits (=org-habit=)]]
+    - [[#custom-commands][Custom Commands]]
   - [[#org-tasks-and-states][Org Tasks and States]]
     - [[#fast-todo-selection][Fast Todo Selection]]
     - [[#state-triggers][State Triggers]]
@@ -864,6 +865,31 @@ I like my habit graph to show throughout the day even if I’ve already complete
   (setq org-habit-show-all-today t)
 #+END_SRC
 
+*** Custom Commands
+
+@home, @office, @travelling, @phone, @email, @errands
+
+#+BEGIN_SRC emacs-lisp
+(setq org-agenda-custom-commands
+      '(("g" . "GTD contexts")
+        ("go" "Office" tags-todo "@office")
+        ("gc" "Computer" tags-todo "@computer")
+        ("gp" "Phone" tags-todo "@phone")
+        ("gh" "Home" tags-todo "@home")
+        ("ge" "Errands" tags-todo "@errands")
+        ("G" "GTD Block Agenda"
+         ((tags-todo "@office")
+          (tags-todo "@computer")
+          (tags-todo "@phone")
+          (tags-todo "@home")
+          (tags-todo "@errands"))
+         nil                      ;; i.e., no local settings
+         ("/tmp/next-actions.html")) ;; exports block to this file with C-c a e
+
+         ;; ..other commands here
+
+        ))
+#+END_SRC
 ** Org Tasks and States
 
 My task keywords generally follow Bernt Hansen's [[http://doc.norang.ca/org-mode.html#TasksAndStates][set of tasks and state transitions]]. I like the simplicity of his insight that a "project" is simply a ~TODO~ with subtasks, and I like the ability to comment on /why/ I'm holding a task. The state transitions he implements are sensible as well.

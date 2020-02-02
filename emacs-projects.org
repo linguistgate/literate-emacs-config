@@ -8,7 +8,7 @@ SCHEDULED: <2020-02-02 Sun>
 :Effort: 0:30
 :END:
 * IN-PROGRESS [#C] Create new capture templates                     :orgmode:
-SCHEDULED: <2020-01-30 Thu 16:00>
+SCHEDULED: <2020-02-02 Sun 16:00>
 :PROPERTIES:
 :Created: [2019-11-03 Sun 08:00]
 :Effort: 1:00
@@ -24,7 +24,7 @@ SCHEDULED: <2020-02-02 Sun>
 :Created: [2019-08-30 Fri 00:50]
 :Effort: 0:15
 :END:
-* TODO [#B] Consolidate tags and create running master list         :orgmode:
+* IN-PROGRESS [#B] Consolidate tags and create running master list  :orgmode:
 SCHEDULED: <2020-02-02 Sun 16:00>
 :PROPERTIES:
 :Created: [2019-11-03 Sun 08:01]

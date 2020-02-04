@@ -838,7 +838,6 @@ I use this method until a project "proves" that it should be added to the perman
                                     directory org-agenda-file-regexp))
                                  '("~/org/hub/"
                                    "~/org/notebooks/"
-                                   "~/projects/systems/"
                                    "~/.config/"
                                    "~/.emacs.d/"))))
 #+END_SRC

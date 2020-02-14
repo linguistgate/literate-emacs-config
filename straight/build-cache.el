@@ -3,7 +3,7 @@
 
 "26.3"
 
-#s(hash-table size 65 test equal rehash-size 1.5 rehash-threshold 0.8125 data ("straight" ("2020-02-13 20:19:26" ("emacs") (:type git :host github :repo "raxod502/straight.el" :files ("straight*.el") :branch "master" :package "straight" :local-repo "straight.el")) "org-elpa" ("2020-02-13 20:19:26" nil (:local-repo nil :package "org-elpa" :type git)) "org-roam" ("2020-02-13 20:19:32" nil (:host github :repo "jethrokuan/org-roam" :package "org-roam" :type git :local-repo "org-roam"))))
+#s(hash-table size 65 test equal rehash-size 1.5 rehash-threshold 0.8125 data ("straight" ("2020-02-13 20:46:31" ("emacs") (:type git :host github :repo "raxod502/straight.el" :files ("straight*.el") :branch "master" :package "straight" :local-repo "straight.el")) "org-elpa" ("2020-02-13 20:46:31" nil (:local-repo nil :package "org-elpa" :type git)) "org-roam" ("2020-02-13 20:43:06" nil (:host github :repo "jethrokuan/org-roam" :package "org-roam" :type git :local-repo "org-roam"))))
 
 #s(hash-table size 65 test equal rehash-size 1.5 rehash-threshold 0.8125 data ("straight" ((straight straight-autoloads straight-x) (autoload (quote straight-get-recipe) "straight" "Interactively select a recipe from one of the recipe repositories.
 All recipe repositories in `straight-recipe-repositories' will
@@ -264,6 +264,6 @@ according to the value of `straight-profiles'.
 
 #s(hash-table size 65 test eq rehash-size 1.5 rehash-threshold 0.8125 data ())
 
-("org-elpa" "melpa" "gnu-elpa-mirror" "emacsmirror-mirror" "straight" "emacs" "org-roam")
+("org-elpa" "melpa" "gnu-elpa-mirror" "emacsmirror-mirror" "straight" "emacs")
 
 t

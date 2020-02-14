@@ -15,7 +15,6 @@
     - [[#directory-structure][Directory Structure]]
     - [[#package-management][Package Management]]
       - [[#package-settings][Package Settings]]
-      - [[#straight][Straight]]
       - [[#use-package-settings][Use-Package Settings]]
       - [[#manually-set-load-path][Manually Set Load Path]]
       - [[#initialize-package-management][Initialize Package Management]]
@@ -236,29 +235,6 @@ to not automatically call it on my behalf. Additionally I'm setting
 
     (unless (file-directory-p package-user-dir)
       (make-directory package-user-dir t)))
-#+END_SRC
-
-**** Straight
-
-A "next-generation, purely functional package manager for the Emacs hacker"; for my purposes, allows for the ~:straight~ keyword to be used in, e.g., ~org-roam~.
-
-Documentation [[https://github.com/raxod502/straight.el][here]].
-
-Boilerplate here:
-
-#+BEGIN_SRC emacs-lisp
-  (defvar bootstrap-version)
-  (let ((bootstrap-file
-         (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-        (bootstrap-version 5))
-    (unless (file-exists-p bootstrap-file)
-      (with-current-buffer
-          (url-retrieve-synchronously
-           "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-           'silent 'inhibit-cookies)
-        (goto-char (point-max))
-        (eval-print-last-sexp)))
-    (load bootstrap-file nil 'nomessage))
 #+END_SRC
 
 **** Use-Package Settings
@@ -1206,13 +1182,11 @@ Server and long-term backups are handled via Syncthing/Nextcloud and other metho
 
 I'm trying out [[https://github.com/jethrokuan/org-roam][org-roam]] as a way of organizing some of my notebooks. It's based on the Roam note-taking ecosystem, about which I know little. But this rudimentary implementation looks cool.
 
-I had to install some boilerplate in the package management in order to use the ~:straight~ keyword.
-
 #+BEGIN_SRC emacs-lisp
   (use-package org-roam
     :after org
     :hook (org-mode . org-roam-mode)
-    :straight (:host github :repo "jethrokuan/org-roam")
+    :load-path "~/.emacs.d/user/packages/org-roam"
     :custom
     (org-roam-directory "~/org/notebooks/")
     :bind
@@ -1222,8 +1196,6 @@ I had to install some boilerplate in the package management in order to use the 
     ("C-c n i" . org-roam-insert)
     ("C-c n g" . org-roam-show-graph))
 #+END_SRC
-
-#+RESULTS:
 
 *** Book and Film Logging
 

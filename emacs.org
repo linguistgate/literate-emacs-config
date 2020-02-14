@@ -15,6 +15,7 @@
     - [[#directory-structure][Directory Structure]]
     - [[#package-management][Package Management]]
       - [[#package-settings][Package Settings]]
+      - [[#straight][Straight]]
       - [[#use-package-settings][Use-Package Settings]]
       - [[#manually-set-load-path][Manually Set Load Path]]
       - [[#initialize-package-management][Initialize Package Management]]
@@ -77,6 +78,7 @@
       - [[#magit][Magit]]
       - [[#local-backups][Local Backups]]
   - [[#reference-management][Reference Management]]
+    - [[#building-a-second-brain][Building a Second Brain]]
     - [[#book-and-film-logging][Book and Film Logging]]
       - [[#comment][COMMENT]]
     - [[#article-management-and-notes][Article Management and Notes]]
@@ -234,6 +236,29 @@ to not automatically call it on my behalf. Additionally I'm setting
 
     (unless (file-directory-p package-user-dir)
       (make-directory package-user-dir t)))
+#+END_SRC
+
+**** Straight
+
+A "next-generation, purely functional package manager for the Emacs hacker"; for my purposes, allows for the ~:straight~ keyword to be used in, e.g., ~org-roam~.
+
+Documentation [[https://github.com/raxod502/straight.el][here]].
+
+Boilerplate here:
+
+#+BEGIN_SRC emacs-lisp
+  (defvar bootstrap-version)
+  (let ((bootstrap-file
+         (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+        (bootstrap-version 5))
+    (unless (file-exists-p bootstrap-file)
+      (with-current-buffer
+          (url-retrieve-synchronously
+           "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+           'silent 'inhibit-cookies)
+        (goto-char (point-max))
+        (eval-print-last-sexp)))
+    (load bootstrap-file nil 'nomessage))
 #+END_SRC
 
 **** Use-Package Settings
@@ -838,7 +863,6 @@ I use this method until a project "proves" that it should be added to the perman
                                     directory org-agenda-file-regexp))
                                  '("~/org/hub/"
                                    "~/org/notebooks/"
-                                   "~/projects/systems/"
                                    "~/.config/"
                                    "~/.emacs.d/"))))
 #+END_SRC
@@ -989,7 +1013,6 @@ Org-mode capture templates allow for central implementations of the PARA/BASB co
       ;; will add the new entry as a child entry.
       (goto-char (point-min))))
 #+END_SRC
-
 
 
 #+BEGIN_SRC emacs-lisp
@@ -1179,6 +1202,29 @@ Server and long-term backups are handled via Syncthing/Nextcloud and other metho
 #+END_SRC
 
 ** Reference Management
+*** Building a Second Brain
+
+I'm trying out [[https://github.com/jethrokuan/org-roam][org-roam]] as a way of organizing some of my notebooks. It's based on the Roam note-taking ecosystem, about which I know little. But this rudimentary implementation looks cool.
+
+I had to install some boilerplate in the package management in order to use the ~:straight~ keyword.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org-roam
+    :after org
+    :hook (org-mode . org-roam-mode)
+    :straight (:host github :repo "jethrokuan/org-roam")
+    :custom
+    (org-roam-directory "~/org/notebooks/")
+    :bind
+    ("C-c n l" . org-roam)      
+    ("C-c n t" . org-roam-today)
+    ("C-c n f" . org-roam-find-file)
+    ("C-c n i" . org-roam-insert)
+    ("C-c n g" . org-roam-show-graph))
+#+END_SRC
+
+#+RESULTS:
+
 *** Book and Film Logging
 
 Currently ([2019-11-10 Sun]) trying out [[https://github.com/lepisma/org-books][org-books]] as a simple logging system for books and films I've seen over the years. The idea is to have a /separate/ master list that catalogs when I watched something, along with basic information (author, director, etc.). It's separate from the ~cpb.org~ file that would possibly include notes about what I read or watched.

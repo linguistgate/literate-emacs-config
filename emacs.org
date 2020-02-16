@@ -1180,7 +1180,7 @@ Server and long-term backups are handled via Syncthing/Nextcloud and other metho
 ** Reference Management
 *** Building a Second Brain
 
-I'm trying out [[https://github.com/jethrokuan/org-roam][org-roam]] as a way of organizing some of my notebooks. It's based on the Roam note-taking ecosystem, about which I know little. But this rudimentary implementation looks cool.
+I'm trying out [[https://github.com/jethrokuan/org-roam][org-roam]] as a way of organizing some of my notebooks. It's based on the Roam note-taking ecosystem, about which I know little. But this rudimentary implementation looks cool. [2020-02-13 Thu]
 
 #+BEGIN_SRC emacs-lisp
   (use-package org-roam

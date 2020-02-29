@@ -313,7 +313,7 @@ Since the code is automatically compiled during runtime, if the configuration ha
   (set-register ?p (cons 'file "~/projects/."))
   (set-register ?r (cons 'file "~/org/records/."))
   (set-register ?s (cons 'file "~/org/hub/systems.org"))
-  (set-register ?t (cons 'file "~/projects/teaching/waterford/."))
+  (set-register ?t (cons 'file "~/projects/teaching/."))
   (set-register ?f (cons 'file "~/org/notebooks/fitness.org"))
   (set-register ?n (cons 'file "~/org/notebooks/."))
 #+END_SRC
@@ -1105,7 +1105,7 @@ Currently, I bind it to =C-c g= and focus only on the =captures.org= file and se
   ;; Optionally specify a number of files containing elfeed
   ;; configuration. If not set then the location below is used.
   ;; Note: The customize interface is also supported.
-  (setq rmh-elfeed-org-files (list "~/org/hub/elfeed.org"))
+  (setq rmh-elfeed-org-files (list "~/org/feeds/elfeed.org"))
 
   ;; Somewhere in your .emacs file
   ;; (setq elfeed-feeds

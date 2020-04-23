@@ -838,7 +838,6 @@ I use this method until a project "proves" that it should be added to the perman
                                    (directory-files-recursively
                                     directory org-agenda-file-regexp))
                                  '("~/org/hub/"
-                                   "~/org/notebooks/"
                                    "~/.config/"
                                    "~/.emacs.d/"))))
 #+END_SRC
@@ -1256,6 +1255,7 @@ For the love of Psyche, please publish even if there are broken links, Org!
 *** Commonplace Book
 *** Hosted Private HTML
 *** Blog and Microblog
+
 
 ** Programming
 *** Literate Programming

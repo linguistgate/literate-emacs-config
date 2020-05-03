@@ -10,11 +10,12 @@ ac-comphist.dat
 projectile-booksmarks.eld
 .org-id-locations
 *.original
+bookmarks
+recentf
+url
 
 # Directories
 elpa/
 auto-save-list/
 transient/
-bookmarks/
-recentf/
-url/
+

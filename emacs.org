@@ -71,6 +71,7 @@
       - [[#web-protocol][Web Protocol]]
     - [[#webtools][Webtools]]
     - [[#org-board][Org Board]]
+  - [[#attachment-management][Attachment Management]]
   - [[#project-management][Project Management]]
     - [[#projectile][Projectile]]
     - [[#version-control][Version Control]]
@@ -1131,6 +1132,14 @@ I use webtools to help facilitate some web capturing.
   (use-package org-board)
 #+END_SRC
 
+** Attachment Management
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-attach-id-dir "~/org/records/")
+  (setq org-attach-dir-relative t)
+  (setq org-attach-use-inheritance nil)
+#+END_SRC
+
 ** Project Management
 *** Projectile
 
@@ -1256,7 +1265,6 @@ For the love of Psyche, please publish even if there are broken links, Org!
 *** Commonplace Book
 *** Hosted Private HTML
 *** Blog and Microblog
-
 
 ** Programming
 *** Literate Programming

@@ -1,14 +1,20 @@
+# Compiled
+*.elc
+
+# Backup files
+*~
+
+# Specific files
+emacs.el
+ac-comphist.dat
+projectile-booksmarks.eld
+.org-id-locations
+*.original
+
+# Directories
 elpa/
 auto-save-list/
-user/
-emacs.el
-emacs.elc
 transient/
-bookmarks
-ac-comphist.dat
-projectile-bookmarks.eld
-recentf
-init.elc
-/.org-id-locations
-*.original
+bookmarks/
+recentf/
 url/

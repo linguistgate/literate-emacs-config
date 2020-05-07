@@ -14,6 +14,7 @@ bookmarks
 recentf
 url
 places
+user/custom.el
 
 # Directories
 elpa/

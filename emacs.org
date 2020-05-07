@@ -37,7 +37,7 @@
     - [[#better-defaults][Better Defaults]]
     - [[#core-editing][Core Editing]]
     - [[#clock][Clock]]
-    - [[#content-protection-with-folding][Content Protection with Folding]]
+    - [[#content-protection-with-folding][Content Protection with Folding:]]
   - [[#fonts][Fonts]]
     - [[#font-locking][Font Locking]]
     - [[#default-fonts][Default Fonts]]
@@ -597,8 +597,17 @@ Put a clock in the modeline.
   (setq display-time-24hr-format t)
 #+END_SRC
 
-*** Content Protection with Folding
+*** Content Protection with Folding:
 
+[[https://orgmode.org/org.html#Catching-invisible-edits][From the Org manual]]:
+
+#+BEGIN_QUOTE
+Sometimes you may inadvertently edit an invisible part of the buffer and be confused on what has been edited and how to undo the mistake. Setting org-catch-invisible-edits to non-nil helps preventing this. See the docstring of this option on how Org should catch invisible edits and process them.
+#+END_QUOTE
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default org-catch-invisible-edits 'smart)
+#+END_SRC
 
 ** Fonts
 *** Font Locking

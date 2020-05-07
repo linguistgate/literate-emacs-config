@@ -37,6 +37,7 @@
     - [[#better-defaults][Better Defaults]]
     - [[#core-editing][Core Editing]]
     - [[#clock][Clock]]
+    - [[#content-protection-with-folding][Content Protection with Folding]]
   - [[#fonts][Fonts]]
     - [[#font-locking][Font Locking]]
     - [[#default-fonts][Default Fonts]]
@@ -595,6 +596,9 @@ Put a clock in the modeline.
   (display-time-mode 1)
   (setq display-time-24hr-format t)
 #+END_SRC
+
+*** Content Protection with Folding
+
 
 ** Fonts
 *** Font Locking

@@ -79,6 +79,9 @@
       - [[#local-backups][Local Backups]]
   - [[#reference-management][Reference Management]]
     - [[#building-a-second-brain][Building a Second Brain]]
+      - [[#comprehensive-note-search][Comprehensive Note Search]]
+      - [[#org-roam][Org-Roam]]
+      - [[#ecosystem][Ecosystem]]
     - [[#book-and-film-logging][Book and Film Logging]]
       - [[#comment][COMMENT]]
     - [[#article-management-and-notes][Article Management and Notes]]
@@ -1199,6 +1202,24 @@ Server and long-term backups are handled via Syncthing/Nextcloud and other metho
 ** Reference Management
 *** Building a Second Brain
 
+**** Comprehensive Note Search
+
+I use Deft.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package deft
+    :after org
+    :bind
+    ("C-c n d" . deft)
+    :custom
+    (deft-recursive t)
+    (deft-use-filter-string-for-filename t)
+    (deft-default-extension "org")
+    (deft-directory "~/org/"))
+#+END_SRC
+
+**** Org-Roam
+
 I'm trying out [[https://github.com/jethrokuan/org-roam][org-roam]] as a way of organizing some of my notebooks. It's based on the Roam note-taking ecosystem, about which I know little. But this rudimentary implementation looks cool. [2020-02-13 Thu]
 
 #+BEGIN_SRC emacs-lisp
@@ -1215,6 +1236,8 @@ I'm trying out [[https://github.com/jethrokuan/org-roam][org-roam]] as a way of 
     ("C-c n i" . org-roam-insert)
     ("C-c n g" . org-roam-show-graph))
 #+END_SRC
+
+**** Ecosystem
 
 *** Book and Film Logging
 

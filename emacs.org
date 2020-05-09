@@ -1241,12 +1241,13 @@ I'm trying out [[https://github.com/jethrokuan/org-roam][org-roam]] as a way of 
 **** Org-Journal
 
 #+BEGIN_SRC emacs-lisp
-(use-package org-journal
-  :ensure t
-  :defer t
-  :custom
-  (org-journal-dir "~/org/notebooks/journal/")
-  (org-journal-date-format "%A, %d %B %Y"))
+  (use-package org-journal
+    :ensure t
+    :defer t
+    :custom
+    (org-journal-dir "~/org/notebooks/journal/")
+    (org-journal-date-format "%d %B %Y, %A")
+    (org-journal-file-format "%Y-%m-%d.org"))
 #+END_SRC
 
 **** Org-Download
@@ -1254,10 +1255,13 @@ I'm trying out [[https://github.com/jethrokuan/org-roam][org-roam]] as a way of 
 #+BEGIN_SRC emacs-lisp
   (use-package org-download
     :after org
+    :hook (dired-mode-hook . org-download-enable)
     :bind
     (:map org-mode-map
           (("s-Y" . org-download-screenshot)
-           ("s-y" . org-download-yank))))
+           ("s-y" . org-download-yank)))
+    :custom
+    (org-download-image-dir "~/org/notebooks/static/img/"))
 #+END_SRC
 
 *** Book and Film Logging

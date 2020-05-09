@@ -1041,6 +1041,14 @@ Org-mode capture templates allow for central implementations of the PARA/BASB co
                                  entry
                                  (file+olp+datetree "~/org/hub/inbox.org"),
                                  owl/org-basic-task-template)
+                                ("d"
+                                 "default"
+                                 entry
+                                 (function org-roam--capture-get-point)
+                                 "%?"
+                                 :file-name "%<%Y%m%d%H%M%S>-${slug}"
+                                 :head "#+TITLE: ${title}\n"
+                                 :unnarrowed t)
                                 ("j"
                                  "journal entry"
                                  entry
@@ -1225,28 +1233,38 @@ I'm trying out [[https://github.com/jethrokuan/org-roam][org-roam]] as a way of 
 
 #+BEGIN_SRC emacs-lisp
   (use-package org-roam
-    :after org
-    :hook (org-mode . org-roam-mode)
-    :load-path "~/.emacs.d/user/packages/org-roam"
+    :hook (after-init . org-roam-mode)
     :custom
     (org-roam-directory "~/org/notebooks/")
+    (org-roam-index-file "index.org")
     :bind
     ("C-c n l" . org-roam)      
-    ("C-c n t" . org-roam-today)
+    ("C-c n b" . org-roam-switch-to-buffer)
     ("C-c n f" . org-roam-find-file)
     ("C-c n i" . org-roam-insert)
-    ("C-c n g" . org-roam-show-graph))
+    ("C-c n g" . org-roam-graph))
 #+END_SRC
 
 **** Org-Journal
 
 #+BEGIN_SRC emacs-lisp
+  (defun org-journal-file-header-func (time)
+    "Custom function to create journal header."
+    (concat
+     (pcase org-journal-file-type
+       (`daily "#+TITLE: Daily Journal\n#+STARTUP: showeverything")
+       (`weekly "#+TITLE: Weekly Journal\n#+STARTUP: folded")
+       (`monthly "#+TITLE: Monthly Journal\n#+STARTUP: folded")
+       (`yearly "#+TITLE: Yearly Journal\n#+STARTUP: folded"))))
+
+  (setq org-journal-file-header 'org-journal-file-header-func)
+
   (use-package org-journal
     :ensure t
     :defer t
     :custom
     (org-journal-dir "~/org/notebooks/journal/")
-    (org-journal-date-format "%d %B %Y, %A")
+    (org-journal-date-format "%A, %Y %B %dc")
     (org-journal-file-format "%Y-%m-%d.org"))
 #+END_SRC
 

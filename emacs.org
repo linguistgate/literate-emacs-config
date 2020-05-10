@@ -1224,7 +1224,7 @@ I use Deft.
     (deft-recursive t)
     (deft-use-filter-string-for-filename t)
     (deft-default-extension "org")
-    (deft-directory "~/org/"))
+    (deft-directory "~/Dropbox/org/"))
 #+END_SRC
 
 **** Org-Roam
@@ -1235,7 +1235,7 @@ I'm trying out [[https://github.com/jethrokuan/org-roam][org-roam]] as a way of 
   (use-package org-roam
     :hook (after-init . org-roam-mode)
     :custom
-    (org-roam-directory "~/org/notebooks/")
+    (org-roam-directory "~/Dropbox/org/notebooks/")
     (org-roam-index-file "index.org")
     :bind
     ("C-c n l" . org-roam)      

@@ -80,8 +80,6 @@
   - [[#reference-management][Reference Management]]
     - [[#building-a-second-brain][Building a Second Brain]]
       - [[#comprehensive-note-search][Comprehensive Note Search]]
-      - [[#org-roam][Org-Roam]]
-      - [[#ecosystem][Ecosystem]]
     - [[#book-and-film-logging][Book and Film Logging]]
       - [[#comment][COMMENT]]
     - [[#article-management-and-notes][Article Management and Notes]]
@@ -1218,26 +1216,6 @@ I use Deft.
     (deft-directory "~/org/"))
 #+END_SRC
 
-**** Org-Roam
-
-I'm trying out [[https://github.com/jethrokuan/org-roam][org-roam]] as a way of organizing some of my notebooks. It's based on the Roam note-taking ecosystem, about which I know little. But this rudimentary implementation looks cool. [2020-02-13 Thu]
-
-#+BEGIN_SRC emacs-lisp
-  (use-package org-roam
-    :after org
-    :hook (org-mode . org-roam-mode)
-    :load-path "~/.emacs.d/user/packages/org-roam"
-    :custom
-    (org-roam-directory "~/org/notebooks/")
-    :bind
-    ("C-c n l" . org-roam)      
-    ("C-c n t" . org-roam-today)
-    ("C-c n f" . org-roam-find-file)
-    ("C-c n i" . org-roam-insert)
-    ("C-c n g" . org-roam-show-graph))
-#+END_SRC
-
-**** Ecosystem
 
 *** Book and Film Logging
 

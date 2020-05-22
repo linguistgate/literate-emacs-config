@@ -22,3 +22,5 @@ elpa/
 auto-save-list/
 transient/
 
+/org-journal.cache
+/#emacs.org#

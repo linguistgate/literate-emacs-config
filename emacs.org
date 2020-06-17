@@ -1082,7 +1082,7 @@ Org-mode capture templates allow for central implementations of the PARA/BASB co
                                 ("s"
                                  "selected protocol"
                                  entry
-                                 (file+olp+datetree "~/org/notebooks/cpb.org"),
+                                 (file+olp+datetree "~/org/hub/inbox.org"),
                                  "* %^{Title}\nSource: [[%:link][%:description]]\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE")))
 #+END_SRC
 

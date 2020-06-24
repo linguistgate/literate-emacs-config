@@ -707,11 +707,15 @@ I like a hydra to help me increase or decrease text scale in a given buffer:
 **** Programming Themes
 
 #+BEGIN_SRC emacs-lisp
-  (use-package flatland-theme)
   (use-package moe-theme
-    :config (moe-theme-set-color 'cyan))
-  (use-package dracula-theme)
-  (use-package anti-zenburn-theme)
+    :custom
+    ;; Resize titles (optional).
+    (moe-theme-resize-markdown-title '(1.5 1.4 1.3 1.2 1.0 1.0))
+    (moe-theme-resize-org-title '(1.5 1.4 1.3 1.2 1.1 1.0 1.0 1.0 1.0))
+    (moe-theme-resize-rst-title '(1.5 1.4 1.3 1.2 1.1 1.0))
+
+    ;; Choose a color for mode-line.(Default: blue)
+    (moe-theme-set-color 'cyan))
 #+END_SRC
 
 **** Writing Themes
@@ -735,11 +739,10 @@ I like a hydra to help me increase or decrease text scale in a given buffer:
 **** TODO Write a function here that pulls together certain packages?
 
 
-
 *** Functions to Switch Among Themes
 
 #+BEGIN_SRC emacs-lisp
-  (setq owl/themes '(flatland moe-dark moe-light anti-zenburn dracula poet poet-dark leuven cyberpunk))
+  (setq owl/themes '(poet poet-dark leuven moe-dark))
   (setq owl/themes-index 0)
 #+END_SRC
 
@@ -765,6 +768,7 @@ In order to prevent overlay, =owl/cycle-theme= depends on on two additional func
 	(mapcar #'disable-theme (remove theme custom-enabled-themes))
       (message "Unable to find theme file for ‘%s’" theme)))
 #+END_SRC
+
 
 ** Org-Mode Initialization
 
@@ -1231,18 +1235,23 @@ I use Deft.
 
 I'm trying out [[https://github.com/jethrokuan/org-roam][org-roam]] as a way of organizing some of my notebooks. It's based on the Roam note-taking ecosystem, about which I know little. But this rudimentary implementation looks cool. [2020-02-13 Thu]
 
+It's now on MELPA [2020-05-09 Sat].
+
 #+BEGIN_SRC emacs-lisp
   (use-package org-roam
-    :hook (after-init . org-roam-mode)
+    :hook
+    (after-init . org-roam-mode)
     :custom
-    (org-roam-directory "~/Dropbox/org/notebooks/")
-    (org-roam-index-file "index.org")
-    :bind
-    ("C-c n l" . org-roam)      
-    ("C-c n b" . org-roam-switch-to-buffer)
-    ("C-c n f" . org-roam-find-file)
-    ("C-c n i" . org-roam-insert)
-    ("C-c n g" . org-roam-graph))
+    (org-roam-directory "~/org/notebooks/")
+    (org-roam-index-file "~/org/notebooks/index.org")
+    :bind (:map org-roam-mode-map
+                (("C-c n l" . org-roam)
+                 ("C-c n f" . org-roam-find-file)
+                 ("C-c n j" . org-roam-jump-to-index)
+                 ("C-c n b" . org-roam-switch-to-buffer)
+                 ("C-c n g" . org-roam-graph))
+                :map org-mode-map
+                (("C-c n i" . org-roam-insert))))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
@@ -1354,7 +1363,6 @@ For the love of Psyche, please publish even if there are broken links, Org!
 *** Commonplace Book
 *** Hosted Private HTML
 *** Blog and Microblog
-
 
 ** Programming
 *** Literate Programming

@@ -1233,7 +1233,7 @@ I use Deft.
     (deft-recursive t)
     (deft-use-filter-string-for-filename t)
     (deft-default-extension "org")
-    (deft-directory "~/org/"))
+    (deft-directory "~/Dropbox/org/"))
 #+END_SRC
 
 **** Org-Roam
@@ -1257,6 +1257,19 @@ It's now on MELPA [2020-05-09 Sat].
                  ("C-c n g" . org-roam-graph))
                 :map org-mode-map
                 (("C-c n i" . org-roam-insert))))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org-roam-server
+  :config
+    (setq org-roam-server-host "127.0.0.1"
+          org-roam-server-port 8080
+          org-roam-server-export-inline-images t
+          org-roam-server-authenticate nil
+          org-roam-server-network-arrows nil
+          org-roam-server-network-label-truncate t
+          org-roam-server-network-label-truncate-length 60
+          org-roam-server-network-label-wrap-length 20))
 #+END_SRC
 
 **** Org-Journal

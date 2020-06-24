@@ -1152,6 +1152,11 @@ Currently, I bind it to =C-c g= and focus only on the =captures.org= file and se
 
 **** Web Protocol
 
+#+BEGIN_SRC emacs-lisp
+  (require 'org-protocol)
+  (require 'org-roam-protocol)
+#+END_SRC
+
 *** Webtools
 
 I use webtools to help facilitate some web capturing.

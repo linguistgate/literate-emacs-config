@@ -49,7 +49,6 @@
       - [[#writing-themes][Writing Themes]]
       - [[#org-themes][Org Themes]]
     - [[#writing-environment][Writing Environment]]
-      - [[#write-a-function-here-that-pulls-together-certain-packages][Write a function here that pulls together certain packages?]]
     - [[#functions-to-switch-among-themes][Functions to Switch Among Themes]]
   - [[#org-mode-initialization][Org-Mode Initialization]]
     - [[#org-defaults][Org Defaults]]
@@ -720,15 +719,11 @@ I like a hydra to help me increase or decrease text scale in a given buffer:
 
 **** Writing Themes
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
   (use-package poet-theme)
 #+END_SRC
 
 **** Org Themes
-
-#+BEGIN_SRC emacs-lisp
-  (use-package cyberpunk-theme)
-#+END_SRC
 
 *** Writing Environment
 
@@ -736,13 +731,10 @@ I like a hydra to help me increase or decrease text scale in a given buffer:
   (use-package writeroom-mode)
 #+END_SRC
 
-**** TODO Write a function here that pulls together certain packages?
-
-
 *** Functions to Switch Among Themes
 
 #+BEGIN_SRC emacs-lisp
-  (setq owl/themes '(poet poet-dark leuven moe-dark))
+  (setq owl/themes '(leuven moe-dark))
   (setq owl/themes-index 0)
 #+END_SRC
 
@@ -768,7 +760,6 @@ In order to prevent overlay, =owl/cycle-theme= depends on on two additional func
 	(mapcar #'disable-theme (remove theme custom-enabled-themes))
       (message "Unable to find theme file for ‘%s’" theme)))
 #+END_SRC
-
 
 ** Org-Mode Initialization
 
@@ -825,8 +816,7 @@ Org-modules' individual behavior is established under their own headings below (
                             org-habit
                             org-inlinetask
                             org-irc
-                            org-protocol
-                            org-w3m)))
+                            org-protocol)))
 #+END_SRC
 
 ** Org Agenda
@@ -1045,15 +1035,7 @@ Org-mode capture templates allow for central implementations of the PARA/BASB co
                                  entry
                                  (file+olp+datetree "~/org/hub/inbox.org"),
                                  owl/org-basic-task-template)
-                                ("d"
-                                 "default"
-                                 entry
-                                 (function org-roam--capture-get-point)
-                                 "%?"
-                                 :file-name "%<%Y%m%d%H%M%S>-${slug}"
-                                 :head "#+TITLE: ${title}\n"
-                                 :unnarrowed t)
-                                ("j"
+                                 ("j"
                                  "journal entry"
                                  entry
                                  (file+olp+datetree "~/org/notebooks/cpb.org")
@@ -1152,7 +1134,7 @@ Currently, I bind it to =C-c g= and focus only on the =captures.org= file and se
 
 **** Web Protocol
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle yes
   (require 'org-protocol)
   (require 'org-roam-protocol)
 #+END_SRC
@@ -1247,8 +1229,29 @@ It's now on MELPA [2020-05-09 Sat].
     :hook
     (after-init . org-roam-mode)
     :custom
-    (org-roam-directory "~/org/notebooks/")
-    (org-roam-index-file "~/org/notebooks/index.org")
+    (org-roam-directory "~/Dropbox/org/notebooks/")
+    (org-roam-index-file "index.org")
+    (org-roam-capture-templates
+          '(("d" "default" plain (function org-roam-capture--get-point)
+             "%?"
+             :file-name "notes/%<%Y%m%d%H%M%S>-${slug}"
+             :head "#+title: ${title}\n"
+             :unnarrowed t)
+            ("t" "tags" plain (function org-roam-capture--get-point)
+             "%?"
+             :file-name "tags/%<%Y%m%d%H%M%S>-${slug}"
+             :head "#+title: ${title}\n#+roam_tags: tags"
+             :unnarrowed t)
+            ("e" "evergreens" plain (function org-roam-capture--get-point)
+             "%?"
+             :file-name "evergreens/%<%Y%m%d%H%M%S>-${slug}"
+             :head "#+title: ${title}\n#+roam_tags: evergeeens\n"
+             :unnarrowed t)
+            ("s" "seedlings" plain (function org-roam-capture--get-point)
+             "%?"
+             :file-name "seedlings/%<%Y%m%d%H%M%S>-${slug}"
+             :head "#+title: ${title}\n#+roam_tags: seedlings\n"
+             :unnarrowed t)))
     :bind (:map org-roam-mode-map
                 (("C-c n l" . org-roam)
                  ("C-c n f" . org-roam-find-file)
@@ -1256,7 +1259,8 @@ It's now on MELPA [2020-05-09 Sat].
                  ("C-c n b" . org-roam-switch-to-buffer)
                  ("C-c n g" . org-roam-graph))
                 :map org-mode-map
-                (("C-c n i" . org-roam-insert))))
+                (("C-c n i" . org-roam-insert))
+                (("C-c n I" . org-roam-insert-immediate))))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
@@ -1287,12 +1291,12 @@ It's now on MELPA [2020-05-09 Sat].
   (setq org-journal-file-header 'org-journal-file-header-func)
 
   (use-package org-journal
-    :ensure t
     :defer t
     :custom
     (org-journal-dir "~/org/notebooks/journal/")
-    (org-journal-date-format "%A, %Y %B %dc")
-    (org-journal-file-format "%Y-%m-%d.org"))
+    (org-journal-date-format "%A, %Y %B %d")
+    (org-journal-file-format "%Y-%m-%d.org")
+    (org-journal-file-type 'weekly))
 #+END_SRC
 
 **** Org-Download

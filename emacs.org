@@ -85,6 +85,7 @@
     - [[#book-and-film-logging][Book and Film Logging]]
       - [[#comment][COMMENT]]
     - [[#article-management-and-notes][Article Management and Notes]]
+    - [[#handwritten-notes-and-artwork][Handwritten Notes and Artwork]]
   - [[#publishing-management][Publishing Management]]
     - [[#broken-links][Broken Links]]
     - [[#commonplace-book][Commonplace Book]]
@@ -1368,6 +1369,13 @@ Using [[https://github.com/jkitchin/org-ref][org-ref]], obvs.
     (setq org-ref-default-bibliography '("~/org/bib/library.bib"))
     (setq org-ref-pdf-directory '("~/library/articles")))
 #+END_SRC
+
+*** Handwritten Notes and Artwork
+
+#+begin_src elisp
+  (use-package org-krita
+    :load-path "user/packages/org-krita")
+#+end_src
 
 ** Publishing Management
 

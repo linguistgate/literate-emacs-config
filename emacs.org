@@ -812,10 +812,8 @@ Org-modules' individual behavior is established under their own headings below (
                             org-crypt
                             org-gnus
                             org-id
-                            org-info
                             org-habit
                             org-inlinetask
-                            org-irc
                             org-protocol)))
 #+END_SRC
 
@@ -848,7 +846,7 @@ A quick way to add the current file temporarily to org-agenda-files is C-c [ (wh
 
 I use this method until a project "proves" that it should be added to the permanent list of agenda files.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
   (setq org-agenda-files (apply 'append
                                 (mapcar
                                  (lambda (directory)
@@ -858,6 +856,12 @@ I use this method until a project "proves" that it should be added to the perman
                                    "~/org/notebooks/"
                                    "~/.config/"
                                    "~/.emacs.d/"))))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq org-agenda-files (quote ("~/org/hub/"
+                                 "~/org/notebooks/"
+                                 "~/.emacs.d/")))
 #+END_SRC
 
 *** Habits (=org-habit=)
@@ -907,6 +911,7 @@ I like my habit graph to show throughout the day even if I’ve already complete
 
         ))
 #+END_SRC
+
 ** Org Tasks and States
 
 My task keywords generally follow Bernt Hansen's [[http://doc.norang.ca/org-mode.html#TasksAndStates][set of tasks and state transitions]]. I like the simplicity of his insight that a "project" is simply a ~TODO~ with subtasks, and I like the ability to comment on /why/ I'm holding a task. The state transitions he implements are sensible as well.
@@ -1058,13 +1063,13 @@ Org-mode capture templates allow for central implementations of the PARA/BASB co
                                 ("p"
                                  "protocol"
                                  entry
-                                 (file+olp+datetree "~/org/hub/inbox.org"),
+                                 (file+olp+datetree "~/org/notebooks/notes/temp.org"),
                                  "* TOMERGE %?[[%:link][%:description]] %U\n%i\n" 
                                  :prepend t)
                                 ("s"
                                  "selected protocol"
                                  entry
-                                 (file+olp+datetree "~/org/hub/inbox.org"),
+                                 (file+olp+datetree "~/org/notebooks/notes/temp.org"),
                                  "* %^{Title}\nSource: [[%:link][%:description]]\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE")))
 #+END_SRC
 
@@ -1232,26 +1237,26 @@ It's now on MELPA [2020-05-09 Sat].
     (org-roam-directory "~/Dropbox/org/notebooks/")
     (org-roam-index-file "index.org")
     (org-roam-capture-templates
-          '(("d" "default" plain (function org-roam-capture--get-point)
-             "%?"
-             :file-name "notes/%<%Y%m%d%H%M%S>-${slug}"
-             :head "#+title: ${title}\n"
-             :unnarrowed t)
-            ("t" "tags" plain (function org-roam-capture--get-point)
-             "%?"
-             :file-name "tags/%<%Y%m%d%H%M%S>-${slug}"
-             :head "#+title: ${title}\n#+roam_tags: tags"
-             :unnarrowed t)
-            ("e" "evergreens" plain (function org-roam-capture--get-point)
-             "%?"
-             :file-name "evergreens/%<%Y%m%d%H%M%S>-${slug}"
-             :head "#+title: ${title}\n#+roam_tags: evergeeens\n"
-             :unnarrowed t)
-            ("s" "seedlings" plain (function org-roam-capture--get-point)
-             "%?"
-             :file-name "seedlings/%<%Y%m%d%H%M%S>-${slug}"
-             :head "#+title: ${title}\n#+roam_tags: seedlings\n"
-             :unnarrowed t)))
+     '(("d" "default" plain (function org-roam-capture--get-point)
+        "%?"
+        :file-name "notes/%<%Y%m%d%H%M%S>-${slug}"
+        :head "#+title: ${title}\n"
+        :unnarrowed t)
+       ("t" "tags" plain (function org-roam-capture--get-point)
+        "%?"
+        :file-name "tags/%<%Y%m%d%H%M%S>-${slug}"
+        :head "#+title: ${title}\n#+roam_tags: tags"
+        :unnarrowed t)
+       ("e" "evergreens" plain (function org-roam-capture--get-point)
+        "%?"
+        :file-name "evergreens/%<%Y%m%d%H%M%S>-${slug}"
+        :head "#+title: ${title}\n#+roam_tags: evergeeens\n"
+        :unnarrowed t)
+       ("s" "seedlings" plain (function org-roam-capture--get-point)
+        "%?"
+        :file-name "seedlings/%<%Y%m%d%H%M%S>-${slug}"
+        :head "#+title: ${title}\n#+roam_tags: seedlings\n"
+        :unnarrowed t)))
     :bind (:map org-roam-mode-map
                 (("C-c n l" . org-roam)
                  ("C-c n f" . org-roam-find-file)
@@ -1292,11 +1297,16 @@ It's now on MELPA [2020-05-09 Sat].
 
   (use-package org-journal
     :defer t
+    :after org
+    :bind
+    ("C-c n n" . org-journal-new-entry)
     :custom
     (org-journal-dir "~/org/notebooks/journal/")
     (org-journal-date-format "%A, %Y %B %d")
     (org-journal-file-format "%Y-%m-%d.org")
     (org-journal-file-type 'weekly))
+
+  (setq org-journal-enable-agenda-integration t)
 #+END_SRC
 
 **** Org-Download
@@ -1463,7 +1473,6 @@ Because I mainly use Lisp and Python, I want aggressive indenting to be specific
   (use-package aggressive-indent
     :config (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode))
 #+END_SRC
-
 ** Toc-org
  
 Install and load the =toc-org= package after org mode is loaded. This is the package that automatically generates an up to date table of contents for us.

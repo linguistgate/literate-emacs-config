@@ -1372,9 +1372,9 @@ Using [[https://github.com/jkitchin/org-ref][org-ref]], obvs.
 
 *** Handwritten Notes and Artwork
 
-#+begin_src elisp
+#+begin_src emacs-lisp
   (use-package org-krita
-    :load-path "user/packages/org-krita")
+    :load-path "~/.emacs.d/user/packages/org-krita")
 #+end_src
 
 ** Publishing Management

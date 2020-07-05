@@ -58,6 +58,7 @@
     - [[#super-agenda][Super Agenda]]
     - [[#habits-org-habit][Habits (=org-habit=)]]
     - [[#custom-commands][Custom Commands]]
+  - [[#org-journal][Org-Journal]]
   - [[#org-tasks-and-states][Org Tasks and States]]
     - [[#fast-todo-selection][Fast Todo Selection]]
     - [[#state-triggers][State Triggers]]
@@ -81,7 +82,6 @@
     - [[#building-a-second-brain][Building a Second Brain]]
       - [[#comprehensive-note-search][Comprehensive Note Search]]
       - [[#org-roam][Org-Roam]]
-      - [[#org-journal][Org-Journal]]
       - [[#org-download][Org-Download]]
     - [[#book-and-film-logging][Book and Film Logging]]
       - [[#comment][COMMENT]]
@@ -707,6 +707,10 @@ I like a hydra to help me increase or decrease text scale in a given buffer:
 **** Programming Themes
 
 #+BEGIN_SRC emacs-lisp
+  (use-package monokai-theme)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle no
   (use-package moe-theme
     :custom
     ;; Resize titles (optional).
@@ -735,7 +739,7 @@ I like a hydra to help me increase or decrease text scale in a given buffer:
 *** Functions to Switch Among Themes
 
 #+BEGIN_SRC emacs-lisp
-  (setq owl/themes '(leuven moe-dark))
+  (setq owl/themes '(leuven monokai))
   (setq owl/themes-index 0)
 #+END_SRC
 
@@ -811,7 +815,6 @@ Org-modules' individual behavior is established under their own headings below (
   (setq org-modules (quote (org-bbdb
                             org-bibtex
                             org-crypt
-                            org-gnus
                             org-id
                             org-habit
                             org-inlinetask
@@ -964,6 +967,35 @@ I like my habit graph to show throughout the day even if I’ve already complete
 
         ))
 #+END_SRC
+
+** Org-Journal
+
+#+BEGIN_SRC emacs-lisp
+  (defun org-journal-file-header-func (time)
+    "Custom function to create journal header."
+    (concat
+     (pcase org-journal-file-type
+       (`daily "#+TITLE: Daily Journal\n#+STARTUP: showeverything")
+       (`weekly "#+TITLE: Weekly Journal\n#+STARTUP: folded")
+       (`monthly "#+TITLE: Monthly Journal\n#+STARTUP: folded")
+       (`yearly "#+TITLE: Yearly Journal\n#+STARTUP: folded"))))
+
+  (setq org-journal-file-header 'org-journal-file-header-func)
+
+  (use-package org-journal
+    :defer t
+    :after org
+    :bind
+    ("C-c n n" . org-journal-new-entry)
+    :custom
+    (org-journal-dir "~/org/notebooks/journal/")
+    (org-journal-date-format "%A, %Y %B %d")
+    (org-journal-file-format "%Y-%m-%d.org")
+    (org-journal-file-type 'weekly)
+    (org-journal-enable-agenda-integration t))
+#+END_SRC
+
+
 
 ** Org Tasks and States
 
@@ -1192,7 +1224,7 @@ Currently, I bind it to =C-c g= and focus only on the =captures.org= file and se
 
 **** Web Protocol
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp :tangle no
   (require 'org-protocol)
   (require 'org-roam-protocol)
 #+END_SRC
@@ -1259,7 +1291,6 @@ Server and long-term backups are handled via Syncthing/Nextcloud and other metho
 
 ** Reference Management
 *** Building a Second Brain
-
 **** Comprehensive Note Search
 
 I use Deft.
@@ -1334,35 +1365,6 @@ It's now on MELPA [2020-05-09 Sat].
           org-roam-server-network-label-wrap-length 20))
 #+END_SRC
 
-**** Org-Journal
-
-#+BEGIN_SRC emacs-lisp
-  (defun org-journal-file-header-func (time)
-    "Custom function to create journal header."
-    (concat
-     (pcase org-journal-file-type
-       (`daily "#+TITLE: Daily Journal\n#+STARTUP: showeverything")
-       (`weekly "#+TITLE: Weekly Journal\n#+STARTUP: folded")
-       (`monthly "#+TITLE: Monthly Journal\n#+STARTUP: folded")
-       (`yearly "#+TITLE: Yearly Journal\n#+STARTUP: folded"))))
-
-  (setq org-journal-file-header 'org-journal-file-header-func)
-
-  (use-package org-journal
-    :defer t
-    :after org
-    :bind
-    ("C-c n n" . org-journal-new-entry)
-    :custom
-    (org-journal-dir "~/org/notebooks/journal/")
-    (org-journal-date-format "%A, %Y %B %d")
-    (org-journal-file-format "%Y-%m-%d.org")
-    (org-journal-file-type 'weekly)
-    (org-journal-enable-agenda-integration t))
-
-
-#+END_SRC
-
 **** Org-Download
 
 #+BEGIN_SRC emacs-lisp
@@ -1424,7 +1426,6 @@ Using [[https://github.com/jkitchin/org-ref][org-ref]], obvs.
 #+END_SRC
 
 ** Publishing Management
-
 *** Broken Links
 
 For the love of Psyche, please publish even if there are broken links, Org!
@@ -1445,6 +1446,8 @@ Require Org ~src~ blocks to use the current window. Currently turned off.
 #+BEGIN_SRC emacs-lisp :tangle no
   (setq org-src-window-setup 'current-window)
 #+END_SRC
+
+
 
 *** Tabbing, Spacing, and Expansion
 

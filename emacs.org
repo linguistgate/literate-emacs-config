@@ -847,7 +847,7 @@ A quick way to add the current file temporarily to org-agenda-files is C-c [ (wh
 
 I use this method until a project "proves" that it should be added to the permanent list of agenda files.
 
-#+BEGIN_SRC emacs-lisp :tangle no
+#+BEGIN_SRC emacs-lisp :tangle yes
   (setq org-agenda-files (apply 'append
                                 (mapcar
                                  (lambda (directory)
@@ -859,7 +859,7 @@ I use this method until a project "proves" that it should be added to the perman
                                    "~/.emacs.d/"))))
 #+END_SRC
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp :tangle no
   (setq org-agenda-files (quote ("~/org/hub/"
                                  "~/org/notebooks/"
                                  "~/.emacs.d/")))
@@ -943,7 +943,7 @@ I like my habit graph to show throughout the day even if I’ve already complete
 
 @home, @office, @travelling, @phone, @email, @errands
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (setq org-agenda-custom-commands
       '(("g" . "GTD contexts")
         ("go" "Office" tags-todo "@office")

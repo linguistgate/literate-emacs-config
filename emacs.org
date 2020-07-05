@@ -1224,7 +1224,7 @@ Currently, I bind it to =C-c g= and focus only on the =captures.org= file and se
 
 **** Web Protocol
 
-#+BEGIN_SRC emacs-lisp :tangle no
+#+BEGIN_SRC emacs-lisp :tangle yes
   (require 'org-protocol)
   (require 'org-roam-protocol)
 #+END_SRC
@@ -1461,6 +1461,13 @@ When hitting return, go to the right-ish indendation on the next line, in genera
 
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "RET") 'newline-and-indent)
+#+END_SRC
+
+
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+  (add-to-list 'org-structure-template-alist '("sh" . "src sh"))
+  (require 'org-tempo)
 #+END_SRC
 
 *** Autocompletion

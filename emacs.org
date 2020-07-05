@@ -54,6 +54,7 @@
     - [[#org-defaults][Org Defaults]]
     - [[#org-modules][Org Modules]]
   - [[#org-agenda][Org Agenda]]
+    - [[#super-agenda][Super Agenda]]
     - [[#agenda-files][Agenda Files]]
     - [[#habits-org-habit][Habits (=org-habit=)]]
     - [[#custom-commands][Custom Commands]]
@@ -833,6 +834,59 @@ I bind ~org-agenda~ to ~C-c a~:
   (bind-keys ("C-c a" . org-agenda))
 #+END_SRC
 
+
+*** Super Agenda
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org-super-agenda
+    :after org-agenda
+    :init
+    (setq org-agenda-skip-scheduled-if-done t
+          org-agenda-skip-deadline-if-done t
+          org-agenda-include-deadlines t
+          org-agenda-block-separator nil
+          org-agenda-compact-blocks t
+          org-agenda-start-day nil ;; i.e. today
+          org-agenda-span 1
+          org-agenda-start-on-weekday nil)
+    (setq org-agenda-custom-commands
+          '(("c" "Super view"
+             ((agenda "" ((org-agenda-overriding-header "")
+                          (org-super-agenda-groups
+                           '((:name "Today"
+                                    :time-grid t
+                                    :date today
+                                    :order 1)))))
+              (alltodo "" ((org-agenda-overriding-header "")
+                           (org-super-agenda-groups
+                            '((:log t)
+                              (:name "To refile"
+                                     :file-path "notebooks-project/captures/refile.org")
+                              (:name "Next to do"
+                                     :todo "IN-PROGRESS"
+                                     :order 1)
+                              (:name "Important"
+                                     :priority "A"
+                                     :order 6)
+                              (:name "Today's tasks"
+                                     :file-path "notebooks/journal/")
+                              (:name "Due Today"
+                                     :deadline today
+                                     :order 2)
+                              (:name "Scheduled Soon"
+                                     :scheduled future
+                                     :order 8)
+                              (:name "Overdue"
+                                     :deadline past
+                                     :order 7)
+                              (:name "Meetings"
+                                     :and (:todo "MEET" :scheduled future)
+                                     :order 10)
+                              (:discard (:not (:todo "TODO")))))))))))
+    :config
+    (org-super-agenda-mode))
+#+END_SRC
+
 *** Agenda Files
 
 The following code sets the main "agenda" files.
@@ -891,7 +945,7 @@ I like my habit graph to show throughout the day even if I’ve already complete
 
 @home, @office, @travelling, @phone, @email, @errands
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (setq org-agenda-custom-commands
       '(("g" . "GTD contexts")
         ("go" "Office" tags-todo "@office")
@@ -1305,9 +1359,9 @@ It's now on MELPA [2020-05-09 Sat].
     (org-journal-dir "~/org/notebooks/journal/")
     (org-journal-date-format "%A, %Y %B %d")
     (org-journal-file-format "%Y-%m-%d.org")
-    (org-journal-file-type 'weekly))
+    (org-journal-file-type 'weekly)
+    (org-journal-enable-agenda-integration t))
 
-  (setq org-journal-enable-agenda-integration t)
 #+END_SRC
 
 **** Org-Download

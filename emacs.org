@@ -724,7 +724,7 @@ I like a hydra to help me increase or decrease text scale in a given buffer:
 
 **** Writing Themes
 
-#+BEGIN_SRC emacs-lisp :tangle no
+#+BEGIN_SRC emacs-lisp :tangle yes
   (use-package poet-theme)
 #+END_SRC
 
@@ -739,7 +739,7 @@ I like a hydra to help me increase or decrease text scale in a given buffer:
 *** Functions to Switch Among Themes
 
 #+BEGIN_SRC emacs-lisp
-  (setq owl/themes '(leuven monokai))
+  (setq owl/themes '(leuven monokai poet))
   (setq owl/themes-index 0)
 #+END_SRC
 

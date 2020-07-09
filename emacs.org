@@ -87,7 +87,10 @@
       - [[#comment][COMMENT]]
     - [[#article-management-and-notes][Article Management and Notes]]
   - [[#publishing-management][Publishing Management]]
+    - [[#preprocessing-hooks][Preprocessing Hooks]]
+      - [[#backlinks-and-contents][Backlinks and Contents]]
     - [[#broken-links][Broken Links]]
+    - [[#publishing-projects][Publishing Projects]]
     - [[#commonplace-book][Commonplace Book]]
     - [[#hosted-private-html][Hosted Private HTML]]
     - [[#blog-and-microblog][Blog and Microblog]]
@@ -632,7 +635,7 @@ Font Lock mode is a minor mode, always local to a particular buffer, and each bu
 
 The default fonts need to be installed at least for the relevant user under =~/.fonts=. I currently use the Input series of fonts.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
   (add-to-list 'default-frame-alist '(font . "Input Mono 11" ))
   (set-face-attribute 'default t :font "Input Mono 11" )
   (set-face-attribute 'variable-pitch nil :font "Input Serif 11")
@@ -697,7 +700,7 @@ I like a hydra to help me increase or decrease text scale in a given buffer:
 
 ** Themes
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
   (add-hook 'text-mode-hook
             (lambda ()
               (variable-pitch-mode 1)))
@@ -724,7 +727,7 @@ I like a hydra to help me increase or decrease text scale in a given buffer:
 
 **** Writing Themes
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp :tangle no
   (use-package poet-theme)
 #+END_SRC
 
@@ -739,7 +742,7 @@ I like a hydra to help me increase or decrease text scale in a given buffer:
 *** Functions to Switch Among Themes
 
 #+BEGIN_SRC emacs-lisp
-  (setq owl/themes '(leuven monokai poet))
+  (setq owl/themes '(leuven monokai))
   (setq owl/themes-index 0)
 #+END_SRC
 
@@ -994,8 +997,6 @@ I like my habit graph to show throughout the day even if I’ve already complete
     (org-journal-file-type 'weekly)
     (org-journal-enable-agenda-integration t))
 #+END_SRC
-
-
 
 ** Org Tasks and States
 
@@ -1426,6 +1427,42 @@ Using [[https://github.com/jkitchin/org-ref][org-ref]], obvs.
 #+END_SRC
 
 ** Publishing Management
+*** Preprocessing Hooks
+
+**** Backlinks and Contents
+
+This would insert both backlinks and the contents, just like the org-roam buffer. This might be especially useful if you host a web version of your personal knowledgebase and want to browse the files along with the backlinks from mobile devices.
+
+#+begin_src emacs-lisp
+  (defun owl/org-roam--backlinks-list-with-content (file)
+    (with-temp-buffer
+      (if-let* ((backlinks (org-roam--get-backlinks file))
+                (grouped-backlinks (--group-by (nth 0 it) backlinks)))
+          (progn
+            (insert (format "\n\n* %d Backlinks\n"
+                            (length backlinks)))
+            (dolist (group grouped-backlinks)
+              (let ((file-from (car group))
+                    (bls (cdr group)))
+                (insert (format "** [[file:%s][%s]]\n"
+                                file-from
+                                (org-roam--get-title-or-slug file-from)))
+                (dolist (backlink bls)
+                  (pcase-let ((`(,file-from _ ,props) backlink))
+                    (insert (s-trim (s-replace "\n" " " (plist-get props :content))))
+                    (insert "\n\n")))))))
+      (buffer-string)))
+
+  (defun owl/org-export-preprocessor (backend)
+    (let ((links (owl/org-roam--backlinks-list-with-content (buffer-file-name))))
+      (unless (string= links "")
+        (save-excursion
+          (goto-char (point-max))
+          (insert (concat "\n* Backlinks\n") links)))))
+
+  (add-hook 'org-export-before-processing-hook 'owl/org-export-preprocessor)
+#+end_src
+
 *** Broken Links
 
 For the love of Psyche, please publish even if there are broken links, Org!
@@ -1433,6 +1470,72 @@ For the love of Psyche, please publish even if there are broken links, Org!
 #+BEGIN_SRC emacs-lisp
   (setq org-export-with-broken-links t)
 #+END_SRC
+
+
+*** Publishing Projects
+
+#+begin_src emacs-lisp
+  (require 'ox-publish)
+  (setq org-publish-project-alist
+        '(
+          ;; ... add all the components here (see below)...
+          ("org-notebooks-content"
+           :base-directory "~/org/notebooks/"
+           :base-extension "org"
+           :publishing-directory "~/private_html/org-notebooks/"
+           :recursive t
+           :publishing-function org-html-publish-to-html
+           :headline-levels 4             ; Just the default for this project.
+           :with-properties t
+           :auto-preamble t
+           :auto-sitemap t                ; Generate sitemap.org automagically...
+           :sitemap-filename "sitemap.org"  ; ... call it sitemap.org (it's the default)...
+           :sitemap-title "Sitemap"         ; ... with title 'Sitemap'.
+           )
+          ("org-notebooks-static"
+           :base-directory "~/org/notebooks/"
+           :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|eot\\|svg\\|ttf\\|woff"
+           :publishing-directory "~/private_html/org-notebooks/"
+           :recursive t
+           :publishing-function org-publish-attachment
+           )
+          ("org-notebooks-dumps"
+           :base-directory "~/org/notebooks/notes/static/dumps/"
+           :base-extension "html"
+           :publishing-directory "~/private_html/org-notebooks/notes/static/dumps/"
+           :recursive t
+           :publishing-function org-publish-attachment
+           )
+          ("org-areas-content"
+           :base-directory "~/org/hub/"
+           :base-extension "org"
+           :publishing-directory "~/private_html/org-areas/"
+           :recursive nil
+           :publishing-function org-html-publish-to-html
+           :headline-levels 4             ; Just the default for this project.
+           :auto-preamble t
+           :auto-sitemap t                ; Generate sitemap.org automagically...
+           :sitemap-filename "sitemap.org"  ; ... call it sitemap.org (it's the default)...
+           :sitemap-title "Sitemap"         ; ... with title 'Sitemap'.
+           )
+          ("org-areas-static"
+           :base-directory "~/org/hub/static/"
+           :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
+           :publishing-directory "~/private_html/org-areas/"
+           :recursive t
+           :publishing-function org-publish-attachment
+           )
+          ("org-roam-notes"
+             ;;; 
+           )
+          ("org-roam-static"
+             ;;;
+           )
+          ("org-notebooks" :components ("org-notebooks-content" "org-notebooks-static" "org-notebooks-dumps"))
+          ("org-areas" :components ("org-areas-content" "org-areas-static"))))
+#+end_src
+
+
 
 *** Commonplace Book
 *** Hosted Private HTML

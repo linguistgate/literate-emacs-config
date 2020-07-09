@@ -1321,6 +1321,7 @@ It's now on MELPA [2020-05-09 Sat].
     :custom
     (org-roam-directory "~/Dropbox/org/notebooks/")
     (org-roam-index-file "index.org")
+    (org-roam-graph-exclude-matcher '("sitemap"))
     (org-roam-capture-templates
      '(("d" "default" plain (function org-roam-capture--get-point)
         "%?"

@@ -1,3 +1,9 @@
 [submodule "user/packages/org-books"]
 	path = user/packages/org-books
 	url = https://github.com/alphapapa/org-books.git
+[submodule "user/packages/calibre-query"]
+	path = user/packages/calibre-query
+	url = git@github.com:whacked/calibre-query.el.git
+[submodule "user/packages/org-krita"]
+	path = user/packages/org-krita
+	url = git@github.com:lepisma/org-krita.git

@@ -636,10 +636,10 @@ Font Lock mode is a minor mode, always local to a particular buffer, and each bu
 The default fonts need to be installed at least for the relevant user under =~/.fonts=. I currently use the Input series of fonts.
 
 #+BEGIN_SRC emacs-lisp :tangle no
-  (add-to-list 'default-frame-alist '(font . "Input Mono 11" ))
-  (set-face-attribute 'default t :font "Input Mono 11" )
-  (set-face-attribute 'variable-pitch nil :font "Input Serif 11")
-  (set-face-attribute 'fixed-pitch nil :font "Input Mono 11")
+  (add-to-list 'default-frame-alist '(font . "Input Mono" ))
+  (set-face-attribute 'default nil :font "Input Mono" )
+  (set-face-attribute 'variable-pitch nil :font "Input Serif")
+  (set-face-attribute 'fixed-pitch nil :font "Input Mono")
   (add-hook 'text-mode-hook 'variable-pitch-mode)
 #+END_SRC
 
@@ -700,7 +700,7 @@ I like a hydra to help me increase or decrease text scale in a given buffer:
 
 ** Themes
 
-#+BEGIN_SRC emacs-lisp :tangle no
+#+BEGIN_SRC emacs-lisp :tangle yes
   (add-hook 'text-mode-hook
             (lambda ()
               (variable-pitch-mode 1)))
@@ -815,9 +815,7 @@ Org modules seem to be a bit like an internal extension system of self-contained
 Org-modules' individual behavior is established under their own headings below (if needed).
 
 #+BEGIN_SRC emacs-lisp
-  (setq org-modules (quote (org-bbdb
-                            org-bibtex
-                            org-crypt
+  (setq org-modules (quote (org-crypt
                             org-id
                             org-habit
                             org-inlinetask

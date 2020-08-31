@@ -45,9 +45,6 @@
     - [[#font-sizing][Font Sizing]]
   - [[#themes][Themes]]
     - [[#themes-in-rotation][Themes in Rotation]]
-      - [[#programming-themes][Programming Themes]]
-      - [[#writing-themes][Writing Themes]]
-      - [[#org-themes][Org Themes]]
     - [[#writing-environment][Writing Environment]]
     - [[#functions-to-switch-among-themes][Functions to Switch Among Themes]]
   - [[#org-mode-initialization][Org-Mode Initialization]]
@@ -125,7 +122,7 @@ work with.
 
 First there is a property defined on the file:
 
-#+BEGIN_SRC :tangle no
+#+BEGIN_SRC emacs-lisp :tangle no
 header-args :tangle yes
 #+END_SRC
 
@@ -172,6 +169,10 @@ works property directly on github.
 :PROPERTIES:
 :ID:       43cacb3d-d9f4-4ee4-962c-4505bfc892ce
 :END:
+
+#+BEGIN_SRC emacs-lisp
+(package-initialize)
+#+END_SRC
 
 *** Garbage Collection
 :PROPERTIES:
@@ -237,9 +238,9 @@ to not automatically call it on my behalf. Additionally I'm setting
 #+BEGIN_SRC emacs-lisp
   (eval-and-compile
     (setq load-prefer-newer t
-	  package-user-dir "~/.emacs.d/elpa/"
-	  package--init-file-ensured t
-	  package-enable-at-startup t)
+          package-user-dir "~/.emacs.d/elpa/"
+          package--init-file-ensured t
+          package-enable-at-startup t)
 
     (unless (file-directory-p package-user-dir)
       (make-directory package-user-dir t)))
@@ -707,10 +708,9 @@ I like a hydra to help me increase or decrease text scale in a given buffer:
 #+END_SRC
 
 *** Themes in Rotation
-**** Programming Themes
 
 #+BEGIN_SRC emacs-lisp
-  (use-package monokai-theme)
+  (use-package zenburn-theme)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle no
@@ -725,13 +725,9 @@ I like a hydra to help me increase or decrease text scale in a given buffer:
     (moe-theme-set-color 'cyan))
 #+END_SRC
 
-**** Writing Themes
-
 #+BEGIN_SRC emacs-lisp :tangle no
   (use-package poet-theme)
 #+END_SRC
-
-**** Org Themes
 
 *** Writing Environment
 
@@ -742,7 +738,7 @@ I like a hydra to help me increase or decrease text scale in a given buffer:
 *** Functions to Switch Among Themes
 
 #+BEGIN_SRC emacs-lisp
-  (setq owl/themes '(leuven monokai))
+  (setq owl/themes '(leuven zenburn))
   (setq owl/themes-index 0)
 #+END_SRC
 
@@ -774,7 +770,7 @@ In order to prevent overlay, =owl/cycle-theme= depends on on two additional func
 I favor the newer version of Org-Mode over the built-in one(s).
 
 #+BEGIN_SRC emacs-lisp
-  (use-package org
+(use-package org
     :ensure org-plus-contrib
     :pin org)
 #+END_SRC
@@ -977,7 +973,7 @@ I like my habit graph to show throughout the day even if I’ve already complete
     (concat
      (pcase org-journal-file-type
        (`daily "#+TITLE: Daily Journal\n#+STARTUP: showeverything")
-       (`weekly "#+TITLE: Weekly Journal\n#+STARTUP: folded")
+       (`weekly "#+TITLE: Weekly Journalt\n#+STARTUP: folded")
        (`monthly "#+TITLE: Monthly Journal\n#+STARTUP: folded")
        (`yearly "#+TITLE: Yearly Journal\n#+STARTUP: folded"))))
 
@@ -1432,7 +1428,7 @@ Using [[https://github.com/jkitchin/org-ref][org-ref]], obvs.
 
 This would insert both backlinks and the contents, just like the org-roam buffer. This might be especially useful if you host a web version of your personal knowledgebase and want to browse the files along with the backlinks from mobile devices.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle yes
   (defun owl/org-roam--backlinks-list-with-content (file)
     (with-temp-buffer
       (if-let* ((backlinks (org-roam--get-backlinks file))
@@ -1657,3 +1653,4 @@ Install and load the =toc-org= package after org mode is loaded. This is the pac
    (setq gc-cons-threshold 16777216
 	 gc-cons-percentage 0.1)
  #+END_SRC
+
